@@ -35,7 +35,10 @@ func SetupRoutes() *gin.Engine {
 		api.GET("/products", handlers.GetAllProducts)
 		api.GET("/products/:id", handlers.GetProductById)
 
+		api.GET("/creeds", handlers.GetAllCreeds)
+		api.GET("/menus", handlers.GetAllMenus)
 		api.GET("/company-profile", handlers.GetCompanyProfile)
+		api.GET("/sustainabilities", handlers.GetAllSustainabilities)
 
 		// Admin routes
 		admin := api.Group("/admin")

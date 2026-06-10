@@ -34,6 +34,12 @@ func ConnectDB() {
 		&models.NewsImage{},
 		&models.Product{},
 		&models.ProductImage{},
+
+		&models.Creed{},
+   		&models.Menu{},
+    	&models.CompanyProfile{},
+    	&models.Sustainability{},
+    	&models.SustainabilityImage{},
 	)
 
 	db.AutoMigrate(

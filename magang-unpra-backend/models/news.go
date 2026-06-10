@@ -1,13 +1,21 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type News struct {
 	gorm.Model
-	Title    string      `json:"title"`
-	Content  string      `json:"content"`
-	Category string      `json:"category"`
-	Images   []NewsImage `json:"images"`
+	Title         string      `json:"title"`
+	Slug          string      `json:"slug" gorm:"unique"`
+	Summary       string      `json:"summary"`
+	Content       string      `json:"content"`
+	ThumbnailPath string      `json:"thumbnail_path"`
+	PublishedAt   *time.Time  `json:"published_at"`
+	IsPublished   bool        `json:"is_published" gorm:"default:false"`
+	Images        []NewsImage `json:"images" gorm:"foreignKey:NewsID"`
 }
 
 type NewsImage struct {

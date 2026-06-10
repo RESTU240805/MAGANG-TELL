@@ -13,6 +13,10 @@ import CommunityView from '../views/sustainability/csr/CommunityView.vue'
 import ReportView from '../views/sustainability/csr/ReportView.vue'
 import LoginView from '../views/admin/LoginView.vue'
 import DashboardView from '../views/admin/DashboardView.vue'
+import NewsListView from '../views/admin/NewsListView.vue'
+import NewsFormView from '../views/admin/NewsFormView.vue'
+import ProductListView from '../views/admin/ProductListView.vue'
+import ProductFormView from '../views/admin/ProductFormView.vue'
 
 
 const router = createRouter({
@@ -28,11 +32,17 @@ const router = createRouter({
     { path: '/sustainability/safety-health', component: SafetyHealthView },
     { path: '/sustainability/csr', component: CSRView },
     { path: '/sustainability/csr/vision', component: VisionView },
-{ path: '/sustainability/csr/community', component: CommunityView },
-{ path: '/sustainability/csr/report', component: ReportView },
-{ path: '/admin/login', component: LoginView },
-{ path: '/admin/dashboard', component: DashboardView },
-  ]
+    { path: '/sustainability/csr/community', component: CommunityView },
+    { path: '/sustainability/csr/report', component: ReportView },
+    { path: '/admin/login', component: LoginView },
+    { path: '/admin/dashboard', component: DashboardView },
+    { path: '/admin/news', component: NewsListView },
+    { path: '/admin/news/create', component: NewsFormView },
+    { path: '/admin/news/edit/:id', component: NewsFormView },
+    { path: '/admin/products', component: ProductListView },
+    { path: '/admin/products/create', component: ProductFormView },
+    { path: '/admin/products/edit/:id', component: ProductFormView },
+      ]
 })
 
 export default router

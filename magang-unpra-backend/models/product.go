@@ -6,7 +6,7 @@ type Product struct {
 	gorm.Model
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
-	Images      []ProductImage `json:"images"`
+	Images      []ProductImage `json:"Images" gorm:"foreignKey:ProductID"`
 }
 
 type ProductImage struct {

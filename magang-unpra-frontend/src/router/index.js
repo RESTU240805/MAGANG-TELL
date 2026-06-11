@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import OurCompany from '../views/OurCompany.vue'
 import ProductView from '../views/ProductView.vue'
 import NewsView from '../views/NewsView.vue'
+import NewsDetail from '../views/NewsDetail.vue'
 import ForestManagementView from '../views/sustainability/ForestManagementView.vue'
 import PeopleDevView from '../views/sustainability/PeopleDevView.vue'
 import SupplyChainView from '../views/sustainability/SupplyChainView.vue'
@@ -18,31 +19,33 @@ import NewsFormView from '../views/admin/NewsFormView.vue'
 import ProductListView from '../views/admin/ProductListView.vue'
 import ProductFormView from '../views/admin/ProductFormView.vue'
 
-
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', component: HomeView },
-    { path: '/product', component: ProductView },
-    { path: '/news', component: NewsView },
-    { path: '/sustainability/forest-management', component: ForestManagementView },
+    { path: '/',                                  component: OurCompany },
+    { path: '/product',                           component: ProductView },
+    { path: '/news',                              component: NewsView },
+    { path: '/news/:id', name: 'NewsDetail',      component: NewsDetail },
+
+    { path: '/sustainability/forest-management',  component: ForestManagementView },
     { path: '/sustainability/people-development', component: PeopleDevView },
-    { path: '/sustainability/supply-chain', component: SupplyChainView },
-    { path: '/sustainability/pulp-process', component: PulpProcessView },
-    { path: '/sustainability/safety-health', component: SafetyHealthView },
-    { path: '/sustainability/csr', component: CSRView },
-    { path: '/sustainability/csr/vision', component: VisionView },
-    { path: '/sustainability/csr/community', component: CommunityView },
-    { path: '/sustainability/csr/report', component: ReportView },
-    { path: '/admin/login', component: LoginView },
-    { path: '/admin/dashboard', component: DashboardView },
-    { path: '/admin/news', component: NewsListView },
-    { path: '/admin/news/create', component: NewsFormView },
-    { path: '/admin/news/edit/:id', component: NewsFormView },
-    { path: '/admin/products', component: ProductListView },
-    { path: '/admin/products/create', component: ProductFormView },
-    { path: '/admin/products/edit/:id', component: ProductFormView },
-      ]
+    { path: '/sustainability/supply-chain',       component: SupplyChainView },
+    { path: '/sustainability/pulp-process',       component: PulpProcessView },
+    { path: '/sustainability/safety-health',      component: SafetyHealthView },
+    { path: '/sustainability/csr',                component: CSRView },
+    { path: '/sustainability/csr/vision',         component: VisionView },
+    { path: '/sustainability/csr/community',      component: CommunityView },
+    { path: '/sustainability/csr/report',         component: ReportView },
+
+    { path: '/admin/login',                       component: LoginView },
+    { path: '/admin/dashboard',                   component: DashboardView },
+    { path: '/admin/news',                        component: NewsListView },
+    { path: '/admin/news/create',                 component: NewsFormView },
+    { path: '/admin/news/edit/:id',               component: NewsFormView },
+    { path: '/admin/products',                    component: ProductListView },
+    { path: '/admin/products/create',             component: ProductFormView },
+    { path: '/admin/products/edit/:id',           component: ProductFormView },
+  ]
 })
 
 export default router

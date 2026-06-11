@@ -15,7 +15,8 @@ type News struct {
 	ThumbnailPath string      `json:"thumbnail_path"`
 	PublishedAt   *time.Time  `json:"published_at"`
 	IsPublished   bool        `json:"is_published" gorm:"default:false"`
-	Images        []NewsImage `json:"images" gorm:"foreignKey:NewsID"`
+	Images        []NewsImage `json:"Images" gorm:"foreignKey:NewsID"`
+	Category      string      `json:"category"`
 }
 
 type NewsImage struct {

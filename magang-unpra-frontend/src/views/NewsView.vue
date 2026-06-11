@@ -31,16 +31,20 @@
 
       <!-- News Items -->
       <div v-else class="space-y-10">
-        <article v-for="news in newsList" :key="news.ID"
+        <article
+          v-for="news in newsList"
+          :key="news.ID"
           class="flex gap-8 pb-10 border-b border-gray-100 last:border-0">
 
           <!-- Thumbnail -->
-          <div class="w-56 h-40 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
+          <div
+            class="w-56 h-40 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100 cursor-pointer"
+            @click="lihatDetail(news.ID)">
             <img
               v-if="news.Images && news.Images.length > 0"
               :src="news.Images[0].image_url"
               :alt="news.title"
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
             />
             <div v-else
               class="w-full h-full bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center">
@@ -50,6 +54,8 @@
 
           <!-- Content -->
           <div class="flex-1">
+
+            <!-- Meta -->
             <div class="flex items-center gap-3 mb-2 text-xs text-gray-500">
               <span>👤 Posted by Admin</span>
               <span>•</span>
@@ -57,16 +63,26 @@
                 {{ news.category || 'News' }}
               </span>
             </div>
-            <h2 class="text-xl font-bold text-gray-900 mb-3 leading-snug hover:text-green-600 transition cursor-pointer">
+
+            <!-- Judul -->
+            <h2
+              @click="lihatDetail(news.ID)"
+              class="text-xl font-bold text-gray-900 mb-3 leading-snug hover:text-green-600 transition cursor-pointer">
               {{ news.title }}
             </h2>
+
+            <!-- Summary / konten singkat -->
             <p class="text-gray-500 text-sm leading-relaxed mb-5 line-clamp-3">
-              {{ news.content }}
+              {{ news.summary || news.content }}
             </p>
+
+            <!-- Tombol Continue Reading -->
             <button
+              @click="lihatDetail(news.ID)"
               class="border border-gray-400 text-gray-600 px-5 py-2 text-xs font-semibold tracking-widest uppercase hover:bg-gray-900 hover:text-white hover:border-gray-900 transition">
               Continue Reading
             </button>
+
           </div>
         </article>
       </div>
@@ -77,10 +93,16 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '../services/api'
 
 const newsList = ref([])
-const loading = ref(true)
+const loading  = ref(true)
+const router   = useRouter()
+
+function lihatDetail(id) {
+  router.push(`/news/${id}`)
+}
 
 onMounted(async () => {
   try {

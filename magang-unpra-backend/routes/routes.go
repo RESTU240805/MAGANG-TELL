@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"time"
+
 	"magang-unpra-backend/handlers"
 
 	"github.com/gin-contrib/cors"
@@ -13,11 +15,12 @@ func SetupRoutes() *gin.Engine {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:5173"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization", "Accept", "X-Requested-With"},
 		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
 	}))
 
-	// ✅ Tambah ini — serve folder uploads sebagai file statis
+	// Serve uploaded files
 	r.Static("/uploads", "./uploads")
 
 	r.GET("/ping", func(c *gin.Context) {
@@ -25,40 +28,30 @@ func SetupRoutes() *gin.Engine {
 	})
 
 	r.POST("/api/login", handlers.Login)
+	r.POST("/api/upload", handlers.UploadImage)
 
 	api := r.Group("/api")
 	{
-		// Public routes
+		// Public
 		api.GET("/news", handlers.GetAllNews)
 		api.GET("/news/:id", handlers.GetNewsById)
-
 		api.GET("/products", handlers.GetAllProducts)
 		api.GET("/products/:id", handlers.GetProductById)
-
-		api.GET("/creeds", handlers.GetAllCreeds)
-		api.GET("/menus", handlers.GetAllMenus)
 		api.GET("/company-profile", handlers.GetCompanyProfile)
-		api.GET("/sustainabilities", handlers.GetAllSustainabilities)
 
-		// Admin routes
+		// Admin
 		admin := api.Group("/admin")
 		{
-			// ✅ Tambah ini — route upload gambar
-			admin.POST("/upload/image", handlers.UploadProductImage)
-
-			// News
 			admin.GET("/news", handlers.GetAllNewsAdmin)
 			admin.POST("/news", handlers.CreateNews)
 			admin.PUT("/news/:id", handlers.UpdateNews)
 			admin.DELETE("/news/:id", handlers.DeleteNews)
 
-			// Products
 			admin.GET("/products", handlers.GetAllProducts)
 			admin.POST("/products", handlers.CreateProduct)
 			admin.PUT("/products/:id", handlers.UpdateProduct)
 			admin.DELETE("/products/:id", handlers.DeleteProduct)
 
-			// Company Profile
 			admin.PUT("/company-profile", handlers.UpdateCompanyProfile)
 		}
 	}

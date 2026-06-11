@@ -10,7 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// helper buat slug tanpa library tambahan
 func makeSlug(title string) string {
 	var result strings.Builder
 	for _, r := range strings.ToLower(title) {
@@ -23,14 +22,12 @@ func makeSlug(title string) string {
 	return result.String()
 }
 
-// Public - hanya yang published
 func GetAllNews(c *gin.Context) {
 	var news []models.News
 	config.DB.Preload("Images").Where("is_published = ?", true).Find(&news)
 	c.JSON(http.StatusOK, gin.H{"data": news})
 }
 
-// Admin - semua berita
 func GetAllNewsAdmin(c *gin.Context) {
 	var news []models.News
 	config.DB.Preload("Images").Find(&news)
@@ -56,7 +53,12 @@ func CreateNews(c *gin.Context) {
 	if news.Slug == "" {
 		news.Slug = makeSlug(news.Title)
 	}
-	config.DB.Create(&news)
+	config.DB.Omit("Images").Create(&news)
+	for i := range news.Images {
+		news.Images[i].NewsID = news.ID
+		config.DB.Create(&news.Images[i])
+	}
+	config.DB.Preload("Images").First(&news, news.ID)
 	c.JSON(http.StatusCreated, gin.H{"data": news})
 }
 
@@ -67,16 +69,29 @@ func UpdateNews(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "News not found"})
 		return
 	}
-	c.ShouldBindJSON(&news)
+	var input models.News
+	c.ShouldBindJSON(&input)
+	news.Title = input.Title
+	news.Category = input.Category
+	news.Summary = input.Summary
+	news.Content = input.Content
+	news.IsPublished = input.IsPublished
 	if news.Slug == "" {
 		news.Slug = makeSlug(news.Title)
 	}
 	config.DB.Save(&news)
+	config.DB.Where("news_id = ?", news.ID).Delete(&models.NewsImage{})
+	for i := range input.Images {
+		input.Images[i].NewsID = news.ID
+		config.DB.Create(&input.Images[i])
+	}
+	config.DB.Preload("Images").First(&news, news.ID)
 	c.JSON(http.StatusOK, gin.H{"data": news})
 }
 
 func DeleteNews(c *gin.Context) {
 	id := c.Param("id")
+	config.DB.Where("news_id = ?", id).Delete(&models.NewsImage{})
 	config.DB.Delete(&models.News{}, id)
 	c.JSON(http.StatusOK, gin.H{"message": "News deleted"})
 }

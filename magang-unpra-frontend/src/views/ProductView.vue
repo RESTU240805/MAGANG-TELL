@@ -27,37 +27,25 @@
       </p>
 
       <!-- Image Carousel -->
-      <div class="relative overflow-hidden rounded-2xl bg-gray-100 mb-4 h-96">
+      <div class="relative overflow-hidden rounded-3xl bg-gray-100 mb-4 h-[600px] max-w-2xl mx-auto">
         <img
-          v-for="(img, i) in images"
-          :key="i"
-          :src="img.url"
-          :alt="img.caption"
-          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+          v-for="(img, i) in images" :key="i"
+          :src="img.url" :alt="img.caption"
+          class="absolute inset-0 w-full h-full object-contain transition-opacity duration-500"
           :class="currentImage === i ? 'opacity-100' : 'opacity-0'"
         />
-
-        <!-- Caption -->
         <div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-sm px-6 py-3">
           {{ images[currentImage].caption }}
         </div>
-
-        <!-- Arrows -->
         <button @click="prevImage"
-          class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center hover:bg-black/70 transition">
-          ‹
-        </button>
+          class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center hover:bg-black/70 transition">‹</button>
         <button @click="nextImage"
-          class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center hover:bg-black/70 transition">
-          ›
-        </button>
+          class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center hover:bg-black/70 transition">›</button>
       </div>
 
       <!-- Dots -->
       <div class="flex justify-center gap-2 mb-16">
-        <button
-          v-for="(_, i) in images" :key="i"
-          @click="currentImage = i"
+        <button v-for="(_, i) in images" :key="i" @click="currentImage = i"
           :class="['w-2.5 h-2.5 rounded-full transition', currentImage === i ? 'bg-green-600 scale-125' : 'bg-gray-300']">
         </button>
       </div>
@@ -80,6 +68,62 @@
     </div>
   </section>
 
+  <!-- Product Catalog dari Database -->
+  <section class="py-20 bg-gradient-to-b from-white to-gray-50 border-t border-gray-100">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-14">
+        <p class="text-green-600 text-xs font-semibold tracking-widest mb-3">OUR PRODUCTS</p>
+        <h2 class="text-4xl font-black text-gray-900">Product Catalog</h2>
+        <p class="text-gray-500 mt-3 max-w-xl mx-auto text-sm">
+          High-quality pulp products manufactured with world-class technology and sustainable practices.
+        </p>
+      </div>
+
+      <div v-if="loadingProducts" class="text-center py-10">
+        <div class="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p class="text-gray-400 mt-3 text-sm">Loading products...</p>
+      </div>
+
+      <div v-else-if="products.length === 0" class="text-center py-16">
+        <p class="text-5xl mb-4">📦</p>
+        <p class="text-gray-400">Belum ada produk ditambahkan.</p>
+      </div>
+
+      <div v-else class="grid grid-cols-3 gap-8">
+        <div v-for="product in products" :key="product.ID"
+          class="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+          <div class="relative h-56 bg-gradient-to-br from-green-50 to-gray-100 overflow-hidden">
+            <img
+              v-if="product.Images && product.Images.length > 0"
+              :src="product.Images[0].image_url"
+              :alt="product.name"
+              class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+            />
+            <div v-else class="w-full h-full flex flex-col items-center justify-center">
+              <span class="text-6xl mb-2">🌿</span>
+              <p class="text-green-400 text-xs font-semibold">TeL Product</p>
+            </div>
+            <div v-if="product.Images && product.Images.length > 1"
+              class="absolute top-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+              +{{ product.Images.length }} foto
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="font-black text-gray-900 text-lg leading-tight mb-2">{{ product.name }}</h3>
+            <p class="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-5">{{ product.description }}</p>
+            <div class="flex items-center justify-between pt-4 border-t border-gray-50">
+              <span class="text-xs text-green-600 font-semibold bg-green-50 px-3 py-1 rounded-full">
+                ✓ FSC Certified
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
   <!-- Pulp Production Process -->
   <section class="py-16 bg-gray-50">
     <div class="max-w-5xl mx-auto px-6">
@@ -87,51 +131,25 @@
         <p class="text-green-600 text-xs font-semibold tracking-widest mb-2">HOW WE MAKE IT</p>
         <h2 class="text-4xl font-black text-gray-900">Pulp Production Process</h2>
         <p class="text-gray-500 mt-3 max-w-2xl mx-auto">
-          From forest to finished product, every step follows strict environmental and quality standards.
+          There are two main processes in PT. TeLPP: Pulp Making Process and Chemical Recovery Process.
         </p>
       </div>
-
       <div class="space-y-8">
         <div v-for="(step, index) in processSteps" :key="index"
           class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col md:flex-row"
           :class="index % 2 === 1 ? 'md:flex-row-reverse' : ''">
-
-          <!-- Image -->
           <div class="md:w-2/5 h-56 md:h-auto overflow-hidden flex-shrink-0">
             <img :src="step.image" :alt="step.title" class="w-full h-full object-cover" />
           </div>
-
-          <!-- Content -->
           <div class="flex-1 p-8 flex flex-col justify-center">
             <div class="flex items-center gap-3 mb-3">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                :class="step.bgColor">
-                {{ step.icon }}
-              </div>
+                :class="step.bgColor">{{ step.icon }}</div>
               <span class="text-xs font-bold text-gray-400 tracking-widest">STEP {{ index + 1 }}</span>
             </div>
             <h3 class="text-xl font-black text-gray-900 mb-3">{{ step.title }}</h3>
             <p class="text-gray-500 leading-relaxed text-sm">{{ step.description }}</p>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- End Uses -->
-  <section class="py-16 bg-white">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="text-center mb-10">
-        <p class="text-green-600 text-xs font-semibold tracking-widest mb-2">APPLICATIONS</p>
-        <h2 class="text-3xl font-black text-gray-900">End Product Uses</h2>
-        <p class="text-gray-500 mt-2">TeL pulp is used across a wide range of paper and packaging applications worldwide.</p>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div v-for="use in endUses" :key="use.name"
-          class="text-center p-6 rounded-2xl bg-gray-50 border border-gray-100 hover:border-green-300 hover:bg-green-50 transition group">
-          <div class="text-4xl mb-3">{{ use.icon }}</div>
-          <p class="font-bold text-gray-800 text-sm group-hover:text-green-700 transition">{{ use.name }}</p>
-          <p class="text-gray-400 text-xs mt-1">{{ use.desc }}</p>
         </div>
       </div>
     </div>
@@ -161,111 +179,82 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import api from '../services/api'
+
+// ===== CAROUSEL =====
+
 
 const currentImage = ref(0)
+const products = ref([])
+const loadingProducts = ref(true)
 
 const images = [
   {
-    url: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200',
-    caption: 'TeL Pellita Bleached Kraft Pulp — Ready for shipment'
+    url: '/images/produk.jpeg',
+    caption: 'TeL Pellita Bleached Kraft Pulp'
   },
   {
-    url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200',
-    caption: 'Industrial pulp production facility at PT. TeLPP'
+    url: '/images/produk2.jpeg',
+    caption: 'Industrial pulp production facility'
   },
   {
-    url: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200',
-    caption: 'Sustainable plantation — 100% Pellita trees'
+    url: '/images/produk3.jpeg',
+    caption: 'Sustainable plantation'
   },
   {
-    url: 'https://images.unsplash.com/photo-1530973428-5bf2db2e4d71?w=1200',
-    caption: 'Advanced bleaching process — ECF technology'
+    url: '/images/produk.jpeg',
+    caption: 'Forest management'
   },
   {
-    url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200',
-    caption: 'Quality control and testing laboratory'
+    url: '/images/produk2.jpeg',
+    caption: 'Eucalyptus plantation'
   },
   {
-    url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200',
-    caption: 'Pulp bales ready for global export'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200',
-    caption: 'Modern production equipment and automation systems'
-  },
+    url: '/images/produk3.jpeg',
+    caption: 'Acacia plantation'
+  }
 ]
 
-const prevImage = () => {
-  currentImage.value = currentImage.value === 0 ? images.length - 1 : currentImage.value - 1
-}
-const nextImage = () => {
-  currentImage.value = currentImage.value === images.length - 1 ? 0 : currentImage.value + 1
-}
+const prevImage = () => { currentImage.value = currentImage.value === 0 ? images.length - 1 : currentImage.value - 1 }
+const nextImage = () => { currentImage.value = currentImage.value === images.length - 1 ? 0 : currentImage.value + 1 }
+
+onMounted(async () => {
+  try {
+    const res = await api.get('/products')
+    products.value = res.data.data
+  } catch (err) {
+    console.error(err)
+  } finally {
+    loadingProducts.value = false
+  }
+})
+
+const specifications = [
+  { parameter: 'Design Capacity Pulp Production', unit: 'Adt/year', value: '450,000', standard: 'BKP (Bleached Kraft Pulp)' },
+  { parameter: 'Daily Production Capacity', unit: 'Adt/day', value: '1,430', standard: 'BKP' },
+  { parameter: 'Chemical Recovery Capacity', unit: 'TDS/day', value: '2,400', standard: 'Solid burning in Recovery Boiler' },
+  { parameter: 'Wood Species', unit: '-', value: 'Pellita (100%)', standard: 'Planted Plantation' },
+  { parameter: 'Pulp Type', unit: '-', value: 'Bleached Kraft Pulp', standard: 'ECF Process' },
+  { parameter: 'Brightness', unit: '% ISO', value: '89 - 90', standard: 'ISO 2470' },
+  { parameter: 'Moisture Content', unit: '%', value: '≤ 10', standard: 'ISO 287' },
+  { parameter: 'Mill Location', unit: '-', value: 'Banuayu, Muara Enim', standard: 'South Sumatra, Indonesia' },
+  { parameter: 'Mill Area', unit: 'Hectare', value: '1,250', standard: 'Including plantation area' },
+  { parameter: 'Employees', unit: 'People', value: '~1,600', standard: '~80% South Sumatra residents' },
+]
 
 const processSteps = [
   {
     icon: '🌳',
-    bgColor: 'bg-green-100',
-    image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=800',
-    title: 'Wood Harvesting & Chipping',
-    description: 'Pellita trees grown in our sustainable plantation are harvested after reaching maturity (5-7 years). The logs are debarked and chipped into uniform wood chips of approximately 25mm × 25mm for optimal cooking efficiency. Only sustainably sourced wood from certified plantations is used.'
+    image: '/images/accsia.jpg',
+    title: 'Wood & Chip Handling',
+    description: '...'
   },
   {
     icon: '♻️',
-    bgColor: 'bg-blue-100',
-    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800',
-    title: 'Kraft Cooking (Digester)',
-    description: 'Wood chips are fed into large digesters and cooked with white liquor (sodium hydroxide and sodium sulfide) at high temperature and pressure. This Kraft (sulfate) process dissolves the lignin binding the cellulose fibers, separating them into pulp while preserving superior fiber strength.'
-  },
-  {
-    icon: '🔍',
-    bgColor: 'bg-yellow-100',
-    image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800',
-    title: 'Washing & Screening',
-    description: 'The cooked brown stock pulp is thoroughly washed to remove spent cooking chemicals (black liquor) which are sent to the chemical recovery system for recycling. Screening equipment removes oversized fiber bundles and contaminants to ensure uniform fiber quality throughout the process.'
-  },
-  {
-    icon: '⚗️',
-    bgColor: 'bg-purple-100',
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800',
-    title: 'Oxygen Delignification',
-    description: 'Before bleaching, the pulp undergoes oxygen delignification using oxygen and caustic soda to remove residual lignin. This pre-bleaching stage significantly reduces the chemical load on the bleaching plant and minimizes environmental impact by lowering chlorine compound usage in subsequent stages.'
-  },
-  {
-    icon: '✨',
-    bgColor: 'bg-cyan-100',
-    image: 'https://images.unsplash.com/photo-1530973428-5bf2db2e4d71?w=800',
-    title: 'ECF Bleaching',
-    description: 'TeL uses Elemental Chlorine Free (ECF) bleaching with a multi-stage sequence using chlorine dioxide (ClO₂), sodium hydroxide, and hydrogen peroxide. This achieves high brightness (ISO 89-90%) while maintaining fiber strength and meeting strict environmental discharge standards for effluent treatment.'
-  },
-  {
-    icon: '🏭',
-    bgColor: 'bg-orange-100',
-    image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800',
-    title: 'Sheet Forming & Drying',
-    description: 'The pulp slurry is spread onto a forming wire where water drains through gravity and vacuum suction. The wet sheet passes through press sections for mechanical water removal, then through steam-heated dryer cylinders that reduce moisture content to approximately 10% for optimal product quality.'
-  },
-  {
-    icon: '🧪',
-    bgColor: 'bg-red-100',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800',
-    title: 'Quality Control & Testing',
-    description: 'Every batch undergoes rigorous quality testing in our ISO-certified laboratory. Parameters tested include brightness, viscosity, tensile strength, tear resistance, drainage, and fiber length distribution. Only pulp meeting our strict specifications is approved for baling and shipment to customers worldwide.'
-  },
-  {
-    icon: '📦',
-    bgColor: 'bg-green-100',
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800',
-    title: 'Cutting, Baling & Shipping',
-    description: 'The dried pulp sheet is cut into standard dimensions and compressed into bales of approximately 250 kg each. Bales are wrapped, strapped, and labeled with product specifications, batch number, and quality test results. Products are then loaded into containers for global shipment to customers in Asia, Europe, and beyond.'
-  },
-]
-
-const endUses = [
-  { icon: '🧻', name: 'Tissue Paper', desc: 'Facial tissue, toilet tissue, paper towels' },
-  { icon: '📄', name: 'Wood Free Paper', desc: 'Office paper, copy paper, printing paper' },
-  { icon: '📦', name: 'Paperboard', desc: 'Packaging boards, carton boxes' },
-  { icon: '🎨', name: 'Coating Base', desc: 'Coated papers, magazine papers' },
+    image: '/images/accsia.jpg',
+    title: 'Fiber Line',
+    description: '...'
+  }
 ]
 </script>

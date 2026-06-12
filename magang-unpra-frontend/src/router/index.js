@@ -22,7 +22,10 @@ import ProductFormView from '../views/admin/ProductFormView.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/',                                  component: OurCompany },
+    { path: '/',            component: OurCompany },
+    { path: '/our-company', component: OurCompany },  // tambah ini
+    { path: '/product',     component: ProductView },
+    // ... sisanya sama
     { path: '/product',                           component: ProductView },
     { path: '/news',                              component: NewsView },
     { path: '/news/:id', name: 'NewsDetail',      component: NewsDetail },
@@ -45,6 +48,8 @@ const router = createRouter({
     { path: '/admin/products',                    component: ProductListView },
     { path: '/admin/products/create',             component: ProductFormView },
     { path: '/admin/products/edit/:id',           component: ProductFormView },
+    { path: '/contact', name: 'contact', component: () => import('../views/ContactView.vue')}
+   
   ]
 })
 

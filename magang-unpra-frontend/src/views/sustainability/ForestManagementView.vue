@@ -30,25 +30,7 @@
     </div>
   </section>
 
-  <!-- ── STAT BAR ── -->
-  <section class="bg-green-700 py-5">
-    <div class="max-w-5xl mx-auto px-10">
-      <div class="grid grid-cols-3 divide-x divide-green-600">
-        <div class="text-center px-6">
-          <p class="text-2xl font-black text-white">296,400 <span class="text-green-300 text-base font-semibold">ha</span></p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">Concession Area</p>
-        </div>
-        <div class="text-center px-6">
-          <p class="text-2xl font-black text-white">365 <span class="text-green-300 text-base font-semibold">days</span></p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">Timber Delivery</p>
-        </div>
-        <div class="text-center px-6">
-          <p class="text-2xl font-black text-white">Since <span class="text-green-300">1999</span></p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">In Operation</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- ── INTRO ── -->
   <section class="py-20 bg-white">
@@ -65,20 +47,20 @@
           </h2>
           <div class="space-y-4 text-gray-500 text-sm leading-relaxed">
             <p>
-              PT Tanjungenim Lestari Pulp and Paper (TEL) produces high quality pulp from 100% wood
+               PT Tanjungenim Lestari Pulp and Paper (TEL) produces high quality pulp from 100% wood
               based on industrial plantations sourced from a group company, PT Musi Hutan Persada (MHP),
               a highly dedicated Industrial Plantation Company with 296,400 ha of concession area in South Sumatra.
+               MHP runs its operations with Sustainable and Sustainable Forest Management.
             </p>
             <p>
-              MHP runs its operations with Sustainable and Sustainable Forest Management.
+             Pulp is produced from two types of wood, namely Acacia Mangium (AM) and Eucalyptus Pellita (EP). Since the start of the plant’s operation in 1999, the main product is the Acacia Mangium Pulp and then through continuous efforts, TEL is working with MHP to develop new alternative raw materials, until now Eucalyptus Pellita Pulp has become the main product.
             </p>
           </div>
 
           <!-- Highlight box -->
           <div class="mt-6 border-l-4 border-green-500 pl-4 bg-green-50 py-3 pr-4 rounded-r-xl">
             <p class="text-green-800 text-sm font-medium leading-relaxed">
-              TEL is working with MHP to develop new alternative raw materials — Eucalyptus Pellita Pulp
-              has now become the main product.
+              Timber delivery from the Industrial Plantation area to the Factory Site continues 365 days per year by truck through a special road network built by MHP. TEL sets standards for the size and quality of logs that must be met by MHP.
             </p>
           </div>
         </div>

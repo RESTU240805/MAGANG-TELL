@@ -27,25 +27,7 @@
     </div>
   </section>
 
-  <!-- ── STAT BAR ── -->
-  <section class="bg-green-700 py-5">
-    <div class="max-w-5xl mx-auto px-10">
-      <div class="grid grid-cols-3 divide-x divide-green-600">
-        <div class="text-center px-6">
-          <p class="text-2xl font-black text-white">5 <span class="text-green-300 text-base font-semibold">Programs</span></p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">Development Pillars</p>
-        </div>
-        <div class="text-center px-6">
-          <p class="text-2xl font-black text-white">100% <span class="text-green-300 text-base font-semibold">Committed</span></p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">To Excellence</p>
-        </div>
-        <div class="text-center px-6">
-          <p class="text-2xl font-black text-white">Skills <span class="text-green-300 text-base font-semibold">+ Values</span></p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">Integrated Approach</p>
-        </div>
-      </div>
-    </div>
-  </section>
+ 
 
   <!-- ── PHOTO GRID ── -->
   <section class="py-16 bg-white">

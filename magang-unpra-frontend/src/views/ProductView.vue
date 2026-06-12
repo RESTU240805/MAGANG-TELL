@@ -124,36 +124,7 @@
 
   
 
-  <!-- Pulp Production Process -->
-  <section class="py-16 bg-gray-50">
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="text-center mb-12">
-        <p class="text-green-600 text-xs font-semibold tracking-widest mb-2">HOW WE MAKE IT</p>
-        <h2 class="text-4xl font-black text-gray-900">Pulp Production Process</h2>
-        <p class="text-gray-500 mt-3 max-w-2xl mx-auto">
-          There are two main processes in PT. TeLPP: Pulp Making Process and Chemical Recovery Process.
-        </p>
-      </div>
-      <div class="space-y-8">
-        <div v-for="(step, index) in processSteps" :key="index"
-          class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 flex flex-col md:flex-row"
-          :class="index % 2 === 1 ? 'md:flex-row-reverse' : ''">
-          <div class="md:w-2/5 h-56 md:h-auto overflow-hidden flex-shrink-0">
-            <img :src="step.image" :alt="step.title" class="w-full h-full object-cover" />
-          </div>
-          <div class="flex-1 p-8 flex flex-col justify-center">
-            <div class="flex items-center gap-3 mb-3">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                :class="step.bgColor">{{ step.icon }}</div>
-              <span class="text-xs font-bold text-gray-400 tracking-widest">STEP {{ index + 1 }}</span>
-            </div>
-            <h3 class="text-xl font-black text-gray-900 mb-3">{{ step.title }}</h3>
-            <p class="text-gray-500 leading-relaxed text-sm">{{ step.description }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- Certifications -->
   <section class="py-16 bg-gray-900 text-white">

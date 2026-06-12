@@ -27,25 +27,7 @@
     </div>
   </section>
 
-  <!-- ── STAT BAR ── -->
-  <section class="bg-green-700 py-5">
-    <div class="max-w-5xl mx-auto px-10">
-      <div class="grid grid-cols-3 divide-x divide-green-600">
-        <div class="text-center px-6">
-          <p class="text-xl font-black text-white">Fairness</p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">Core Principle</p>
-        </div>
-        <div class="text-center px-6">
-          <p class="text-xl font-black text-white">Innovation</p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">Core Principle</p>
-        </div>
-        <div class="text-center px-6">
-          <p class="text-xl font-black text-white">Harmony</p>
-          <p class="text-green-200 text-xs tracking-widest uppercase mt-1">Core Principle</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
   <!-- ── ACCORDION SECTION ── -->
   <section class="py-20 bg-gray-50">
@@ -70,10 +52,7 @@
             class="w-full flex items-center justify-between px-7 py-5 text-left transition hover:bg-gray-50"
             :class="open[0] ? 'bg-green-600 hover:bg-green-700' : 'bg-white'">
             <div class="flex items-center gap-4">
-              <div :class="open[0] ? 'bg-white/20 text-white' : 'bg-green-100 text-green-600'"
-                class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-lg transition">
-                📋
-              </div>
+              
               <span :class="open[0] ? 'text-white' : 'text-gray-900'"
                 class="font-bold text-base transition">
                 Strategy and Strong Management Plan
@@ -134,10 +113,7 @@
             class="w-full flex items-center justify-between px-7 py-5 text-left transition hover:bg-gray-50"
             :class="open[1] ? 'bg-green-600 hover:bg-green-700' : 'bg-white'">
             <div class="flex items-center gap-4">
-              <div :class="open[1] ? 'bg-white/20 text-white' : 'bg-green-100 text-green-600'"
-                class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-lg transition">
-                🌿
-              </div>
+              
               <span :class="open[1] ? 'text-white' : 'text-gray-900'"
                 class="font-bold text-base transition">
                 Supply Chain Sustainability
@@ -178,10 +154,7 @@
             class="w-full flex items-center justify-between px-7 py-5 text-left transition hover:bg-gray-50"
             :class="open[2] ? 'bg-green-600 hover:bg-green-700' : 'bg-white'">
             <div class="flex items-center gap-4">
-              <div :class="open[2] ? 'bg-white/20 text-white' : 'bg-green-100 text-green-600'"
-                class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-lg transition">
-                📜
-              </div>
+              
               <span :class="open[2] ? 'text-white' : 'text-gray-900'"
                 class="font-bold text-base transition">
                 Policy & Guidelines

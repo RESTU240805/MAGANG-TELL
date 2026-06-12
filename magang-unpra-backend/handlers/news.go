@@ -22,18 +22,21 @@ func makeSlug(title string) string {
 	return result.String()
 }
 
+// GET /api/news — hanya yang published, untuk halaman publik
 func GetAllNews(c *gin.Context) {
 	var news []models.News
 	config.DB.Preload("Images").Where("is_published = ?", true).Find(&news)
 	c.JSON(http.StatusOK, gin.H{"data": news})
 }
 
+// GET /api/admin/news — semua berita (admin)
 func GetAllNewsAdmin(c *gin.Context) {
 	var news []models.News
 	config.DB.Preload("Images").Find(&news)
 	c.JSON(http.StatusOK, gin.H{"data": news})
 }
 
+// GET /api/news/:id
 func GetNewsById(c *gin.Context) {
 	var news models.News
 	id := c.Param("id")
@@ -44,54 +47,102 @@ func GetNewsById(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": news})
 }
 
+// POST /api/admin/news
 func CreateNews(c *gin.Context) {
-	var news models.News
-	if err := c.ShouldBindJSON(&news); err != nil {
+	var input struct {
+		Title         string `json:"title"          binding:"required"`
+		Slug          string `json:"slug"`
+		Summary       string `json:"summary"`
+		Content       string `json:"content"        binding:"required"`
+		Category      string `json:"category"`
+		ThumbnailPath string `json:"thumbnail_path"`
+		IsPublished   bool   `json:"is_published"`
+	}
+
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if news.Slug == "" {
-		news.Slug = makeSlug(news.Title)
+
+	slug := input.Slug
+	if slug == "" {
+		slug = makeSlug(input.Title)
 	}
-	config.DB.Omit("Images").Create(&news)
-	for i := range news.Images {
-		news.Images[i].NewsID = news.ID
-		config.DB.Create(&news.Images[i])
+
+	news := models.News{
+		Title:         input.Title,
+		Slug:          slug,
+		Summary:       input.Summary,
+		Content:       input.Content,
+		Category:      input.Category,
+		ThumbnailPath: input.ThumbnailPath,
+		IsPublished:   input.IsPublished,
 	}
+
+	if err := config.DB.Omit("Images").Create(&news).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	config.DB.Preload("Images").First(&news, news.ID)
 	c.JSON(http.StatusCreated, gin.H{"data": news})
 }
 
+// PUT /api/admin/news/:id
 func UpdateNews(c *gin.Context) {
-	var news models.News
 	id := c.Param("id")
+
+	var news models.News
 	if err := config.DB.First(&news, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "News not found"})
 		return
 	}
-	var input models.News
-	c.ShouldBindJSON(&input)
+
+	var input struct {
+		Title         string `json:"title"`
+		Slug          string `json:"slug"`
+		Summary       string `json:"summary"`
+		Content       string `json:"content"`
+		Category      string `json:"category"`
+		ThumbnailPath string `json:"thumbnail_path"`
+		IsPublished   bool   `json:"is_published"`
+	}
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Update semua field termasuk thumbnail_path & is_published
 	news.Title = input.Title
-	news.Category = input.Category
 	news.Summary = input.Summary
 	news.Content = input.Content
+	news.Category = input.Category
+	news.ThumbnailPath = input.ThumbnailPath
 	news.IsPublished = input.IsPublished
-	if news.Slug == "" {
-		news.Slug = makeSlug(news.Title)
+
+	if input.Slug != "" {
+		news.Slug = input.Slug
+	} else if news.Slug == "" {
+		news.Slug = makeSlug(input.Title)
 	}
-	config.DB.Save(&news)
-	config.DB.Where("news_id = ?", news.ID).Delete(&models.NewsImage{})
-	for i := range input.Images {
-		input.Images[i].NewsID = news.ID
-		config.DB.Create(&input.Images[i])
+
+	if err := config.DB.Save(&news).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
+
 	config.DB.Preload("Images").First(&news, news.ID)
 	c.JSON(http.StatusOK, gin.H{"data": news})
 }
 
+// DELETE /api/admin/news/:id
 func DeleteNews(c *gin.Context) {
 	id := c.Param("id")
 	config.DB.Where("news_id = ?", id).Delete(&models.NewsImage{})
-	config.DB.Delete(&models.News{}, id)
+	if err := config.DB.Delete(&models.News{}, id).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"message": "News deleted"})
 }

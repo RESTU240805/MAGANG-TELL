@@ -8,7 +8,6 @@ import PeopleDevView from '../views/sustainability/PeopleDevView.vue'
 import SupplyChainView from '../views/sustainability/SupplyChainView.vue'
 import PulpProcessView from '../views/sustainability/PulpProcessView.vue'
 import SafetyHealthView from '../views/sustainability/SafetyHealthView.vue'
-import CSRView from '../views/sustainability/CSRView.vue'
 import VisionView from '../views/sustainability/csr/VisionView.vue'
 import CommunityView from '../views/sustainability/csr/CommunityView.vue'
 import ReportView from '../views/sustainability/csr/ReportView.vue'
@@ -23,10 +22,8 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/',            component: OurCompany },
-    { path: '/our-company', component: OurCompany },  // tambah ini
+    { path: '/our-company', component: OurCompany },
     { path: '/product',     component: ProductView },
-    // ... sisanya sama
-    { path: '/product',                           component: ProductView },
     { path: '/news',                              component: NewsView },
     { path: '/news/:id', name: 'NewsDetail',      component: NewsDetail },
 
@@ -35,7 +32,6 @@ const router = createRouter({
     { path: '/sustainability/supply-chain',       component: SupplyChainView },
     { path: '/sustainability/pulp-process',       component: PulpProcessView },
     { path: '/sustainability/safety-health',      component: SafetyHealthView },
-    { path: '/sustainability/csr',                component: CSRView },
     { path: '/sustainability/csr/vision',         component: VisionView },
     { path: '/sustainability/csr/community',      component: CommunityView },
     { path: '/sustainability/csr/report',         component: ReportView },
@@ -48,10 +44,8 @@ const router = createRouter({
     { path: '/admin/products',                    component: ProductListView },
     { path: '/admin/products/create',             component: ProductFormView },
     { path: '/admin/products/edit/:id',           component: ProductFormView },
-    { path: '/contact', name: 'contact', component: () => import('../views/ContactView.vue')}
-   
+    { path: '/contact', name: 'contact', component: () => import('../views/ContactView.vue') }
   ]
-  
 })
 
 export default router

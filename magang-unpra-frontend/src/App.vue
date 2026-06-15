@@ -1,7 +1,9 @@
 <template>
   <div class="min-h-screen">
     <Navbar v-if="!isAdminRoute" />
-    <RouterView />
+    <div :class="!isAdminRoute ? 'pt-[112px]' : ''">
+      <RouterView />
+    </div>
   </div>
 </template>
 
@@ -12,6 +14,5 @@ import Navbar from './components/Navbar.vue'
 
 const route = useRoute()
 
-// Sembunyikan navbar di semua halaman /admin/*
 const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 </script>

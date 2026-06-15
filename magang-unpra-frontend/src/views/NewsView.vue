@@ -79,39 +79,46 @@
           </div>
         </div>
 
-        <!-- News Grid (remaining items) -->
-        <div class="news-grid">
-          <div
-            v-for="item in newsList.slice(1)"
-            :key="item.id"
-            class="news-card"
-          >
-            <div class="card-image">
-              <img :src="item.image || defaultImage" :alt="item.title" />
-              <span v-if="item.category" :class="['badge', getCategoryClass(item.category)]">
-                {{ item.category }}
-              </span>
-            </div>
-            <div class="card-body">
-              <div class="card-meta">
-                <span :class="['category-label', getCategoryClass(item.category)]">
-                  {{ item.category }}
-                </span>
-                <span class="card-date">{{ formatDate(item.date) }}</span>
-              </div>
-              <h3>{{ item.title }}</h3>
-              <p class="card-excerpt">{{ item.excerpt }}</p>
-              <router-link :to="`/news/${item.id}`" class="read-article">
-                READ ARTICLE
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                  <polyline points="15,3 21,3 21,9"/>
-                  <line x1="10" y1="14" x2="21" y2="3"/>
-                </svg>
-              </router-link>
-            </div>
-          </div>
-        </div>
+        <!-- News List (remaining items) -->
+<div class="news-list">
+  <div
+    v-for="item in newsList.slice(1)"
+    :key="item.id"
+    class="news-list-item"
+  >
+    <div class="list-image">
+      <img :src="item.image || defaultImage" :alt="item.title" />
+      <span v-if="item.category" :class="['badge', getCategoryClass(item.category)]">
+        {{ item.category }}
+      </span>
+    </div>
+    <div class="list-content">
+      <div class="meta">
+        <span class="meta-author">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          Posted by {{ item.author || 'Admin' }}
+        </span>
+        <span class="meta-date">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          {{ formatDate(item.date) }}
+        </span>
+      </div>
+      <h2>{{ item.title }}</h2>
+      <p class="excerpt">{{ item.excerpt }}</p>
+      <router-link :to="`/news/${item.id}`" class="continue-reading">
+        CONTINUE READING →
+      </router-link>
+    </div>
+  </div>
+</div>
 
         <!-- Sustainability Report Card -->
         <div class="report-section">
@@ -223,7 +230,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-
+import api from '../services/api'
 const newsList = ref([])
 const loading = ref(true)
 const error = ref(false)
@@ -239,7 +246,7 @@ const formatDate = (dateStr) => {
 }
 
 const getCategoryClass = (category) => {
-  if (!category) return ''
+  if (!category) return 'default'
   const cat = category.toLowerCase()
   if (cat.includes('community')) return 'community'
   if (cat.includes('sport') || cat.includes('csr')) return 'sport-csr'
@@ -252,47 +259,33 @@ const fetchNews = async () => {
   loading.value = true
   error.value = false
   try {
-    const res = await fetch(`/api/news?page=${currentPage.value}`)
-    if (!res.ok) throw new Error('Failed to fetch')
-    const data = await res.json()
-    newsList.value = data.news || data || []
+    const res = await api.get(`/news?page=${currentPage.value}`)
+    const data = res.data
+
+    const rawList = data.data || data.news || data || []
+    newsList.value = rawList
+      .filter(item => item.is_published)
+      .map(item => ({
+        id: item.ID || item.id,
+        title: item.title,
+        excerpt: item.summary || '',
+        category: item.category,
+        author: item.author || 'Admin',
+        date: item.CreatedAt || item.created_at || item.date,
+        image: item.Images?.[0]?.image_url || '',
+      }))
+
     if (data.total_pages) totalPages.value = data.total_pages
+
   } catch (e) {
     console.error(e)
-    // Fallback sample data for development
-    newsList.value = [
-      {
-        id: 1,
-        title: "PT Tel's Participation in Harhubnas and World Cleanup Day in Prabumulih",
-        excerpt: "In line with our vision to maintain good relations with Regional Government, PT TeL participated in a leisure walk and volunteer cleanup activity.",
-        category: 'Community Engagement',
-        author: 'Admin',
-        date: '2023-11-18',
-        image: '',
-      },
-      {
-        id: 2,
-        title: 'PT TEL BANGUN SARANA PANJAT TEBING DI TAMAN KOTA',
-        excerpt: 'Supporting the upcoming PORPROV Sumsel XII, PT TeL contributes to local athlete development...',
-        category: 'Sport & CSR',
-        author: 'Admin',
-        date: '2023-11-16',
-        image: '',
-      },
-      {
-        id: 3,
-        title: '20 Years of Dedicated Service Awards',
-        excerpt: 'PT TeL honored 343 long-term employees with the Piagam Kesetiaan Kerja for two decades of commitment to industrial excellence.',
-        category: 'Corporate News',
-        author: 'Corporate Communication',
-        date: '2023-11-14',
-        image: '',
-      },
-    ]
+    error.value = true
   } finally {
     loading.value = false
   }
 }
+
+
 
 const goToPage = (page) => {
   currentPage.value = page
@@ -863,5 +856,81 @@ onMounted(() => {
 
 @media (max-width: 480px) {
   .footer-container { grid-template-columns: 1fr; }
+}
+
+/* ─── News List ────────────────────────────────────────────── */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.news-list-item {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 28px;
+  padding: 28px 0;
+  border-bottom: 1px solid #e8e8e8;
+  align-items: flex-start;
+}
+
+.list-image {
+  position: relative;
+  height: 220px;
+  background: #2d5a3d;
+  flex-shrink: 0;
+}
+
+.list-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.list-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 4px;
+}
+
+.list-content h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.list-content .excerpt {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+
+.list-content .continue-reading {
+  display: inline-block;
+  border: 1px solid #ccc;
+  padding: 8px 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #444;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.list-content .continue-reading:hover {
+  background: #f5f5f5;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .news-list-item {
+    grid-template-columns: 1fr;
+  }
+  .list-image { height: 200px; }
 }
 </style>

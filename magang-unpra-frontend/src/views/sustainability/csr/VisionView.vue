@@ -1,13 +1,464 @@
 <template>
-  <section class="pt-24 pb-16 bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto px-10">
-      <p class="text-green-400 text-xs font-semibold tracking-widest mb-2">CSR</p>
-      <h1 class="text-5xl font-black">Vision And Mission</h1>
+  <!-- ═══ HERO ═══ -->
+  <section class="vision-hero">
+    <div class="vision-hero__bg-pattern"></div>
+    <div class="vision-hero__content max-w-7xl mx-auto px-10">
+      <div class="vision-hero__breadcrumb">
+        <span>Sustainability</span>
+        <span class="vision-hero__breadcrumb-sep">›</span>
+        <span>CSR</span>
+        <span class="vision-hero__breadcrumb-sep">›</span>
+        <span class="vision-hero__breadcrumb-active">Vision & Mission</span>
+      </div>
+      <h1 class="vision-hero__title">Vision <span class="vision-hero__title-accent">And</span> Mission</h1>
+      <p class="vision-hero__subtitle">
+        Our commitment to sustainable development, ethical business practices,
+        and community empowerment.
+      </p>
+      <div class="vision-hero__divider"></div>
     </div>
   </section>
-  <section class="py-24 bg-white">
+
+  <!-- ═══ INTRO CARD ═══ -->
+  <section class="vision-intro">
     <div class="max-w-7xl mx-auto px-10">
-      <p class="text-gray-600">Konten Vision And Mission akan ditampilkan di sini.</p>
+      <div class="vision-intro__card">
+        <div class="vision-intro__card-accent"></div>
+        <div class="vision-intro__card-body">
+          <div class="vision-intro__icon-wrap">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="vision-intro__card-text">
+            <h2 class="vision-intro__card-title">Corporate Social Responsibility</h2>
+            <p>
+              Corporate Social Responsibility is defined as sustainable commitment to business to act ethically,
+              operate legally and contribute to improving the economy while at the same time improving the quality
+              of life of employees and their families, local communities and society as a whole around the company.
+            </p>
+            <p>
+              The CSR program is an investment for companies for the growth and sustainability of the company and
+              is no longer considered as a cost center, but as a profit center. The CSR program is the company's
+              commitment to support the creation of sustainable development.
+            </p>
+            <p>
+              The implementation of CSR programs is one form of implementation of the concept of Good Corporate
+              Governance as a social and environmental responsibility as stipulated in the regulations / Law no.
+              40 of 2007 concerning Limited Liability Companies.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- ═══ STRATEGY SECTION ═══ -->
+  <section class="vision-strategy">
+    <div class="max-w-7xl mx-auto px-10">
+      <div class="vision-section-header">
+        <div class="vision-section-header__tag">Strategy</div>
+        <h2 class="vision-section-header__title">Strategy And Management Plan</h2>
+        <p class="vision-section-header__desc">
+          Key pillars guiding PT. Tanjungenim Lestari Pulp and Paper's CSR and governance approach.
+        </p>
+      </div>
+
+      <div class="vision-strategy__grid">
+        <div
+          v-for="(item, index) in strategyItems"
+          :key="index"
+          class="vision-strategy__card"
+        >
+          <div class="vision-strategy__card-number">{{ String(index + 1).padStart(2, '0') }}</div>
+          <div class="vision-strategy__card-bar"></div>
+          <p class="vision-strategy__card-text">{{ item }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ OBJECTIVES SECTION ═══ -->
+  <section class="vision-objectives">
+    <div class="max-w-7xl mx-auto px-10">
+      <div class="vision-objectives__layout">
+        <!-- Left sticky label -->
+        <div class="vision-objectives__sidebar">
+          <div class="vision-objectives__sidebar-inner">
+            <div class="vision-objectives__tag">Objectives</div>
+            <h2 class="vision-objectives__title">
+              The Objectives<br>of the CSR<br>Program
+            </h2>
+            <div class="vision-objectives__line"></div>
+            <p class="vision-objectives__sidebar-note">
+              PT. Tanjungenim Lestari<br>Pulp and Paper
+            </p>
+          </div>
+        </div>
+
+        <!-- Right content -->
+        <div class="vision-objectives__content">
+          <div class="vision-objectives__block">
+            <div class="vision-objectives__block-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
+            <p>
+              The purpose of implementing the Corporate Social Responsibility (CSR) of PT. Tanjungenim Lestari Pulp
+              and Paper is not limited to fulfilling the Company's responsibilities as well as the form of
+              compliance with regulations only. Furthermore, a well-implemented and systematic CSR program can form
+              a harmonious, balanced relationship and support between the Company and the community in the surrounding.
+            </p>
+          </div>
+
+          <div class="vision-objectives__block">
+            <div class="vision-objectives__block-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <p>
+              The company also believes that CSR programs are an important part that is inseparable from the
+              benchmark of business success, apart from the implementation of good management and operational
+              performance.
+            </p>
+          </div>
+
+          <div class="vision-objectives__block vision-objectives__block--highlight">
+            <div class="vision-objectives__block-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <p>
+              On this basis, through the implementation of the responsibilities contained in the vision, mission
+              and corporate values, the Company outlines CSR policies and programs that meet sustainability
+              standards, have integrity, uphold business ethics, and comply with laws and regulations that apply.
+              These standards are expected to create CSR programs that can have a positive, effective and targeted
+              impact, be able to empower the community's capabilities, and be sustainable in the long term.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BOTTOM ACCENT ═══ -->
+  <div class="vision-footer-bar">
+    <div class="vision-footer-bar__fill"></div>
+  </div>
 </template>
+
+<script setup>
+const strategyItems = [
+  'To implement sound industrial relations Corporate Social Responsibility (CSR) and Good Corporate Governance',
+  'To ensure a harmony industrial relations with stakeholders both internal and external',
+  'To strengthen the implementation of Good Corporate Governance (GCG) in accordance with prevailing regulations and laws',
+  'To do continuous Improvement Program (CIP) in each department',
+]
+</script>
+
+<style scoped>
+/* ─── HERO ─────────────────────────────────────────────── */
+.vision-hero {
+  position: relative;
+  background: #0d1f17;
+  padding: 4rem 0;
+  overflow: hidden;
+}
+.vision-hero__bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 70% 20%, rgba(34,197,94,0.12) 0%, transparent 55%),
+    radial-gradient(circle at 10% 80%, rgba(16,185,129,0.08) 0%, transparent 45%);
+  pointer-events: none;
+}
+.vision-hero__content { position: relative; z-index: 1; }
+
+.vision-hero__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+.vision-hero__breadcrumb-sep { opacity: 0.4; }
+.vision-hero__breadcrumb-active { color: #4ade80; }
+
+.vision-hero__title {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.25rem;
+}
+.vision-hero__title-accent { color: #22c55e; }
+
+.vision-hero__subtitle {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 480px;
+  line-height: 1.7;
+  margin: 0 0 2.5rem;
+}
+.vision-hero__divider {
+  width: 60px;
+  height: 3px;
+  background: #22c55e;
+  border-radius: 2px;
+}
+
+/* ─── INTRO CARD ────────────────────────────────────────── */
+.vision-intro {
+  background: #f8faf8;
+  padding: 4rem 0;
+}
+.vision-intro__card {
+  background: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+  display: flex;
+}
+.vision-intro__card-accent {
+  width: 5px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #16a34a 0%, #4ade80 100%);
+}
+.vision-intro__card-body {
+  padding: 2.5rem 3rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+.vision-intro__icon-wrap {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #16a34a;
+}
+.vision-intro__card-text { flex: 1; }
+.vision-intro__card-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #16a34a;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin: 0 0 1.25rem;
+}
+.vision-intro__card-text p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.8;
+  margin: 0 0 0.9rem;
+}
+.vision-intro__card-text p:last-child { margin-bottom: 0; }
+
+/* ─── STRATEGY ──────────────────────────────────────────── */
+.vision-strategy {
+  background: #0d1f17;
+  padding: 5rem 0;
+}
+.vision-section-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+.vision-section-header__tag {
+  display: inline-block;
+  background: rgba(34,197,94,0.12);
+  color: #4ade80;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(74,222,128,0.25);
+  margin-bottom: 1rem;
+}
+.vision-section-header__title {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.01em;
+}
+.vision-section-header__desc {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.45);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.vision-strategy__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+.vision-strategy__card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 2rem 1.75rem;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  cursor: default;
+}
+.vision-strategy__card:hover {
+  background: rgba(34,197,94,0.06);
+  border-color: rgba(74,222,128,0.3);
+  transform: translateY(-3px);
+}
+.vision-strategy__card-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: rgba(74,222,128,0.2);
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.03em;
+}
+.vision-strategy__card-bar {
+  width: 28px;
+  height: 2px;
+  background: #22c55e;
+  border-radius: 2px;
+  margin-bottom: 1rem;
+}
+.vision-strategy__card-text {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ─── OBJECTIVES ────────────────────────────────────────── */
+.vision-objectives {
+  background: #f8faf8;
+  padding: 5rem 0;
+}
+.vision-objectives__layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+.vision-objectives__sidebar-inner {
+  position: sticky;
+  top: 6rem;
+}
+.vision-objectives__tag {
+  display: inline-block;
+  background: #f0fdf4;
+  color: #16a34a;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid #bbf7d0;
+  margin-bottom: 1rem;
+}
+.vision-objectives__title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #111827;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem;
+}
+.vision-objectives__line {
+  width: 36px;
+  height: 3px;
+  background: #22c55e;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+.vision-objectives__sidebar-note {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.vision-objectives__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.vision-objectives__block {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 1.75rem 2rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.vision-objectives__block:hover {
+  border-color: #bbf7d0;
+  box-shadow: 0 4px 20px rgba(34,197,94,0.07);
+}
+.vision-objectives__block--highlight {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+.vision-objectives__block-icon {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #16a34a;
+}
+.vision-objectives__block--highlight .vision-objectives__block-icon {
+  background: #dcfce7;
+  border-color: #86efac;
+}
+.vision-objectives__block p {
+  font-size: 0.92rem;
+  color: #4b5563;
+  line-height: 1.8;
+  margin: 0;
+  padding-top: 8px;
+}
+
+/* ─── FOOTER BAR ─────────────────────────────────────────── */
+.vision-footer-bar {
+  height: 5px;
+  background: #e5e7eb;
+}
+.vision-footer-bar__fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #15803d 0%, #22c55e 50%, #86efac 100%);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .vision-hero { padding: 5rem 0 3.5rem; }
+  .vision-intro__card-body { flex-direction: column; gap: 1.25rem; padding: 1.75rem; }
+  .vision-objectives__layout { grid-template-columns: 1fr; gap: 2rem; }
+  .vision-objectives__sidebar-inner { position: static; }
+  .vision-objectives__title { font-size: 1.6rem; }
+}
+</style>

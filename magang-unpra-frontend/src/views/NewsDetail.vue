@@ -15,7 +15,7 @@
 
   <!-- Loading -->
   <div v-if="loading" class="text-center py-20">
-    <div class="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+    <div class="w-8 h-8 border-4 border-[#5F9E42] border-t-transparent rounded-full animate-spin mx-auto"></div>
     <p class="text-gray-400 mt-4 text-sm">Memuat berita...</p>
   </div>
 
@@ -27,7 +27,7 @@
       <div class="flex items-center gap-3 mb-4 text-xs text-gray-500">
         <span>👤 Posted by Admin</span>
         <span>•</span>
-        <span class="bg-green-600 text-white px-2 py-0.5 rounded font-semibold">
+        <span class="bg-[#5F9E42] text-white px-2 py-0.5 rounded font-semibold">
           {{ news.category || 'News' }}
         </span>
       </div>
@@ -41,6 +41,11 @@
       <div v-if="news.Images && news.Images.length > 0"
         class="w-full rounded-xl overflow-hidden mb-8 max-h-96">
         <img :src="news.Images[0].image_url" :alt="news.title"
+          class="w-full h-full object-cover"/>
+      </div>
+      <div v-else-if="news.thumbnail_path"
+        class="w-full rounded-xl overflow-hidden mb-8 max-h-96">
+        <img :src="news.thumbnail_path" :alt="news.title"
           class="w-full h-full object-cover"/>
       </div>
 

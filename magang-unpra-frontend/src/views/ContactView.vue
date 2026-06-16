@@ -4,20 +4,20 @@
     style="background-image: url('/images/gedung.jpeg')">
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="relative z-10 px-20 pb-10 text-white">
-      <h1 class="text-3xl font-black">Contact Us</h1>
-      <p class="text-sm mt-1 text-white/80">We are ready to help answer your needs.</p>
+      <h1 class="text-3xl font-black opacity-0 anim-fade-up" style="animation-delay: 0.1s">Contact Us</h1>
+      <p class="text-sm mt-1 text-white/80 opacity-0 anim-fade-up" style="animation-delay: 0.2s">We are ready to help answer your needs.</p>
     </div>
   </section>
 
   <!-- Contact Information -->
   <section class="py-16 bg-white">
     <div class="max-w-5xl mx-auto px-10">
-      <h2 class="text-xl font-black text-gray-900 mb-8">Contact Information</h2>
+      <h2 class="text-xl font-black text-gray-900 mb-8 anim-item">Contact Information</h2>
 
       <div class="grid grid-cols-2 gap-8">
 
         <!-- Jakarta -->
-        <div>
+        <div class="anim-item" style="animation-delay: 0.05s">
           <div class="grid grid-cols-2 gap-1 mb-3">
             <img src="/images/jakarta.jpeg" alt="Jakarta" class="w-full h-24 object-cover rounded" />
           </div>
@@ -33,7 +33,7 @@
         </div>
 
         <!-- Mill Location -->
-        <div>
+        <div class="anim-item" style="animation-delay: 0.1s">
           <div class="grid grid-cols-2 gap-1 mb-3">
             <img src="/images/lokasi pabrik.jpeg" alt="Mill Location" class="w-full h-24 object-cover rounded" />
           </div>
@@ -49,7 +49,7 @@
         </div>
 
         <!-- Palembang -->
-        <div>
+        <div class="anim-item" style="animation-delay: 0.15s">
           <div class="grid grid-cols-2 gap-1 mb-3">
             <img src="/images/palembang.jpeg" alt="Palembang" class="w-full h-24 object-cover rounded" />
           </div>
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Tarahan -->
-        <div>
+        <div class="anim-item" style="animation-delay: 0.2s">
           <div class="grid grid-cols-2 gap-1 mb-3">
             <img src="/images/tarahan.jpeg" alt="Tarahan" class="w-full h-24 object-cover rounded" />
           </div>
@@ -87,7 +87,7 @@
   <!-- Main Contact -->
   <section class="py-10 bg-gray-50">
     <div class="max-w-5xl mx-auto px-10">
-      <div class="border border-gray-200 rounded-xl p-8 bg-white flex flex-col gap-4">
+      <div class="border border-gray-200 rounded-xl p-8 bg-white flex flex-col gap-4 anim-item">
         <p class="text-2xl font-black text-gray-800 flex items-center gap-3">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           Muara Enim Regency, South Sumatra.
@@ -110,10 +110,55 @@
   </section>
 
   <!-- Footer -->
-  <section class="py-4 text-white text-center" style="background-color: #5F9E42;">
+  <section class="py-4 text-white text-center anim-item" style="background-color: #5F9E42;">
     <p class="text-sm italic">Copyright 2019 PT TELPP. All rights reserved.</p>
   </section>
 </template>
 
 <script setup>
+import { onMounted, onUnmounted, nextTick } from 'vue'
+
+let observer = null
+
+onMounted(async () => {
+  await nextTick()
+  initObserver()
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+})
+
+const initObserver = () => {
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('anim-visible')
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.15 })
+
+  document.querySelectorAll('.anim-item').forEach(el => {
+    observer.observe(el)
+  })
+}
 </script>
+
+<style scoped>
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.anim-fade-up { animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+.anim-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-item.anim-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>

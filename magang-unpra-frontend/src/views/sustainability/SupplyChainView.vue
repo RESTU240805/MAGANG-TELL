@@ -2,23 +2,23 @@
 
   <!-- ── HERO ── -->
   <section class="relative h-[380px] flex items-end bg-cover bg-center overflow-hidden"
-    style="background-image: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920')">
+    style="background-image: url('/images/pulp.jpeg')">
     <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
 
-    <div class="absolute top-10 left-10 flex items-center gap-2">
+    <div class="absolute top-10 left-10 flex items-center gap-2 opacity-0 anim-fade-right" style="animation-delay: 0.1s">
       <span class="w-1 h-5 bg-green-400 rounded-full"></span>
       <span class="text-green-400 text-xs font-bold tracking-[3px] uppercase">Sustainability</span>
     </div>
 
     <div class="relative z-10 max-w-5xl mx-auto px-10 pb-14 w-full">
-      <h1 class="text-5xl font-black text-white leading-tight mb-4">
+      <h1 class="text-5xl font-black text-white leading-tight mb-4 opacity-0 anim-fade-up" style="animation-delay: 0.2s">
         Supply Chain <span class="text-green-400">Management</span>
       </h1>
-      <p class="text-gray-300 text-sm max-w-xl leading-relaxed">
+      <p class="text-gray-300 text-sm max-w-xl leading-relaxed opacity-0 anim-fade-up" style="animation-delay: 0.3s">
         A strategic, sustainable, and responsible approach to managing our entire supply chain operations.
       </p>
-      <div class="flex items-center gap-2 mt-5 text-xs text-gray-400">
-        <span class="hover:text-white cursor-pointer transition">Home</span>
+      <div class="flex items-center gap-2 mt-5 text-xs text-gray-400 opacity-0 anim-fade-up" style="animation-delay: 0.4s">
+        <RouterLink to="/" class="hover:text-white cursor-pointer transition">Home</RouterLink>
         <span class="text-gray-600">/</span>
         <span class="hover:text-white cursor-pointer transition">Sustainability</span>
         <span class="text-gray-600">/</span>
@@ -310,6 +310,18 @@ const policies = [
 </script>
 
 <style scoped>
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.anim-fade-up { animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+@keyframes fadeRight {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.anim-fade-right { animation: fadeRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
 .accordion-enter-active,
 .accordion-leave-active {
   transition: all 0.35s ease;

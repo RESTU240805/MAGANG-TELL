@@ -2,23 +2,23 @@
 
   <!-- ── HERO ── -->
   <section class="relative h-[420px] flex items-end bg-cover bg-center overflow-hidden"
-    style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920')">
+    style="background-image: url('/people/people development.png')">
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
 
-    <div class="absolute top-10 left-10 flex items-center gap-2">
+    <div class="absolute top-10 left-10 flex items-center gap-2 opacity-0 anim-fade-right" style="animation-delay: 0.1s">
       <span class="w-1 h-5 bg-green-400 rounded-full"></span>
       <span class="text-green-400 text-xs font-bold tracking-[3px] uppercase">Sustainability</span>
     </div>
 
     <div class="relative z-10 max-w-5xl mx-auto px-10 pb-14 w-full">
-      <h1 class="text-5xl font-black text-white leading-tight mb-4">
+      <h1 class="text-5xl font-black text-white leading-tight mb-4 opacity-0 anim-fade-up" style="animation-delay: 0.2s">
         People <span class="text-green-400">Development</span>
       </h1>
-      <p class="text-gray-300 text-sm max-w-xl leading-relaxed">
+      <p class="text-gray-300 text-sm max-w-xl leading-relaxed opacity-0 anim-fade-up" style="animation-delay: 0.3s">
         Preparing the best talent to achieve the highest performance and business sustainability.
       </p>
-      <div class="flex items-center gap-2 mt-5 text-xs text-gray-400">
-        <span class="hover:text-white cursor-pointer transition">Home</span>
+      <div class="flex items-center gap-2 mt-5 text-xs text-gray-400 opacity-0 anim-fade-up" style="animation-delay: 0.4s">
+        <RouterLink to="/" class="hover:text-white cursor-pointer transition">Home</RouterLink>
         <span class="text-gray-600">/</span>
         <span class="hover:text-white cursor-pointer transition">Sustainability</span>
         <span class="text-gray-600">/</span>
@@ -27,22 +27,20 @@
     </div>
   </section>
 
- 
-
   <!-- ── PHOTO GRID ── -->
   <section class="py-16 bg-white">
     <div class="max-w-5xl mx-auto px-10">
       <div class="grid grid-cols-3 gap-3 h-64 rounded-2xl overflow-hidden">
-        <div class="col-span-1 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600"
+        <div class="col-span-1 overflow-hidden anim-item">
+          <img src="/people/1.png"
             alt="Training" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"/>
         </div>
-        <div class="col-span-1 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600"
+        <div class="col-span-1 overflow-hidden anim-item" style="animation-delay: 0.1s">
+          <img src="/people/2.png"
             alt="Workshop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"/>
         </div>
-        <div class="col-span-1 overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600"
+        <div class="col-span-1 overflow-hidden anim-item" style="animation-delay: 0.2s">
+          <img src="/people/3.png"
             alt="Team" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"/>
         </div>
       </div>
@@ -54,8 +52,7 @@
     <div class="max-w-5xl mx-auto px-10">
       <div class="grid grid-cols-5 gap-12">
 
-        <!-- Teks utama -->
-        <div class="col-span-3 space-y-4 text-gray-500 text-sm leading-relaxed">
+        <div class="col-span-3 space-y-4 text-gray-500 text-sm leading-relaxed anim-slide-right">
           <p>
             People development is carried out in order to prepare the best talent to be able to show the
             best performance and to achieve the business targets they carry. Talking about business is not
@@ -68,8 +65,7 @@
           </p>
         </div>
 
-        <!-- Highlight box -->
-        <div class="col-span-2 bg-green-50 border border-green-100 rounded-2xl p-6 flex flex-col justify-center">
+        <div class="col-span-2 bg-green-50 border border-green-100 rounded-2xl p-6 flex flex-col justify-center anim-slide-left">
           <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center mb-4">
             <span class="text-green-600 text-lg">🌱</span>
           </div>
@@ -86,32 +82,31 @@
   </section>
 
   <!-- ── COMMITMENT LIST ── -->
-  <section class="py-16 bg-gray-50">
+  <section class="py-16 bg-[#14532d]">
     <div class="max-w-5xl mx-auto px-10">
 
       <div class="text-center mb-12">
-        <span class="inline-block bg-green-100 text-green-700 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3">
+        <span class="inline-block bg-green-800 text-green-200 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3 anim-item">
           Our Commitments
         </span>
-        <h2 class="text-3xl font-black text-gray-900">Development Pillars</h2>
-        <p class="text-gray-400 text-sm mt-2 max-w-md mx-auto">
+        <h2 class="text-3xl font-black text-white anim-item">Development Pillars</h2>
+        <p class="text-green-200/60 text-sm mt-2 max-w-md mx-auto anim-item">
           Five core programs that shape TEL's approach to people development.
         </p>
       </div>
 
       <div class="space-y-4">
         <div v-for="(item, index) in commitments" :key="index"
-          class="flex gap-5 bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-md hover:border-green-100 transition group">
+          class="flex gap-5 bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/15 transition group anim-item"
+          :style="{ animationDelay: (index * 0.1) + 's' }">
 
-          <!-- Nomor -->
-          <div class="w-10 h-10 rounded-xl bg-green-600 text-white font-black text-sm flex items-center justify-center flex-shrink-0 group-hover:bg-green-700 transition">
+          <div class="w-10 h-10 rounded-xl bg-green-500 text-white font-black text-sm flex items-center justify-center flex-shrink-0 group-hover:bg-green-400 transition">
             {{ String(index + 1).padStart(2, '0') }}
           </div>
 
-          <!-- Teks -->
           <div>
-            <h3 class="text-gray-900 font-bold text-sm mb-1">{{ item.title }}</h3>
-            <p class="text-gray-400 text-sm leading-relaxed">{{ item.desc }}</p>
+            <h3 class="text-white font-bold text-sm mb-1">{{ item.title }}</h3>
+            <p class="text-green-200/60 text-sm leading-relaxed">{{ item.desc }}</p>
           </div>
         </div>
       </div>
@@ -124,24 +119,23 @@
     <div class="max-w-5xl mx-auto px-10">
 
       <div class="text-center mb-10">
-        <span class="inline-block bg-green-100 text-green-700 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3">
+        <span class="inline-block bg-green-100 text-green-700 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3 anim-item">
           Gallery
         </span>
-        <h2 class="text-3xl font-black text-gray-900">People in Action</h2>
+        <h2 class="text-3xl font-black text-gray-900 anim-item">People in Action</h2>
       </div>
 
       <!-- Slider wrapper -->
-      <div class="relative rounded-2xl overflow-hidden shadow-xl aspect-video bg-gray-100">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl aspect-video bg-gray-100 anim-item">
 
-        <!-- Gambar aktif -->
-        <transition name="fade" mode="out-in">
-          <img
-            :key="activeSlide"
-            :src="slides[activeSlide].url"
-            :alt="slides[activeSlide].caption"
-            class="w-full h-full object-cover"
-          />
-        </transition>
+        <img
+          v-for="(slide, i) in slides"
+          :key="i"
+          :src="slide.url"
+          :alt="slide.caption"
+          class="absolute inset-0 w-full h-full object-cover"
+          :style="{ opacity: activeSlide === i ? 1 : 0, transition: 'opacity 0.8s ease-in-out' }"
+        />
 
         <!-- Caption -->
         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
@@ -149,14 +143,14 @@
           <p class="text-gray-300 text-xs mt-1">{{ activeSlide + 1 }} / {{ slides.length }}</p>
         </div>
 
-        <!-- Tombol Prev -->
-        <button @click="prev"
+        <!-- Prev -->
+        <button @click="manualNav(prev)"
           class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition backdrop-blur-sm">
           ‹
         </button>
 
-        <!-- Tombol Next -->
-        <button @click="next"
+        <!-- Next -->
+        <button @click="manualNav(next)"
           class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition backdrop-blur-sm">
           ›
         </button>
@@ -166,13 +160,9 @@
       <div class="flex justify-center gap-2 mt-6">
         <button
           v-for="(_, i) in slides" :key="i"
-          @click="activeSlide = i"
-          :class="[
-            'transition-all duration-300 rounded-full',
-            activeSlide === i
-              ? 'bg-green-600 w-6 h-2.5'
-              : 'bg-gray-200 hover:bg-gray-300 w-2.5 h-2.5'
-          ]">
+          @click="manualNav(() => activeSlide = i)"
+          class="transition-all duration-300 rounded-full cursor-pointer"
+          :class="activeSlide === i ? 'bg-green-600 w-6 h-2.5' : 'bg-gray-200 hover:bg-gray-300 w-2.5 h-2.5'">
         </button>
       </div>
 
@@ -180,7 +170,7 @@
   </section>
 
   <!-- ── CTA ── -->
-  <section class="py-16 bg-green-700">
+  <section class="py-16 bg-[#14532d] anim-item">
     <div class="max-w-5xl mx-auto px-10 text-center">
       <h2 class="text-3xl font-black text-white mb-3">
         Growing People, Growing Business
@@ -188,16 +178,17 @@
       <p class="text-green-200 text-sm mb-8 max-w-lg mx-auto">
         TEL continuously invests in its people to ensure sustainable business excellence and community growth.
       </p>
-      
     </div>
   </section>
 
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const activeSlide = ref(0)
+let sliderTimer = null
 
 const commitments = [
   {
@@ -223,43 +214,95 @@ const commitments = [
 ]
 
 const slides = [
-  {
-    url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1200',
-    caption: 'Leadership Training Session'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200',
-    caption: 'Team Collaboration Workshop'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=1200',
-    caption: 'Management Development Program'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200',
-    caption: 'Skills Training & Certification'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?w=1200',
-    caption: 'Community Education Initiative'
-  },
+  { url: '/people/1.png', caption: 'First Aid Training Session' },
+  { url: '/people/2.png', caption: 'Safety Patrol Management' },
+  { url: '/people/3.png', caption: 'Team Safety Workshop' },
+  { url: '/people/4.png', caption: 'Industrial Hygiene Program' },
+  { url: '/people/6.png', caption: 'People Development Initiative' },
 ]
 
-function next() {
-  activeSlide.value = (activeSlide.value + 1) % slides.length
-}
-function prev() {
-  activeSlide.value = (activeSlide.value - 1 + slides.length) % slides.length
+const next = () => { activeSlide.value = (activeSlide.value + 1) % slides.length }
+const prev = () => { activeSlide.value = (activeSlide.value - 1 + slides.length) % slides.length }
+const startSlider = () => { sliderTimer = setInterval(next, 5000) }
+const stopSlider = () => { clearInterval(sliderTimer) }
+const manualNav = (fn) => { stopSlider(); fn(); startSlider() }
+
+// ─── Scroll Observer ──────────────────────────────────────────
+let observer = null
+
+onMounted(async () => {
+  await nextTick()
+  initObserver()
+  startSlider()
+})
+
+onUnmounted(() => {
+  if (observer) observer.disconnect()
+  stopSlider()
+})
+
+const initObserver = () => {
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('anim-visible')
+        observer.unobserve(entry.target)
+      }
+    })
+  }, { threshold: 0.15 })
+
+  document.querySelectorAll('.anim-item, .anim-slide-right, .anim-slide-left').forEach(el => {
+    observer.observe(el)
+  })
 }
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s ease;
+/* Hero animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.fade-enter-from,
-.fade-leave-to {
+.anim-fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeRight {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.anim-fade-right {
+  animation: fadeRight 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Scroll animations */
+.anim-item {
   opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-item.anim-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.anim-slide-right {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-slide-right.anim-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.anim-slide-left {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.anim-slide-left.anim-visible {
+  opacity: 1;
+  transform: translateX(0);
 }
 </style>

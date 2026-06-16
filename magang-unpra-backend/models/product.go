@@ -4,9 +4,14 @@ import "gorm.io/gorm"
 
 type Product struct {
 	gorm.Model
-	Name        string         `json:"name"`
-	Description string         `json:"description"`
-	Images      []ProductImage `json:"Images" gorm:"foreignKey:ProductID"`
+	Name          string         `json:"name"`
+	Summary       string         `json:"summary"`
+	Description   string         `json:"description"`
+	ThumbnailPath string         `json:"thumbnail_path"`
+	Category      string         `json:"category"`
+	Tags          string         `json:"tags"`
+	IsActive      bool           `json:"is_active" gorm:"default:true"`
+	Images        []ProductImage `json:"Images" gorm:"foreignKey:ProductID"`
 }
 
 type ProductImage struct {

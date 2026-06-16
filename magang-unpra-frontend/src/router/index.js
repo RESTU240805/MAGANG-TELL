@@ -17,25 +17,33 @@ import NewsListView from '../views/admin/NewsListView.vue'
 import NewsFormView from '../views/admin/NewsFormView.vue'
 import ProductListView from '../views/admin/ProductListView.vue'
 import ProductFormView from '../views/admin/ProductFormView.vue'
+import ProductDetail from '../views/ProductDetail.vue'
+import HomeView from '../views/HomeView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/',            component: OurCompany },
+    // ── General ──
     { path: '/our-company', component: OurCompany },
     { path: '/product',     component: ProductView },
-    { path: '/news',                              component: NewsView },
-    { path: '/news/:id', name: 'NewsDetail',      component: NewsDetail },
+    { path: '/news',        component: NewsView },
+    { path: '/news/:id',    component: NewsDetail, name: 'NewsDetail' },
+    { path: '/contact',     component: () => import('../views/ContactView.vue'), name: 'contact' },
 
+    // ── Sustainability ──
     { path: '/sustainability/forest-management',  component: ForestManagementView },
     { path: '/sustainability/people-development', component: PeopleDevView },
     { path: '/sustainability/supply-chain',       component: SupplyChainView },
     { path: '/sustainability/pulp-process',       component: PulpProcessView },
     { path: '/sustainability/safety-health',      component: SafetyHealthView },
+
+    // ── CSR ──
     { path: '/sustainability/csr/vision',         component: VisionView },
     { path: '/sustainability/csr/community',      component: CommunityView },
     { path: '/sustainability/csr/report',         component: ReportView },
 
+    // ── Admin ──
     { path: '/admin/login',                       component: LoginView },
     { path: '/admin/dashboard',                   component: DashboardView },
     { path: '/admin/news',                        component: NewsListView },
@@ -44,7 +52,9 @@ const router = createRouter({
     { path: '/admin/products',                    component: ProductListView },
     { path: '/admin/products/create',             component: ProductFormView },
     { path: '/admin/products/edit/:id',           component: ProductFormView },
-    { path: '/contact', name: 'contact', component: () => import('../views/ContactView.vue') }
+    { path: '/product/:id', component: ProductDetail },
+
+      { path: '/',            component: HomeView },
   ]
 })
 

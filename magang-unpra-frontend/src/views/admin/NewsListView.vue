@@ -434,7 +434,7 @@ const handleDrop = (e) => {
 
 // ─── Upload gambar ke /api/upload ────────────────────────────
 const uploadImage = async () => {
-  if (!imageFile.value) return form.value.image
+  if (!imageFile.value) return form.value.thumbnail_path
   const fd = new FormData()
   fd.append('image', imageFile.value)
   const res = await api.post('/upload', fd, {

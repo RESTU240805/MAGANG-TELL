@@ -110,28 +110,28 @@ const reports = [
   {
     year: 2018,
     quarters: [
-      { label: '1st Quarter', period: 'Jan – Mar 2018', file: null },
-      { label: '2nd Quarter', period: 'Apr – Jun 2018', file: null },
-      { label: '3rd Quarter', period: 'Jul – Sep 2018', file: null },
-      { label: '4th Quarter', period: 'Oct – Dec 2018', file: null },
+      { label: '1st Quarter', file: null },
+      { label: '2nd Quarter', file: null },
+      { label: '3rd Quarter', file: null },
+      { label: '4th Quarter', file: null },
     ]
   },
   {
     year: 2019,
     quarters: [
       { label: '1st Quarter', period: 'Jan – Mar 2019', file: 'CSRReport2019_1st_Quarter_Apr_Ju.pdf' },
-      { label: '2nd Quarter', period: 'Apr – Jun 2019', file: null },
-      { label: '3rd Quarter', period: 'Jul – Sep 2019', file: null },
-      { label: '4th Quarter', period: 'Oct – Dec 2019', file: 'CSR-Report-2019-4th-Quarter.pdf' },
+      { label: '2nd Quarter', file: null },
+      { label: '3rd Quarter', file: null },
+      { label: '4th Quarter', period: 'jan – mar 2019', file: 'CSR-Report-2019-4th-Quarter.pdf' },
     ]
   },
   {
     year: 2020,
     quarters: [
-      { label: '1st Quarter', period: 'Jan – Mar 2020', file: 'CSR-Report-2020-1st-Quarter-Apr-Jun-2020-W.pdf' },
-      { label: '2nd Quarter', period: 'Apr – Jun 2020', file: 'CSR-Report-2020-2nd-Quarter-Jul-Sep-2020-f.pdf' },
-      { label: '3rd Quarter', period: 'Jul – Sep 2020', file: null },
-      { label: '4th Quarter', period: 'Oct – Dec 2020', file: null },
+      { label: '1st Quarter', period: 'Apr – jun 2020', file: 'CSR-Report-2020-1st-Quarter-Apr-Jun-2020-W.pdf' },
+      { label: '2nd Quarter', period: 'Jul – Sep 2020', file: 'CSR-Report-2020-2nd-Quarter-Jul-Sep-2020-f.pdf' },
+      { label: '3rd Quarter', file: null },
+      { label: '4th Quarter', file: null },
     ]
   },
 ]

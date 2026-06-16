@@ -96,7 +96,12 @@ func UpdateProduct(c *gin.Context) {
 	var input models.Product
 	c.ShouldBindJSON(&input)
 	product.Name = input.Name
+	product.Summary = input.Summary
 	product.Description = input.Description
+	product.ThumbnailPath = input.ThumbnailPath
+	product.Category = input.Category
+	product.Tags = input.Tags
+	product.IsActive = input.IsActive
 	config.DB.Save(&product)
 	config.DB.Where("product_id = ?", product.ID).Delete(&models.ProductImage{})
 	for i := range input.Images {

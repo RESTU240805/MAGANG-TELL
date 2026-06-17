@@ -1,25 +1,27 @@
 <template>
-  <!-- Hero Section -->
-  <section class="relative h-120 flex items-end bg-cover bg-center"
+  <section class="relative h-120 flex items-center justify-center bg-cover bg-center"
     style="background-image: url('/images/gedung.jpeg')">
     <div class="absolute inset-0 bg-black/50"></div>
-    <div class="relative z-10 px-20 pb-10 text-white">
-      <h1 class="text-3xl font-black opacity-0 anim-fade-up" style="animation-delay: 0.1s">Contact Us</h1>
-      <p class="text-sm mt-1 text-white/80 opacity-0 anim-fade-up" style="animation-delay: 0.2s">We are ready to help answer your needs.</p>
+    <div class="relative z-10 px-20 text-center text-white">
+      <h1 class="text-4xl md:text-5xl font-black uppercase tracking-wider opacity-0 anim-hero-title">
+        Contact Us
+      </h1>
+      <div class="w-12 h-1 bg-green-500 mx-auto my-4 opacity-0 anim-hero-divider"></div>
+      <p class="text-sm md:text-base font-light text-white/80 max-w-md mx-auto opacity-0 anim-hero-subtitle">
+        We are ready to help answer your needs.
+      </p>
     </div>
   </section>
 
-  <!-- Contact Information -->
   <section class="py-16 bg-white">
     <div class="max-w-5xl mx-auto px-10">
       <h2 class="text-xl font-black text-gray-900 mb-8 anim-item">Contact Information</h2>
 
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-2 gap-10">
 
-        <!-- Jakarta -->
-        <div class="anim-item" style="animation-delay: 0.05s">
-          <div class="grid grid-cols-2 gap-1 mb-3">
-            <img src="/images/jakarta.jpeg" alt="Jakarta" class="w-full h-24 object-cover rounded" />
+        <div class="anim-item anim-from-left" style="animation-delay: 0.05s">
+          <div class="grid grid-cols-1 mb-4 overflow-hidden rounded-lg shadow-sm">
+            <img src="/images/jakarta.jpeg" alt="Jakarta" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <h3 class="font-black text-gray-900 text-sm mb-1">JAKARTA</h3>
           <p class="text-xs text-gray-600 flex items-start gap-1 mb-1">
@@ -32,10 +34,9 @@
           </p>
         </div>
 
-        <!-- Mill Location -->
-        <div class="anim-item" style="animation-delay: 0.1s">
-          <div class="grid grid-cols-2 gap-1 mb-3">
-            <img src="/images/lokasi pabrik.jpeg" alt="Mill Location" class="w-full h-24 object-cover rounded" />
+        <div class="anim-item anim-from-right" style="animation-delay: 0.1s">
+          <div class="grid grid-cols-1 mb-4 overflow-hidden rounded-lg shadow-sm">
+            <img src="/images/lokasi pabrik.jpeg" alt="Mill Location" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <h3 class="font-black text-gray-900 text-sm mb-1">MILL LOCATION</h3>
           <p class="text-xs text-gray-600 flex items-start gap-1 mb-1">
@@ -48,10 +49,9 @@
           </p>
         </div>
 
-        <!-- Palembang -->
-        <div class="anim-item" style="animation-delay: 0.15s">
-          <div class="grid grid-cols-2 gap-1 mb-3">
-            <img src="/images/palembang.jpeg" alt="Palembang" class="w-full h-24 object-cover rounded" />
+        <div class="anim-item anim-from-left" style="animation-delay: 0.15s">
+          <div class="grid grid-cols-1 mb-4 overflow-hidden rounded-lg shadow-sm">
+            <img src="/images/palembang.jpeg" alt="Palembang" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <h3 class="font-black text-gray-900 text-sm mb-1">PALEMBANG</h3>
           <p class="text-xs text-gray-600 flex items-start gap-1 mb-1">
@@ -64,10 +64,9 @@
           </p>
         </div>
 
-        <!-- Tarahan -->
-        <div class="anim-item" style="animation-delay: 0.2s">
-          <div class="grid grid-cols-2 gap-1 mb-3">
-            <img src="/images/tarahan.jpeg" alt="Tarahan" class="w-full h-24 object-cover rounded" />
+        <div class="anim-item anim-from-right" style="animation-delay: 0.2s">
+          <div class="grid grid-cols-1 mb-4 overflow-hidden rounded-lg shadow-sm">
+            <img src="/images/tarahan.jpeg" alt="Tarahan" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <h3 class="font-black text-gray-900 text-sm mb-1">TARAHAN</h3>
           <p class="text-xs text-gray-600 flex items-start gap-1 mb-1">
@@ -84,7 +83,6 @@
     </div>
   </section>
 
-  <!-- Main Contact -->
   <section class="py-10 bg-gray-50">
     <div class="max-w-5xl mx-auto px-10">
       <div class="border border-gray-200 rounded-xl p-8 bg-white flex flex-col gap-4 anim-item">
@@ -109,7 +107,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <section class="py-4 text-white text-center anim-item" style="background-color: #5F9E42;">
     <p class="text-sm italic">Copyright 2019 PT TELPP. All rights reserved.</p>
   </section>
@@ -146,19 +143,54 @@ const initObserver = () => {
 </script>
 
 <style scoped>
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
+/* ── Modern Hero Animations ── */
+@keyframes heroTitleFade {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); letter-spacing: 0.05em; }
+  to { opacity: 1; transform: translateY(0) scale(1); letter-spacing: 0.07em; }
+}
+@keyframes heroDividerGrow {
+  from { width: 0; opacity: 0; }
+  to { width: 3rem; opacity: 1; }
+}
+@keyframes heroSubtitleFade {
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.anim-fade-up { animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
+.anim-hero-title {
+  animation: heroTitleFade 1s cubic-bezier(0.215, 0.610, 0.355, 1) 0.1s forwards;
+}
+.anim-hero-divider {
+  animation: heroDividerGrow 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards;
+}
+.anim-hero-subtitle {
+  animation: heroSubtitleFade 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s forwards;
+}
+
+/* ── Scroll Entrance Animations ── */
 .anim-item {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/* Arah Samping Kiri */
+.anim-item.anim-from-left {
+  transform: translateX(-50px);
+}
+
+/* Arah Samping Kanan */
+.anim-item.anim-from-right {
+  transform: translateX(50px);
+}
+
+/* Default Fallback jika kelas arah tidak diberikan */
+.anim-item:not(.anim-from-left):not(.anim-from-right) {
+  transform: translateY(30px);
+}
+
+/* State ketika elemen masuk viewport (terlihat) */
 .anim-item.anim-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(0, 0);
 }
 </style>

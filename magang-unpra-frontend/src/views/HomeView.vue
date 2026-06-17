@@ -13,24 +13,29 @@
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <transition name="fade-title" mode="out-in">
-          <h1
+          <div
             :key="currentSlide"
-            :class="{ 'hero-quote': heroSlides[currentSlide].type === 'quote' }"
+            class="hero-title-block"
           >
             <span
               v-if="heroSlides[currentSlide].sub"
               class="hero-sub"
             >{{ heroSlides[currentSlide].sub }}</span>
-            <span class="word-container">
-              <span
-                v-for="(w, i) in currentWords"
-                :key="i"
-                class="word"
-                :class="{ 'accent': w.type === 'accent' }"
-                :style="{ transitionDelay: w.delay + 'ms' }"
-              >{{ w.text }} </span>
-            </span>
-          </h1>
+            <h1 :class="{ 'hero-quote': heroSlides[currentSlide].type === 'quote' }">
+              <span class="char-container">
+                <span
+                  v-for="(c, i) in currentChars"
+                  :key="i"
+                  class="char"
+                  :class="{
+                    'accent': c.type === 'accent',
+                    'char-space': c.text === ' '
+                  }"
+                  :style="{ animationDelay: c.delay + 'ms' }"
+                >{{ c.text }}</span>
+              </span>
+            </h1>
+          </div>
         </transition>
       </div>
       <button class="scroll-down" aria-label="Scroll down">
@@ -43,15 +48,9 @@
         <div class="about-text">
           <span class="eyebrow">About TELPP</span>
           <p>
-            PT Tanjungenim Lestari Pulp and Paper (TELPP) is a world class
-            manufacturer of high product quality and environmental friendly
-            <strong>market pulp mill.</strong> This was established on June
-            10, 1990, commenced construction in mid 1997 and the commercial
-            operation started on May, 2000. The mill is located in 1,090 ha
-            area in Niru Banuayu village, District Empat Petulai Dangku,
-            Muara Enim Regency, South Sumatra province, Indonesia.
+            PT Tanjungenim Lestari Pulp and Paper ( TELPP) is world class manufacturer of high product quality and environmental friendly market pulp mill. This was established on June 18, 1990, commenced construction in mid-1997 and the commercial operation started on May, 2000 . The mill is located in 1,250 ha area in the Banuayu village, District Empat Petulai Dangku, Muara Enim Regency, South Sumatra province, Indonesia.
           </p>
-          <button class="btn-light">Read More</button>
+          
         </div>
 
         <div class="about-media reveal reveal-right" data-delay="200">
@@ -71,21 +70,17 @@
       </div>
 
       <div class="community-grid">
-        <div class="community-card reveal reveal-up" data-delay="0">
+        <router-link to="/sustainability/csr/community" class="community-card reveal reveal-up" data-delay="0">
           <div class="icon-box icon-pink">
             <img src="/images/gedung.jpeg" alt="Education icon" />
           </div>
           <h3>Education</h3>
           <p>
-            Prepare a generation of quality sources from local internal
-            employees as well as from the village community around the
-            company of TELPP. We achieved this through collaboration with
-            schools of Sumatera Selatan, Local Foundation program and
-            social facilities &amp; infrastructure improvement.
+            Prepare a generation of quality sources from internal employees as well as from the village community around the company of Telpp. We achieved this through scholarships, traineeships, Development of Community Education, School foundation program and school facilities & infrastructure improvement.
           </p>
-        </div>
+        </router-link>
 
-        <div class="community-card reveal reveal-up" data-delay="150">
+        <router-link to="/sustainability/csr/community" class="community-card reveal reveal-up" data-delay="150">
           <div class="icon-box icon-green">
             <img src="/images/gedung.jpeg" alt="Infrastructure icon" />
           </div>
@@ -97,9 +92,9 @@
             in the village around the company PT Tanjungenim Lestari Pulp
             and Paper.
           </p>
-        </div>
+        </router-link>
 
-        <div class="community-card reveal reveal-up" data-delay="300">
+        <router-link to="/sustainability/csr/community" class="community-card reveal reveal-up" data-delay="300">
           <div class="icon-box icon-teal">
             <img src="/images/gedung.jpeg" alt="Local economy icon" />
           </div>
@@ -111,21 +106,21 @@
             independent and sustainable primarily around the company of PT
             Tanjungenim Lestari Pulp and Paper.
           </p>
-        </div>
+        </router-link>
 
-        <div class="community-card reveal reveal-up" data-delay="450">
+        <router-link to="/sustainability/csr/community" class="community-card reveal reveal-up" data-delay="450">
           <div class="icon-box icon-blue">
             <img src="/images/gedung.jpeg" alt="Health icon" />
           </div>
           <h3>Health &amp; Conservation</h3>
           <p>
             Increasing community awareness, changing the mindset of
-            stakeholders and the community in health development by
+            not stakeholders and the community in health development by
             increasing community empowerment efforts through quality
             appropriate service facilities and community movements in
             healthy living.
           </p>
-        </div>
+        </router-link>
       </div>
     </section>
 
@@ -136,14 +131,22 @@
       </div>
 
       <div class="sustainability-grid">
-        <div class="sustainability-item reveal reveal-up" data-delay="0">
-          <img src="/images/gedung.jpeg" alt="Community team photo" />
-        </div>
-        <div class="sustainability-item reveal reveal-up" data-delay="200">
-          <img src="/images/gedung.jpeg" alt="Plantation aerial view" />
-        </div>
-        <div class="sustainability-item reveal reveal-up" data-delay="400">
-          <img src="/images/gedung.jpeg" alt="Field monitoring" />
+        <div 
+          v-for="(item, index) in sustainabilityItems" 
+          :key="index" 
+          class="sustainability-item reveal reveal-up" 
+          :data-delay="index * 100"
+        >
+          <img :src="item.img" :alt="item.title" />
+          <div class="sustainability-overlay">
+            <div class="overlay-content">
+              <h3>{{ item.title }}</h3>
+              <span class="overlay-divider"></span>
+              <router-link :to="item.link" class="search-btn" :aria-label="'Search ' + item.title">
+                <span class="search-icon">🔍</span>
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -160,23 +163,52 @@
           <p class="product-sub">with Excellent Smoothness, Softness and Strength</p>
 
           <div class="accordion">
-            <button class="accordion-item">
-              Certified
-              <span class="accordion-icon">⌄</span>
-            </button>
-            <button class="accordion-item">
-              Compliance Management
-              <span class="accordion-icon">⌄</span>
-            </button>
-            <button class="accordion-item">
-              The Concept
-              <span class="accordion-icon">⌄</span>
-            </button>
+            <div class="accordion-group">
+              <button 
+                class="accordion-item" 
+                :class="{ 'accordion-item--active': activeAccordion === 'certified' }"
+                @click="toggleAccordion('certified')"
+              >
+                Certified
+                <span class="accordion-icon">{{ activeAccordion === 'certified' ? '⌃' : '⌄' }}</span>
+              </button>
+              <div v-if="activeAccordion === 'certified'" class="accordion-panel">
+                <img src="/images/hutan3.jpeg" alt="Certified Content" class="accordion-panel-img" />
+              </div>
+            </div>
+
+            <div class="accordion-group">
+              <button 
+                class="accordion-item" 
+                :class="{ 'accordion-item--active': activeAccordion === 'compliance' }"
+                @click="toggleAccordion('compliance')"
+              >
+                Compliance Management
+                <span class="accordion-icon">{{ activeAccordion === 'compliance' ? '⌃' : '⌄' }}</span>
+              </button>
+              <div v-if="activeAccordion === 'compliance'" class="accordion-panel">
+                <img src="/images/people3.jpeg" alt="Compliance Content" class="accordion-panel-img" />
+              </div>
+            </div>
+
+            <div class="accordion-group">
+              <button 
+                class="accordion-item" 
+                :class="{ 'accordion-item--active': activeAccordion === 'concept' }"
+                @click="toggleAccordion('concept')"
+              >
+                The Concept
+                <span class="accordion-icon">{{ activeAccordion === 'concept' ? '⌃' : '⌄' }}</span>
+              </button>
+              <div v-if="activeAccordion === 'concept'" class="accordion-panel">
+                <img src="/images/pulp.jpeg" alt="The Concept Content" class="accordion-panel-img" />
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="product-media reveal reveal-right" data-delay="200">
-          <img src="/images/gedung.jpeg" alt="Pellita pulp sheet texture" />
+          <img src="/images/kimia.jpeg" alt="Pellita pulp sheet texture" />
         </div>
       </div>
     </section>
@@ -238,12 +270,7 @@
       </div>
     </section>
 
-    <section class="speakup reveal reveal-up">
-      <span class="eyebrow eyebrow--light">Speak Up</span>
-      <button class="btn-outline-light">Tell Us Your Story</button>
-    </section>
-
-    <section class="offices reveal reveal-up">
+   <section class="offices reveal reveal-up">
       <div class="section-heading">
         <h2>Our Offices</h2>
         <span class="heading-underline"></span>
@@ -251,72 +278,71 @@
 
       <div class="offices-grid">
         <div class="office-item reveal reveal-up" data-delay="0">
-          <img src="/images/gedung.jpeg" alt="Headquarters building" />
-          <span class="office-label">Headquarters</span>
+          <img src="/images/jakarta.jpeg" alt="Jakarta Office" />
+          <h3 class="office-title">Jakarta</h3>
+          <p class="office-address">Menara Astra 22nd floor – Zona D, Jalan Jenderal Sudirman Kav. 5-6 Kel. Karet Tengsin, Kec. Tanah Abang</p>
+          <p class="office-phone">📞 +62 21 8665 6809 / 8665 6810</p>
         </div>
+        
         <div class="office-item reveal reveal-up" data-delay="150">
-          <img src="/images/gedung.jpeg" alt="Admin building" />
-          <span class="office-label">Admin Bldg</span>
+          <img src="/images/lokasi pabrik.jpeg" alt="Mill Site" />
+          <h3 class="office-title">Mill Site</h3>
+          <p class="office-address">Desa Banuayu, Kec. Empat Petulai Dangku, Kab. Muara Enim, Sumatera Selatan</p>
+          <p class="office-phone">📞 (62) (713) 324150 – 324160</p>
         </div>
+        
         <div class="office-item reveal reveal-up" data-delay="300">
-          <img src="/images/gedung.jpeg" alt="Tech hub" />
-          <span class="office-label">Tech Hub</span>
+          <img src="/images/palembang.jpeg" alt="Palembang Office" />
+          <h3 class="office-title">Palembang</h3>
+          <p class="office-address">Ruko Blok I/29, Komplek PTC Mall. Jl. R. Soekamto Palembang 30114, Sumatera Selatan</p>
+          <p class="office-phone">📞 (62) (711) 382409</p>
         </div>
+        
         <div class="office-item reveal reveal-up" data-delay="450">
-          <img src="/images/gedung.jpeg" alt="Executive suite" />
-          <span class="office-label">Executive Suite</span>
+          <img src="/images/tarahan.jpeg" alt="Tarahan Office" />
+          <h3 class="office-title">Tarahan</h3>
+          <p class="office-address">Jl. Soekarno Hatta Km. 14, Batu Serampok Kel. Srengsem Kec. Panjang, Bandar Lampung</p>
+          <p class="office-phone">📞 (62) (721) 342311, 31318</p>
         </div>
       </div>
     </section>
 
-    <footer class="footer reveal reveal-up">
-      <div class="footer-grid">
-        <div class="footer-col reveal reveal-up" data-delay="0">
-          <h4 class="footer-logo">TELPP</h4>
-          <p>
-            A leading global provider of high-quality, sustainable pulp
-            products, striving toward innovation from the heart of Indonesia.
-          </p>
-        </div>
+  
+<section class="company-brief-section">
+  <div class="brief-inner-wrapper">
+    
+    <div class="brief-left-content">
+      <p>
+        PT. Tanjungenim Lestari Pulp and Paper (PT. TEL), is one of the most exciting pulp mills in Indonesia today and the only pulp mill in the world to produce high-quality, bleached-hardwood Kraft pulp with 100 percent plantation grown Acacia mangium and Eucalyptus Pellita trees.
+      </p>
+    </div>
 
-        <div class="footer-col reveal reveal-up" data-delay="150">
-          <h5>Quick Links</h5>
-          <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Compliance</a></li>
-            <li><a href="#">Sitemap</a></li>
-            <li><a href="#">Environmental Report</a></li>
-          </ul>
-        </div>
+    <div class="brief-right-logos">
+      <div class="logo-row-item">
+        <img src="/images/smp.jpeg" alt="YPTEL - SMP Lematang Lestari" />
+      </div>
+      <div class="logo-row-item">
+        <img src="/images/sd.jpeg" alt="YPTEL - SD Lematang Lestari" />
+      </div>
+      <div class="logo-row-item">
+        <img src="/images/pgtk.jpeg" alt="YPTEL - PGTK LEMATANG LESTARI" />
+      </div>
+    </div>
 
-        <div class="footer-col reveal reveal-up" data-delay="300">
-          <h5>Our Commitment</h5>
-          <p>
-            Dedicated to excellence in every aspect, our operations are
-            gover by world-class standards for sustainability and
-            efficiency.
-          </p>
-        </div>
-
-        <div class="footer-col reveal reveal-up" data-delay="450">
-          <h5>Newsletter</h5>
-          <p>Stay updated with our latest news and initiatives.</p>
-          <form class="newsletter-form" @submit.prevent>
-            <input type="email" placeholder="Enter your email" />
-            <button type="submit" aria-label="Subscribe">→</button>
-          </form>
-        </div>
+  </div>
+</section>
+    <footer class="site-footer">
+  <div class="footer-container">
+    
+    <div class="footer-left-content">
       </div>
 
-      <div class="footer-bottom">
-        <div class="footer-arrows">
-          <button aria-label="Previous">‹</button>
-          <button aria-label="Next">›</button>
-        </div>
-        <p>© 2024 PT Tanjungenim Lestari Pulp and Paper. All Rights Reserved.</p>
-      </div>
-    </footer>
+    <div class="footer-copyright">
+      <p>&copy; 2024 PT Tanjungenim Lestari Pulp and Paper. All Rights Reserved.</p>
+    </div>
+
+  </div>
+</footer>
 
   </div>
 </template>
@@ -355,32 +381,78 @@ const heroSlides = [
   },
 ]
 
+
+const sustainabilityItems = [
+  {
+    img: '/images/penyerahan.jpeg',
+    title: 'Local Community Development',
+    link: '/sustainability/csr/community' // Diperbaiki agar sesuai dengan rute router index.js Anda
+  },
+  {
+    img: '/images/people1.jpeg',
+    title: 'People Development', 
+    link: '/sustainability/people-development' 
+  },
+  {
+    img: '/images/gaming.jpeg',
+    title: 'Pulp Process',
+    link: '/sustainability/pulp-process' 
+  },
+  {
+    img: '/images/people2.jpeg',
+    title: 'Supply Chain Management',
+    link: '/sustainability/supply-chain' 
+  },
+  {
+    img: '/images/people3.jpeg',
+    title: 'Safety & Health Office',
+    link: '/sustainability/safety-health' 
+  },
+  {
+    img: '/images/hutan3.jpeg',
+    title: 'Forest Management',
+    link: '/sustainability/forest-management'
+  }
+]
+
 const currentSlide = ref(0)
 let interval = null
 
-const currentWords = computed(() => {
+// Menentukan akordeon mana yang aktif (terbuka secara bawaan adalah 'certified')
+const activeAccordion = ref('certified')
+
+// Fungsi untuk membuka dan menutup panel gambar akordeon
+function toggleAccordion(panelName) {
+  if (activeAccordion.value === panelName) {
+    activeAccordion.value = null // Menutup jika panel yang sama diklik ulang
+  } else {
+    activeAccordion.value = panelName // Membuka panel baru
+  }
+}
+
+// Per-character animation — setiap huruf muncul satu per satu
+const currentChars = computed(() => {
   const slide = heroSlides[currentSlide.value]
-  const title = (slide.title || '').trim()
+  const title = (slide.title || '')
   const accent = (slide.accent || '').trim()
-  const words = []
-  if (title) {
-    title.split(/\s+/).forEach((w, i) => {
-      words.push({ text: w, delay: i * 100, type: 'title' })
-    })
+  const chars = []
+  let animIdx = 0
+
+  for (const ch of title) {
+    chars.push({ text: ch, delay: animIdx * 45, type: 'title' })
+    if (ch !== ' ') animIdx++
   }
-  if (accent) {
-    const offset = words.length
-    accent.split(/\s+/).forEach((w, i) => {
-      words.push({ text: w, delay: (offset + i) * 100, type: 'accent' })
-    })
+  for (const ch of accent) {
+    chars.push({ text: ch, delay: animIdx * 45, type: 'accent' })
+    if (ch !== ' ') animIdx++
   }
-  return words
+  return chars
 })
 
 onMounted(() => {
   interval = setInterval(() => {
     currentSlide.value = (currentSlide.value + 1) % heroSlides.length
-  }, 4000)
+  }, 5500)
   initScrollReveal()
 })
 
@@ -438,7 +510,7 @@ function initScrollReveal() {
   display: inline-block;
 }
 
-/* ============ HERO (DI-PERBAIKI AGAR DI TENGAH) ============ */
+/* ============ HERO ============ */
 .hero {
   position: relative;
   width: 100%;
@@ -456,18 +528,24 @@ function initScrollReveal() {
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transform: scale(1.15);
+  transform: scale(1.45);
   transition: opacity 1.2s ease-in-out;
 }
 
 .hero-bg--active {
   opacity: 1;
-  animation: heroZoom 8s ease-in-out infinite alternate;
+  animation: heroZoom 7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg--active {
+    animation: none;
+  }
 }
 
 @keyframes heroZoom {
-  from { transform: scale(1.15); }
-  to   { transform: scale(1); }
+  from { transform: scale(1.45); }
+  to   { transform: scale(1.0); }
 }
 
 .hero-overlay {
@@ -479,57 +557,76 @@ function initScrollReveal() {
 .hero-content {
   position: relative;
   z-index: 2;
-  text-align: center; /* Mengubah teks judul menjadi rata tengah */
+  text-align: center;
   color: #ffffff;
   padding: 0 60px;
   width: 100%;
   max-width: 950px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Memaksa sub-judul dan garis pembatas ikut ke tengah */
+  align-items: center;
 }
 
+/* Wrapper flex column agar hero-sub dan h1 ditumpuk vertikal di tengah */
+.hero-title-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+/* "Fun Walk" / "PT TEL" / "Pulp and Paper" — tepat di atas judul besar */
 .hero-sub {
-  display: block;
+  display: inline-block;
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.75);
-  margin-bottom: 15px;
+  margin-bottom: 14px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-  width: fit-content;
+  text-align: center;
 }
 
-.hero-content h1 {
+.hero-title-block h1 {
   font-size: 52px;
   font-weight: 700;
   margin: 0;
   line-height: 1.15;
   width: 100%;
+  text-align: center;
 }
 
-.word-container {
+/* ---- Animasi per huruf ---- */
+.char-container {
   display: inline;
 }
 
-.word {
+.char {
   display: inline-block;
   opacity: 0;
-  transform: translateY(20px);
-  animation: wordIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  transform: translateY(30px) scaleY(0.8);
+  animation: charIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@keyframes wordIn {
+.char-space {
+  width: 0.28em;
+  transform: none;
+  animation: none;
+  opacity: 1;
+}
+
+.char.accent {
+  color: #8FD14F;
+}
+
+@keyframes charIn {
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scaleY(1);
   }
-}
-
-.word.accent {
-  color: #8FD14F;
 }
 
 .hero-quote {
@@ -542,7 +639,7 @@ function initScrollReveal() {
   width: 100%;
 }
 
-/* ---- Fade + slide transition ---- */
+/* ---- Fade transition antar slide ---- */
 .fade-title-enter-active {
   transition: opacity 0.3s ease;
 }
@@ -703,10 +800,15 @@ function initScrollReveal() {
   margin: 0 auto;
 }
 
+/* CSS perbaikan agar router-link bertingkah laku seperti div biasa tanpa merusak style teks */
 .community-card {
   background: #ffffff;
   padding: 32px;
   border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
 }
 
 .icon-box {
@@ -724,7 +826,7 @@ function initScrollReveal() {
   height: 20px;
 }
 
-.icon-pink  { background: #fde6ea; }
+.icon-pink   { background: #fde6ea; }
 .icon-green { background: #e3f3e1; }
 .icon-teal  { background: #e0f5f1; }
 .icon-blue  { background: #e3edfb; }
@@ -744,23 +846,93 @@ function initScrollReveal() {
 
 /* ============ SUSTAINABILITY ============ */
 .sustainability {
-  background: #1f6e2e;
+  background: #14532d;
   padding: 70px 60px;
 }
 
 .sustainability-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  max-width: 1000px;
+  gap: 16px;
+  max-width: 1100px;
   margin: 0 auto;
+}
+
+.sustainability-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  height: 200px;
 }
 
 .sustainability-item img {
   width: 100%;
-  height: 160px;
+  height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s ease;
+}
+
+.sustainability-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(95, 158, 66, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.overlay-content {
+  text-align: center;
+  color: #ffffff;
+  padding: 16px;
+  transform: translateY(15px);
+  transition: transform 0.35s ease;
+}
+
+.overlay-content h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+
+.overlay-divider {
+  display: block;
+  width: 35px;
+  height: 2px;
+  background: #ffffff;
+  margin: 0 auto 12px;
+}
+
+.search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 20px;
+  transition: transform 0.2s ease;
+}
+
+.sustainability-item:hover .sustainability-overlay {
+  opacity: 1;
+}
+
+.sustainability-item:hover .overlay-content {
+  transform: translateY(0);
+}
+
+.sustainability-item:hover img {
+  transform: scale(1.05);
+}
+
+.search-btn:hover {
+  transform: scale(1.2);
 }
 
 /* ============ PRODUCT ============ */
@@ -798,6 +970,12 @@ function initScrollReveal() {
   gap: 1px;
 }
 
+.accordion-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .accordion-item {
   display: flex;
   align-items: center;
@@ -811,10 +989,40 @@ function initScrollReveal() {
   color: #333333;
   cursor: pointer;
   text-align: left;
+  width: 100%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Gaya khusus ketika baris akordeon terbuka (Header Gelap Teks Putih) */
+.accordion-item--active {
+  background: #1e293b !important;
+  color: #ffffff !important;
 }
 
 .accordion-icon {
   color: #999999;
+}
+
+.accordion-item--active .accordion-icon {
+  color: #ffffff;
+}
+
+/* Panel penampung gambar di bawah menu akordeon */
+.accordion-panel {
+  padding: 10px 0;
+  background: #ffffff;
+  border-left: 1px solid #e6e6e6;
+  border-right: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  justify-content: center;
+}
+
+.accordion-panel-img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  display: block;
 }
 
 .product-media img {
@@ -929,9 +1137,69 @@ function initScrollReveal() {
 }
 
 /* ============ OFFICES ============ */
+/* ============ OFFICES (UPDATED) ============ */
 .offices {
   padding: 80px 60px;
   background: #ffffff;
+}
+
+.offices-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.office-item {
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Aligns content to the left as seen in the reference image */
+}
+
+.office-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.office-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a4f8b; /* Deep blue heading color matching the image */
+  text-transform: uppercase;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+}
+
+.office-address {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #777777;
+  margin: 0 0 10px 0;
+  flex-grow: 1; /* Ensures buttons/phones line up if text heights vary */
+}
+
+.office-phone {
+  font-size: 12px;
+  color: #666666;
+  margin: 0;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .offices-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .offices-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .offices-grid {
@@ -969,58 +1237,61 @@ function initScrollReveal() {
 }
 
 /* ============ FOOTER ============ */
-.footer {
-  background: #14532d;
-  color: #d9e6da;
-  padding: 60px 60px 24px;
+/* ============ FOOTER COPYRIGHT STYLE ============ */
+.site-footer {
+  width: 100%;
+  /* Warna hijau tua disesuaikan dengan identitas PT TEL pada gambar */
+  background-color: #1b5e34; 
+  padding: 25px 0; /* Memberikan ruang tinggi baris yang pas */
+  margin-top: 40px; /* Jarak pemisah dari konten di atasnya */
 }
 
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.footer-logo {
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 800;
-  margin: 0 0 16px;
-}
-
-.footer-col h5 {
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin: 0 0 16px;
-}
-
-.footer-col p {
-  font-size: 12px;
-  line-height: 1.8;
-  color: #b9ccba;
-  margin: 0;
-}
-
-.footer-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.footer-container {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Memisahkan konten kiri dan teks kanan */
+  max-width: 1140px; /* Menyelaraskan lebar dengan konten atas website */
+  margin: 0 auto;
+  padding: 0 40px; /* Jarak aman agar teks tidak terlalu menempel ke pinggir layar */
+}
+
+/* Kolom Kiri Footer */
+.footer-left-content {
+  display: flex;
   gap: 10px;
 }
 
-.footer-col ul a {
-  font-size: 12px;
-  color: #b9ccba;
-  text-decoration: none;
+/* Kolom Kanan Footer (Teks Copyright) */
+.footer-copyright {
+  text-align: right; /* Memastikan teks berjejer rapi mentok ke kanan */
 }
 
+.footer-copyright p {
+  font-family: Arial, sans-serif;
+  font-size: 13px; /* Ukuran teks kecil, tipis, dan normal untuk footer */
+  color: #ffffff;  /* Warna teks putih bersih agar kontras dengan background hijau */
+  margin: 0;
+  font-weight: normal;
+  letter-spacing: 0.3px;
+}
+
+/* Responsif untuk Layar Handphone (Mobile) */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 20px;
+  }
+  
+  .footer-copyright {
+    text-align: center; /* Di HP otomatis pindah ke tengah bawah agar rapi */
+    width: 100%;
+  }
+  
+  .footer-copyright p {
+    font-size: 12px; /* Ukuran sedikit disesuaikan untuk layar kecil */
+  }
+}
 .newsletter-form {
   display: flex;
   margin-top: 16px;
@@ -1076,6 +1347,259 @@ function initScrollReveal() {
   font-size: 11px;
   color: #9fb8a1;
   margin: 0;
+}
+
+/* ============ COMPANY BRIEF & LOGOS ============ */
+/* ============ PENYELARASAN LOGO DAN TEKS ============ */
+.company-brief-section {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 50px 0;
+}
+
+.brief-inner-wrapper {
+  display: flex;
+  align-items: center;      /* Membuat teks dan logo sejajar tengah secara vertikal */
+  justify-content: center;   /* Membuat konten berkumpul rapi di tengah halaman */
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 40px;
+  gap: 60px;                 /* Jarak ideal antara teks di kiri dan logo di kanan (tidak terlalu jauh) */
+}
+
+/* Kolom Teks Kiri - Dikunci Lebarnya */
+.brief-left-content {
+  width: 520px;              /* Mengunci lebar teks agar pas sesuai bentuk paragraf */
+  flex-shrink: 0;
+}
+
+.brief-left-content p {
+  font-family: Arial, sans-serif;
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: #7c7c7c;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Kolom Logo Kanan - Dikunci Lebarnya */
+.brief-right-logos {
+  width: 320px;              /* Mengunci area lebar logo sekolah agar tidak lari ke kanan */
+  display: flex;
+  flex-direction: column;
+  gap: 14px;                 /* Jarak vertikal antar logo sekolah agar rapat & rapi */
+  flex-shrink: 0;
+}
+
+.logo-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Membuat logo berjejer rapi lurus ke bawah */
+  width: 100%;
+}
+
+/* KUNCI UTAMA: Memaksa Gambar 1, 2, 3 SINKRON & SAMA RATA */
+.logo-row-item img {
+  height: 46px;              /* Tinggi dikunci rata 46px agar ukuran logo 1, 2, 3 sama besar */
+  width: 280px;              /* Lebar dikunci pasti 280px agar panjang teks sekolahnya sinkron */
+  display: block;
+  object-fit: contain;       /* Mencegah gambar menjadi gepeng akibat dipaksa ukuran di atas */
+  object-position: left center; /* Memaksa isi logo merapat lurus dari sebelah kiri */
+}
+
+/* Responsif untuk Layar Handphone (Otomatis Rata Tengah) */
+@media (max-width: 900px) {
+  .brief-inner-wrapper {
+    flex-direction: column;
+    gap: 35px;
+    padding: 0 20px;
+  }
+  
+  .brief-left-content, 
+  .brief-right-logos {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .brief-left-content p {
+    text-align: center;
+  }
+  
+  .logo-row-item {
+    justify-content: center;
+  }
+  
+  .logo-row-item img {
+    height: 40px;
+    width: auto;
+    max-width: 260px;
+    object-position: center;
+  }
+}
+
+
+
+
+
+
+/* Responsif untuk Layar Smartphone / Kecil */
+@media (max-width: 768px) {
+  .brief-left-content, 
+  .brief-right-logos {
+    display: block;
+    width: 100%;
+    padding-right: 0;
+  }
+  
+  .brief-left-content {
+    margin-bottom: 30px;
+  }
+  
+  .brief-left-content p {
+    text-align: center;
+  }
+  
+  .logo-row-item img {
+    height: 32px; /* Sedikit lebih kecil jika dibuka di HP */
+    margin: 0 auto; /* Membuat logo otomatis rata tengah di layar HP */
+  }
+}
+
+
+/* Penyesuaian untuk layar tablet dan mobile */
+@media (max-width: 900px) {
+  .brief-container {
+    flex-direction: column;
+    padding: 0 24px;
+    gap: 40px;
+  }
+  
+  .brief-text, .brief-logos {
+    flex: 0 0 100%;
+    padding-right: 0;
+  }
+  
+  .brief-text p {
+    text-align: center;
+  }
+
+  .logo-row {
+    justify-content: center;
+  }
+  
+  .logo-row img {
+    height: 46px; /* Sedikit disesuaikan untuk mobile */
+  }
+}
+
+.brief-container {
+  display: table;
+  width: 100%;
+  max-width: 960px; /* Membatasi lebar total agar tidak terlalu melar ke samping */
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.brief-text {
+  display: table-cell;
+  width: 55%; /* Teks mengambil porsi sedikit lebih besar */
+  vertical-align: middle;
+  padding-right: 40px;
+}
+
+.brief-text p {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: #8c8c8c; /* Warna abu-abu soft */
+  margin: 0;
+  text-align: justify;
+}
+
+.brief-logos {
+  display: table-cell;
+  width: 45%;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.logo-row {
+  margin-bottom: 12px; /* Jarak antar baris logo */
+}
+
+.logo-row:last-child {
+  margin-bottom: 0;
+}
+
+.logo-row img {
+  height: 38px; /* Mengunci tinggi gambar agar pas dan tidak kebesaran */
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Responsif untuk Handphone / Layar Kecil */
+@media (max-width: 768px) {
+  .brief-text, .brief-logos {
+    display: block;
+    width: 100%;
+    padding-right: 0;
+  }
+  
+  .brief-logos {
+    margin-top: 30px;
+  }
+  
+  .logo-row img {
+    height: 34px; /* Sedikit lebih kecil di mobile */
+    margin: 0 auto 12px auto;
+  }
+  
+  .brief-text p {
+    text-align: center;
+  }
+}
+
+.brief-container {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* Membagi kolom teks sedikit lebih lebar dari kolom logo */
+  gap: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.brief-text p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #777777; /* Warna abu-abu soft sesuai gambar */
+  margin: 0;
+}
+
+.brief-logos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Jarak vertikal antar 3 logo */
+}
+
+.logo-item img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Penyesuaian Responsif untuk perangkat Mobile */
+@media (max-width: 900px) {
+  .brief-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  
+  .brief-logos {
+    align-items: center;
+  }
 }
 
 /* ============ SCROLL REVEAL ============ */
@@ -1137,7 +1661,7 @@ function initScrollReveal() {
     padding: 0 24px;
   }
 
-  .hero-content h1 {
+  .hero-title-block h1 {
     font-size: 36px;
   }
 

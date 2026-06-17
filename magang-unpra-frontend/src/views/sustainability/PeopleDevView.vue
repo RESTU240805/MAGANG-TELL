@@ -2,7 +2,7 @@
 
   <!-- ── HERO ── -->
   <section class="relative h-[420px] flex items-end bg-cover bg-center overflow-hidden"
-    style="background-image: url('/people/people development.png')">
+    style="background-image: url('/images/people3.jpeg')">
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
 
     <div class="absolute top-10 left-10 flex items-center gap-2 opacity-0 anim-fade-right" style="animation-delay: 0.1s">
@@ -32,15 +32,15 @@
     <div class="max-w-5xl mx-auto px-10">
       <div class="grid grid-cols-3 gap-3 h-64 rounded-2xl overflow-hidden">
         <div class="col-span-1 overflow-hidden anim-item">
-          <img src="/people/1.png"
+          <img src="/images/Training-First-Aid.jpg"
             alt="Training" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"/>
         </div>
         <div class="col-span-1 overflow-hidden anim-item" style="animation-delay: 0.1s">
-          <img src="/people/2.png"
+          <img src="/images/Management-Safety-Patrol.jpg"
             alt="Workshop" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"/>
         </div>
         <div class="col-span-1 overflow-hidden anim-item" style="animation-delay: 0.2s">
-          <img src="/people/3.png"
+          <img src="/images/Industrial-Hygiene.jpg"
             alt="Team" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"/>
         </div>
       </div>
@@ -214,11 +214,11 @@ const commitments = [
 ]
 
 const slides = [
-  { url: '/people/1.png', caption: 'First Aid Training Session' },
-  { url: '/people/2.png', caption: 'Safety Patrol Management' },
-  { url: '/people/3.png', caption: 'Team Safety Workshop' },
-  { url: '/people/4.png', caption: 'Industrial Hygiene Program' },
-  { url: '/people/6.png', caption: 'People Development Initiative' },
+  { url: '/images/Training-First-Aid.jpg', caption: 'First Aid Training Session' },
+  { url: '/images/Management-Safety-Patrol.jpg', caption: 'Safety Patrol Management' },
+  { url: '/images/Industrial-Hygiene.jpg', caption: 'Team Safety Workshop' },
+  { url: '/images/people1.jpeg', caption: 'Industrial Hygiene Program' },
+  { url: '/images/people2.jpeg', caption: 'People Development Initiative' },
 ]
 
 const next = () => { activeSlide.value = (activeSlide.value + 1) % slides.length }

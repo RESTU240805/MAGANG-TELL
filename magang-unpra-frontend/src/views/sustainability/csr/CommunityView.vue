@@ -97,7 +97,7 @@
           </div>
         </div>
         <div class="target-right">
-          <img src="/images/accsia.jpg" alt="CSR Activity"
+          <img src="/images/csr-economy-1.jpeg" alt="CSR Activity"
             :class="{'img-reveal': targetVisible}"
             class="target-img"
             @error="(e) => e.target.src='https://placehold.co/400x500/dcfce7/16a34a?text=CSR'" />
@@ -121,7 +121,7 @@
         <!-- Tab Nav -->
         <div class="tab-nav">
           <button v-for="(tab, i) in tabs" :key="i"
-            @click="activeTab = i"
+            @click="selectTab(i)"
             :class="['tab-btn', { active: activeTab === i }]">
             <span class="tab-icon" v-html="tab.icon"></span>
             {{ tab.label }}
@@ -133,9 +133,19 @@
           <div class="tab-content" :key="activeTab">
             <div class="tab-left">
               <div class="tab-image-wrap">
-                <img :src="tabs[activeTab].image" :alt="tabs[activeTab].label"
+                <img :src="tabs[activeTab].images[activeImage]" :alt="tabs[activeTab].label"
                   class="tab-image"
                   @error="(e) => e.target.src='https://placehold.co/500x380/dcfce7/16a34a?text='+tabs[activeTab].label" />
+              </div>
+
+              <!-- Thumbnail gallery, only shown when a tab has more than one photo -->
+              <div class="tab-thumbs" v-if="tabs[activeTab].images.length > 1">
+                <button v-for="(img, gi) in tabs[activeTab].images" :key="gi"
+                  class="tab-thumb-btn"
+                  :class="{ 'tab-thumb-btn--active': activeImage === gi }"
+                  @click="activeImage = gi">
+                  <img :src="img" :alt="`${tabs[activeTab].label} ${gi + 1}`" />
+                </button>
               </div>
             </div>
             <div class="tab-right">
@@ -156,23 +166,20 @@
     </section>
 
     <!-- ─── CTA ───────────────────────────────────────────────── -->
-    <section class="section-cta" ref="ctaRef" :class="{'reveal-in': ctaVisible}">
-      <div class="cta-bg"></div>
-      <div class="container cta-inner">
-        <div class="cta-text">
-          <h2>Want to collaborate or need more information?</h2>
-          <p>Our CSR team is ready to help plan community development programs that are currently underway.</p>
-        </div>
-        <RouterLink to="/contact" class="cta-btn">
-          Contact CSR Team
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </RouterLink>
+    <template>
+  <div class="community-page">
+
+    <footer class="final-footer">
+      <div class="footer-container">
+        <p>Copyright 2019 PT TELPP. All right reserved.</p>
       </div>
-    </section>
+    </footer>
 
   </div>
+</template>
+
+  </div>
+  
 </template>
 
 <script setup>
@@ -180,6 +187,12 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const activeTab = ref(0)
+const activeImage = ref(0)
+
+function selectTab(i) {
+  activeTab.value = i
+  activeImage.value = 0
+}
 
 // ─── Scroll reveal refs ──────────────────────────────────────
 const lcdRef    = ref(null)
@@ -243,6 +256,10 @@ const targetIcons = [
 
 const tabIconSvg = (d) => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="${d}" stroke-linecap="round" stroke-linejoin="round"/></svg>`
 
+// Each tab now carries an `images` array (the real CSR documentation
+// photos) instead of a single placeholder `image`. The first photo in
+// the array is shown by default; the gallery thumbnails below let the
+// visitor browse the rest.
 const tabs = [
   {
     label: 'Education',
@@ -250,7 +267,10 @@ const tabs = [
     title: 'Education',
     desc: 'Prepare a generation of quality sources from internal employees as well as from the village community around the company. We achieve this through scholarships, traineeships, Community Education Development, school foundation programs and school infrastructure improvements.',
     quote: '"We do not just provide scholarships, we build a generation ready to compete globally."',
-    image: '/images/accsia.jpg',
+    images: [
+      '/images/csr-education-1.jpg.jpeg',
+      '/images/csr-education-2.jpg.jpeg',
+    ],
   },
   {
     label: 'Local Economy Development',
@@ -258,7 +278,10 @@ const tabs = [
     title: 'Local Economy Development',
     desc: 'Growing and strengthening community businesses with short, medium, and long-term impact to be able to compete competitively in the business world in order to achieve equitable and sustainable community welfare around the company.',
     quote: '"We do not just provide assistance, we build economic independence through intensive mentoring for local SMEs."',
-    image: '/images/hutan.jpg',
+    images: [
+      '/images/csr-economy-1.jpeg',
+      '/images/csr-economy-2.jpg.jpeg',
+    ],
   },
   {
     label: 'Healthy',
@@ -266,7 +289,13 @@ const tabs = [
     title: 'Healthy',
     desc: 'Improving the health status of communities around the company through sustainable preventive, curative, and promotive health programs to create a healthy and productive society.',
     quote: '"Community health is a long-term investment that we prioritize together."',
-    image: '/images/Industrial-Hygiene.jpg',
+    images: [
+      '/images/csr-healthy-1.png',
+      '/images/csr-healthy-2.png',
+      '/images/csr-healthy-3.png',
+      '/images/csr-healthy-4.png',
+      '/images/csr-healthy-5.png',
+    ],
   },
   {
     label: 'Infrastructure & Social',
@@ -274,7 +303,12 @@ const tabs = [
     title: 'Infrastructure & Social Community',
     desc: 'Building and strengthening social infrastructure and public facilities that support the lives of communities around the company, including the construction of places of worship, sports facilities, and other public facilities.',
     quote: '"Strong infrastructure is the foundation of a prosperous and harmonious community."',
-    image: '/images/Fire-Station-in-the-Night.jpg',
+    images: [
+      '/images/csr-social-1.png',
+      '/images/csr-social-2.png',
+      '/images/csr-social-3.png',
+      '/images/csr-social-4.png',
+    ],
   },
 ]
 </script>
@@ -457,6 +491,31 @@ const tabs = [
 }
 .tab-image-wrap:hover .tab-image { transform: scale(1.03); }
 
+/* ── Thumbnail gallery strip under the main tab image ───────── */
+.tab-thumbs {
+  display: flex; gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.tab-thumb-btn {
+  width: 64px; height: 48px;
+  border-radius: 8px; overflow: hidden;
+  border: 2px solid transparent;
+  padding: 0; cursor: pointer;
+  background: none; flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.tab-thumb-btn img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.tab-thumb-btn:hover { opacity: 1; transform: translateY(-2px); }
+.tab-thumb-btn--active {
+  opacity: 1;
+  border-color: #16a34a;
+}
+
 .tab-right { }
 .tab-title { font-size: 1.4rem; font-weight: 900; color: #16a34a; margin: 0 0 8px; }
 .tab-divider { width: 36px; height: 3px; background: #16a34a; border-radius: 2px; margin-bottom: 16px; }
@@ -478,7 +537,7 @@ const tabs = [
 }
 .cta-bg {
   position: absolute; inset: 0;
-  background: url('/images/hutan.jpg') center/cover no-repeat;
+  background: url('/images/csr-economy-2.jpg.jpeg') center/cover no-repeat;
   background-color: #111827;
   filter: brightness(0.25);
 }
@@ -641,17 +700,25 @@ const tabs = [
 }
 
 /* ── CTA button shimmer ──────────────────────────────────────── */
-.cta-btn {
-  position: relative; overflow: hidden;
+/* ─── Footer Akhir ─────────────────────────────────────────── */
+.final-footer {
+  background-color: #4caf50; /* Warna hijau solid seperti contoh */
+  padding: 40px 0;
+  text-align: center;
+  width: 100%;
+  margin-top: 60px; /* Jarak dari konten di atasnya */
 }
-.cta-btn::before {
-  content: '';
-  position: absolute; top: 0; left: -100%;
-  width: 60%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-  transition: left 0.5s ease;
+.footer-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 32px;
 }
-.cta-btn:hover::before { left: 150%; }
+.final-footer p {
+  color: #ffffff;
+  font-size: 0.9rem;
+  margin: 0;
+  font-weight: 400;
+}
 
 /* ── Tab image zoom on change ────────────────────────────────── */
 .tab-image-wrap {

@@ -4,8 +4,6 @@ import (
 	"log"
 	"magang-unpra-backend/config"
 	"magang-unpra-backend/models"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 func SeedAdmin() {
@@ -15,11 +13,10 @@ func SeedAdmin() {
 		return
 	}
 
-	hash, _ := bcrypt.GenerateFromPassword([]byte("admin123"), bcrypt.DefaultCost)
 	admin := models.User{
 		Name:     "Administrator",
 		Email:    "admin@telpp.com",
-		Password: string(hash),
+		Password: "admin123",
 		Role:     "admin",
 	}
 

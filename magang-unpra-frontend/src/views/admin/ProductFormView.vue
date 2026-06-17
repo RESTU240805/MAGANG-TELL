@@ -224,7 +224,7 @@ const handleDrop = async (e) => {
 }
 
 const uploadFiles = async (files) => {
-  if (files.length === 0) return
+  if (files.length === 0) {return}
   uploading.value = true
   error.value = ''
 
@@ -243,14 +243,14 @@ const uploadFiles = async (files) => {
       })
 
       imageList.value.push({ url: res.data.url })
-    } catch (err) {
+    } catch (_err) {
       error.value = `Gagal upload ${file.name}`
     }
   }
 
   uploading.value = false
   // Reset input
-  if (fileInput.value) fileInput.value.value = ''
+  if (fileInput.value) {fileInput.value.value = ''}
 }
 
 const removeImage = (index) => {
@@ -278,7 +278,7 @@ const handleSubmit = async () => {
       await api.post('/admin/products', payload)
     }
     router.push('/admin/products')
-  } catch (err) {
+  } catch (_err) {
     error.value = 'Gagal menyimpan produk. Coba lagi.'
   } finally {
     loading.value = false

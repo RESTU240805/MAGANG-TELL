@@ -205,17 +205,14 @@
     </div>
   </section>
 
-  <!-- ── CTA ── -->
-  <section class="py-16 bg-green-700 anim-item">
-    <div class="max-w-5xl mx-auto px-10 text-center">
-      <h2 class="text-3xl font-black text-white mb-3">
-        Safety is Everyone's Responsibility
-      </h2>
-      <p class="text-green-200 text-sm mb-8 max-w-lg mx-auto">
-        TEL is committed to maintaining zero accidents through continuous training, strict compliance, and a strong safety culture.
-      </p>
-    </div>
-  </section>
+  <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-left-content"></div>
+        <div class="footer-copyright">
+          <p>Copyright 2026 PT TELPP. All right reserved.</p>
+        </div>
+      </div>
+    </footer>
 
 </template>
 
@@ -280,7 +277,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  if (observer) observer.disconnect()
+  if (observer) {observer.disconnect()}
   stopImgTimer()
 })
 
@@ -330,4 +327,42 @@ const initObserver = () => {
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .anim-slide-left.anim-visible { opacity: 1; transform: translateX(0); }
+
+/* ============ FOOTER ============ */
+.site-footer {
+  width: 100%;
+  /* Warna hijau tua disesuaikan dengan identitas PT TEL pada gambar */
+  background-color: #5F9E42; 
+  padding: 25px 0; /* Memberikan ruang tinggi baris yang pas */
+  margin-top: 40px; /* Jarak pemisah dari konten di atasnya */
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* DIUBAH: Membuat konten berkumpul di tengah */
+  max-width: 1140px; /* Menyelaraskan lebar dengan konten atas website */
+  margin: 0 auto;
+  padding: 0 40px; /* Jarak aman agar teks tidak terlalu menempel ke pinggir layar */
+}
+
+/* Kolom Kiri Footer */
+.footer-left-content {
+  display: none; /* DIUBAH: Disembunyikan karena kosong, agar tidak memakan space */
+}
+
+/* Kolom Kanan Footer (Teks Copyright) */
+.footer-copyright {
+  text-align: center; /* DIUBAH: Memastikan teks rata tengah */
+  width: 100%; /* Memastikan block mengambil ruang penuh untuk fungsi centering */
+}
+
+.footer-copyright p {
+  font-family: Arial, sans-serif;
+  font-size: 13px; /* Ukuran teks kecil, tipis, dan normal untuk footer */
+  color: #ffffff;  /* Warna teks putih bersih agar kontras dengan background hijau */
+  margin: 0;
+  font-weight: normal;
+  letter-spacing: 0.3px;
+}
 </style>

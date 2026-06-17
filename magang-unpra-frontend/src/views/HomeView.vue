@@ -216,57 +216,30 @@
     <section class="news reveal reveal-up">
       <div class="news-header">
         <h2>Latest news</h2>
-        <a href="/news" class="view-all">More All News <span class="arrow">→</span></a>
+        <RouterLink to="/news" class="view-all">More All News <span class="arrow">→</span></RouterLink>
       </div>
 
       <div class="news-grid">
-        <article class="news-card reveal reveal-up" data-delay="0">
-          <img src="/images/gedung.jpeg" alt="News thumbnail" class="news-thumb" />
+        <article v-for="(item, i) in latestNews" :key="item.id"
+          class="news-card reveal reveal-up" :data-delay="i * 150">
+          <RouterLink :to="`/news/${item.id}`" class="block">
+            <img :src="getImageUrl(item.image)" :alt="item.title" class="news-thumb" />
+          </RouterLink>
           <div class="news-body">
             <span class="news-meta">
-              <span class="news-author">A. Admin</span>
-              <span class="news-date">Oct 11, 2022</span>
+              <span class="news-author">{{ item.author }}</span>
+              <span class="news-date">{{ formatDate(item.date) }}</span>
             </span>
-            <h3>PT Tels Participation on the National Transportation Day Held in Bandung and Mandi...</h3>
-            <p>The company decided also to commitment to environmental sustainability through achiev...</p>
+            <RouterLink :to="`/news/${item.id}`">
+              <h3 class="hover:text-green-600 transition-colors cursor-pointer">{{ item.title }}</h3>
+            </RouterLink>
+            <p>{{ item.excerpt }}</p>
           </div>
         </article>
 
-        <article class="news-card reveal reveal-up" data-delay="150">
-          <img src="/images/gedung.jpeg" alt="News thumbnail" class="news-thumb" />
-          <div class="news-body">
-            <span class="news-meta">
-              <span class="news-author">A. Admin</span>
-              <span class="news-date">Sep 16, 2022</span>
-            </span>
-            <h3>Karangsari Hospital Names ISPRO Physician Survival for PT. TEL</h3>
-            <p>Regions of inactive on inspection of the facilities, operations and compliance...</p>
-          </div>
-        </article>
-
-        <article class="news-card reveal reveal-up" data-delay="300">
-          <img src="/images/gedung.jpeg" alt="News thumbnail" class="news-thumb" />
-          <div class="news-body">
-            <span class="news-meta">
-              <span class="news-author">A. Admin</span>
-              <span class="news-date">Sep 15, 2022</span>
-            </span>
-            <h3>PT TEL gives appreciation and award to employees who have and are approved org...</h3>
-            <p>The company hosted a ceremony to honor the dedicated service of its long-term employees...</p>
-          </div>
-        </article>
-
-        <article class="news-card reveal reveal-up" data-delay="450">
-          <img src="/images/gedung.jpeg" alt="News thumbnail" class="news-thumb" />
-          <div class="news-body">
-            <span class="news-meta">
-              <span class="news-author">A. Admin</span>
-              <span class="news-date">Sep 15, 2022</span>
-            </span>
-            <h3>Telprich and PLTBG OPENS NEW THP THERESONG OUT QUALITY EQUIPMENT</h3>
-            <p>The annual sports for management concluded with thriving that match outstanding team spirit and...</p>
-          </div>
-        </article>
+        <div v-if="latestNews.length === 0" class="col-span-2 text-center text-gray-400 py-10">
+          Loading news...
+        </div>
       </div>
     </section>
 
@@ -336,10 +309,14 @@
     
     <div class="footer-left-content">
       </div>
-
-    <div class="footer-copyright">
-      <p>&copy; 2024 PT Tanjungenim Lestari Pulp and Paper. All Rights Reserved.</p>
-    </div>
+<footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-left-content"></div>
+        <div class="footer-copyright">
+          <p>Copyright 2026 PT TELPP. All right reserved.</p>
+        </div>
+      </div>
+    </footer>
 
   </div>
 </footer>
@@ -349,6 +326,47 @@
 
 <script setup>
 import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
+import { RouterLink } from 'vue-router'
+import api from '../services/api'
+
+const BASE_URL = 'http://localhost:8080'
+const fallbackImg = 'https://placehold.co/600x400/e8e8e8/999?text=News'
+const latestNews = ref([])
+
+const getImageUrl = (path) => {
+  if (!path) {return fallbackImg}
+  if (path.startsWith('http')) {return path}
+  return `${BASE_URL}/${path.replace(/^\//, '')}`
+}
+
+const formatDate = (dateStr) => {
+  if (!dateStr) {return ''}
+  const d = new Date(dateStr)
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+const fetchLatestNews = async () => {
+  try {
+    const res = await api.get('/news?page=1')
+    const data = res.data
+    const rawList = data.data || data.news || data || []
+    latestNews.value = rawList
+      .filter(item => item.is_published)
+      .slice(0, 4)
+      .map(item => ({
+        id: item.ID || item.id,
+        title: item.title,
+        excerpt: item.summary || '',
+        author: item.author || 'Admin',
+        date: item.CreatedAt || item.created_at || item.date,
+        image: item.Images?.[0]?.image_url || item.thumbnail_path || '',
+      }))
+    await nextTick()
+    initScrollReveal()
+  } catch (e) {
+    console.error('Failed to fetch latest news:', e)
+  }
+}
 
 const heroSlides = [
   {
@@ -440,11 +458,11 @@ const currentChars = computed(() => {
 
   for (const ch of title) {
     chars.push({ text: ch, delay: animIdx * 45, type: 'title' })
-    if (ch !== ' ') animIdx++
+    if (ch !== ' ') {animIdx++}
   }
   for (const ch of accent) {
     chars.push({ text: ch, delay: animIdx * 45, type: 'accent' })
-    if (ch !== ' ') animIdx++
+    if (ch !== ' ') {animIdx++}
   }
   return chars
 })
@@ -454,6 +472,7 @@ onMounted(() => {
     currentSlide.value = (currentSlide.value + 1) % heroSlides.length
   }, 5500)
   initScrollReveal()
+  fetchLatestNews()
 })
 
 onUnmounted(() => {
@@ -1237,11 +1256,10 @@ function initScrollReveal() {
 }
 
 /* ============ FOOTER ============ */
-/* ============ FOOTER COPYRIGHT STYLE ============ */
 .site-footer {
   width: 100%;
   /* Warna hijau tua disesuaikan dengan identitas PT TEL pada gambar */
-  background-color: #1b5e34; 
+  background-color: #5F9E42; 
   padding: 25px 0; /* Memberikan ruang tinggi baris yang pas */
   margin-top: 40px; /* Jarak pemisah dari konten di atasnya */
 }
@@ -1249,7 +1267,7 @@ function initScrollReveal() {
 .footer-container {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Memisahkan konten kiri dan teks kanan */
+  justify-content: center; /* DIUBAH: Membuat konten berkumpul di tengah */
   max-width: 1140px; /* Menyelaraskan lebar dengan konten atas website */
   margin: 0 auto;
   padding: 0 40px; /* Jarak aman agar teks tidak terlalu menempel ke pinggir layar */
@@ -1257,13 +1275,13 @@ function initScrollReveal() {
 
 /* Kolom Kiri Footer */
 .footer-left-content {
-  display: flex;
-  gap: 10px;
+  display: none; /* DIUBAH: Disembunyikan karena kosong, agar tidak memakan space */
 }
 
 /* Kolom Kanan Footer (Teks Copyright) */
 .footer-copyright {
-  text-align: right; /* Memastikan teks berjejer rapi mentok ke kanan */
+  text-align: center; /* DIUBAH: Memastikan teks rata tengah */
+  width: 100%; /* Memastikan block mengambil ruang penuh untuk fungsi centering */
 }
 
 .footer-copyright p {

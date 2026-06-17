@@ -123,7 +123,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  if (observer) observer.disconnect()
+  if (observer) {observer.disconnect()}
 })
 
 const initObserver = () => {

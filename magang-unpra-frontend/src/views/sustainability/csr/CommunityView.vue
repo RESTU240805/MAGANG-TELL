@@ -166,17 +166,16 @@
     </section>
 
     <!-- ─── CTA ───────────────────────────────────────────────── -->
-    <template>
-  <div class="community-page">
-
-    <footer class="final-footer">
+    
+  <footer class="site-footer">
       <div class="footer-container">
-        <p>Copyright 2019 PT TELPP. All right reserved.</p>
+        <div class="footer-left-content"></div>
+        <div class="footer-copyright">
+          <p>Copyright 2026 PT TELPP. All right reserved.</p>
+        </div>
       </div>
     </footer>
 
-  </div>
-</template>
 
   </div>
   
@@ -184,7 +183,6 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { RouterLink } from 'vue-router'
 
 const activeTab = ref(0)
 const activeImage = ref(0)
@@ -211,16 +209,16 @@ let observer
 onMounted(() => {
   observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (!e.isIntersecting) return
-      if (e.target === lcdRef.value)    lcdVisible.value    = true
-      if (e.target === targetRef.value) targetVisible.value = true
-      if (e.target === pilarRef.value)  pilarVisible.value  = true
-      if (e.target === ctaRef.value)    ctaVisible.value    = true
-      if (e.target === tabsRef.value)   tabsVisible.value   = true
+      if (!e.isIntersecting) {return}
+      if (e.target === lcdRef.value)    {lcdVisible.value    = true}
+      if (e.target === targetRef.value) {targetVisible.value = true}
+      if (e.target === pilarRef.value)  {pilarVisible.value  = true}
+      if (e.target === ctaRef.value)    {ctaVisible.value    = true}
+      if (e.target === tabsRef.value)   {tabsVisible.value   = true}
     })
   }, { threshold: 0.12 })
   ;[lcdRef, targetRef, pilarRef, ctaRef, tabsRef].forEach(r => {
-    if (r.value) observer.observe(r.value)
+    if (r.value) {observer.observe(r.value)}
   })
 })
 onUnmounted(() => observer?.disconnect())
@@ -744,5 +742,43 @@ const tabs = [
 
 /* ── Hero bg zoom override (already set, keep) ───────────────── */
 .hero-bg { transform-origin: center center; }
+
+/* ============ FOOTER ============ */
+.site-footer {
+  width: 100%;
+  /* Warna hijau tua disesuaikan dengan identitas PT TEL pada gambar */
+  background-color: #5F9E42; 
+  padding: 25px 0; /* Memberikan ruang tinggi baris yang pas */
+  margin-top: 40px; /* Jarak pemisah dari konten di atasnya */
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* DIUBAH: Membuat konten berkumpul di tengah */
+  max-width: 1140px; /* Menyelaraskan lebar dengan konten atas website */
+  margin: 0 auto;
+  padding: 0 40px; /* Jarak aman agar teks tidak terlalu menempel ke pinggir layar */
+}
+
+/* Kolom Kiri Footer */
+.footer-left-content {
+  display: none; /* DIUBAH: Disembunyikan karena kosong, agar tidak memakan space */
+}
+
+/* Kolom Kanan Footer (Teks Copyright) */
+.footer-copyright {
+  text-align: center; /* DIUBAH: Memastikan teks rata tengah */
+  width: 100%; /* Memastikan block mengambil ruang penuh untuk fungsi centering */
+}
+
+.footer-copyright p {
+  font-family: Arial, sans-serif;
+  font-size: 13px; /* Ukuran teks kecil, tipis, dan normal untuk footer */
+  color: #ffffff;  /* Warna teks putih bersih agar kontras dengan background hijau */
+  margin: 0;
+  font-weight: normal;
+  letter-spacing: 0.3px;
+}
 
 </style>

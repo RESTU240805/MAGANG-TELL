@@ -177,7 +177,7 @@ import { RouterLink, useRoute } from 'vue-router'
 const route = useRoute()
 
 const isActive = (path) => {
-  if (path === '/') return route.path === '/'
+  if (path === '/') {return route.path === '/'}
   return route.path.startsWith(path)
 }
 </script>

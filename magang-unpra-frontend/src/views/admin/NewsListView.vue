@@ -348,13 +348,13 @@ const form = ref({
 
 // ─── Helpers ─────────────────────────────────────────────────
 const getImageUrl = (path) => {
-  if (!path) return ''
-  if (path.startsWith('http')) return path
+  if (!path) {return ''}
+  if (path.startsWith('http')) {return path}
   return `${BASE_URL}/${path.replace(/^\//, '')}`
 }
 
 const formatDate = (dateStr) => {
-  if (!dateStr) return '-'
+  if (!dateStr) {return '-'}
   return new Date(dateStr).toLocaleDateString('id-ID', {
     day: '2-digit', month: 'short', year: 'numeric'
   })
@@ -371,7 +371,7 @@ const fetchNews = async () => {
   try {
     const res = await api.get('/admin/news')
     newsList.value = res.data?.data || res.data || []
-  } catch (e) {
+  } catch (_e) {
     showAlert('error', 'Gagal memuat data berita')
   } finally {
     loading.value = false
@@ -415,7 +415,7 @@ const closeModal = () => {
 // ─── Handle file upload ───────────────────────────────────────
 const handleFileChange = (e) => {
   const file = e.target.files[0]
-  if (!file) return
+  if (!file) {return}
   if (file.size > 5 * 1024 * 1024) {
     formError.value = 'Ukuran gambar maksimal 5MB'
     return
@@ -434,7 +434,7 @@ const handleDrop = (e) => {
 
 // ─── Upload gambar ke /api/upload ────────────────────────────
 const uploadImage = async () => {
-  if (!imageFile.value) return form.value.thumbnail_path
+  if (!imageFile.value) {return form.value.thumbnail_path}
   const fd = new FormData()
   fd.append('image', imageFile.value)
   const res = await api.post('/upload', fd, {
@@ -509,7 +509,7 @@ const doDelete = async () => {
     newsList.value = newsList.value.filter(n => n.ID !== selectedNews.value.ID)
     showDeleteModal.value = false
     showAlert('success', 'Berita berhasil dihapus!')
-  } catch (e) {
+  } catch (_e) {
     showAlert('error', 'Gagal menghapus berita')
   } finally {
     submitting.value = false

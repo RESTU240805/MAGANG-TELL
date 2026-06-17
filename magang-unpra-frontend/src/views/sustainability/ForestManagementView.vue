@@ -4,12 +4,11 @@
     <section class="relative min-h-[90vh] md:h-[95vh] flex flex-col justify-between bg-gradient-to-br from-[#041a0f] to-zinc-950 overflow-hidden pb-12">
       
       <div 
-        class="absolute inset-0 bg-cover bg-center scale-110 opacity-0 animate-[superZoomOut_2.4s_cubic-bezier(0.16,1,0.3,1)_forwards]"
-        style="background-image: url('/images/hutan.jpg')"
+        class="absolute inset-0 bg-cover bg-center scale-110"
+        style="background-image: url('/images/hutan hd.jpeg')"
       ></div>
       
-      <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/20"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
 
       <div></div>
 
@@ -143,8 +142,13 @@
       </div>
     </section>
 
-    <footer class="bg-[#48a947] py-6 text-center text-white text-sm font-medium tracking-wide">
-      <div>Copyright 2019 PT TELPP. All right reserved.</div>
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-left-content"></div>
+        <div class="footer-copyright">
+          <p>Copyright 2026 PT TELPP. All right reserved.</p>
+        </div>
+      </div>
     </footer>
 
   </div>
@@ -178,7 +182,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  if (observer) observer.disconnect()
+  if (observer) {observer.disconnect()}
   stopHeroTimer()
 })
 
@@ -259,5 +263,42 @@ const initObserver = () => {
 @keyframes smoothFloat {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-10px) rotate(0.5deg); }
+}
+/* ============ FOOTER ============ */
+.site-footer {
+  width: 100%;
+  /* Warna hijau tua disesuaikan dengan identitas PT TEL pada gambar */
+  background-color: #5F9E42; 
+  padding: 25px 0; /* Memberikan ruang tinggi baris yang pas */
+  margin-top: 40px; /* Jarak pemisah dari konten di atasnya */
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* DIUBAH: Membuat konten berkumpul di tengah */
+  max-width: 1140px; /* Menyelaraskan lebar dengan konten atas website */
+  margin: 0 auto;
+  padding: 0 40px; /* Jarak aman agar teks tidak terlalu menempel ke pinggir layar */
+}
+
+/* Kolom Kiri Footer */
+.footer-left-content {
+  display: none; /* DIUBAH: Disembunyikan karena kosong, agar tidak memakan space */
+}
+
+/* Kolom Kanan Footer (Teks Copyright) */
+.footer-copyright {
+  text-align: center; /* DIUBAH: Memastikan teks rata tengah */
+  width: 100%; /* Memastikan block mengambil ruang penuh untuk fungsi centering */
+}
+
+.footer-copyright p {
+  font-family: Arial, sans-serif;
+  font-size: 13px; /* Ukuran teks kecil, tipis, dan normal untuk footer */
+  color: #ffffff;  /* Warna teks putih bersih agar kontras dengan background hijau */
+  margin: 0;
+  font-weight: normal;
+  letter-spacing: 0.3px;
 }
 </style>

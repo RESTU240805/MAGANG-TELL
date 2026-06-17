@@ -206,7 +206,7 @@ const handleDrop = async (e) => {
 }
 
 const uploadFiles = async (files) => {
-  if (!files.length) return
+  if (!files.length) {return}
   uploading.value = true
   error.value = ''
   for (const file of files) {
@@ -226,7 +226,7 @@ const uploadFiles = async (files) => {
     }
   }
   uploading.value = false
-  if (fileInput.value) fileInput.value.value = ''
+  if (fileInput.value) {fileInput.value.value = ''}
 }
 
 const removeImage = (index) => imageList.value.splice(index, 1)
@@ -249,7 +249,7 @@ const handleSubmit = async () => {
       await api.post('/admin/news', payload)
     }
     router.push('/admin/news')
-  } catch (err) {
+  } catch (_err) {
     error.value = 'Gagal menyimpan berita.'
   } finally {
     loading.value = false

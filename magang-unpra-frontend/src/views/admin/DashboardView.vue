@@ -142,7 +142,7 @@ const currentDate = now.toLocaleDateString('en-US', { month: 'long', day: 'numer
 
 onMounted(async () => {
   const stored = localStorage.getItem('user')
-  if (stored) user.value = JSON.parse(stored)
+  if (stored) {user.value = JSON.parse(stored)}
 
   const token = localStorage.getItem('token')
   if (!token) { router.push('/admin/login'); return }

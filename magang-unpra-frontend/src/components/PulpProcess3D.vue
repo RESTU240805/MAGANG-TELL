@@ -210,12 +210,13 @@ function makeLabel(text, hexCol, scale = 1) {
   ctx.shadowColor = 'rgba(0,0,0,.9)'
   ctx.shadowBlur = 10
   const words = text.split(' ')
-  let lines = [], line = ''
+  const lines = []
+  let line = ''
   for (const w of words) {
     const t = line ? line + ' ' + w : w
-    if (ctx.measureText(t).width > 290 * scale) { lines.push(line); line = w } else line = t
+    if (ctx.measureText(t).width > 290 * scale) { lines.push(line); line = w } else {line = t}
   }
-  if (line) lines.push(line)
+  if (line) {lines.push(line)}
   const lh = 20 * scale, sy = 32 - (lines.length - 1) * lh / 2
   lines.forEach((l, i) => ctx.fillText(l, 160, sy + i * lh))
   const tex = new THREE.CanvasTexture(c)
@@ -278,7 +279,7 @@ function buildScene() {
   box(30, 0.05, 3, MAT.road, -5, 0.03, -18)
   box(30, 0.05, 3, MAT.road, 5, 0.03, 20)
   box(3, 0.05, 40, MAT.road, 8, 0.03, 8)
-  for (let i = -40; i < 44; i += 3.5) box(1.5, 0.06, 0.15, MAT.white, i, 0.03, 2)
+  for (let i = -40; i < 44; i += 3.5) {box(1.5, 0.06, 0.15, MAT.white, i, 0.03, 2)}
 
   treeCluster(-60, 0, 50, 30, 3, 7)
   treeCluster(55, 0, 40, 25, 3, 7)
@@ -297,10 +298,10 @@ function buildScene() {
   {
     const base1 = box(16, 0.1, 6, MAT.sand, -30, 0.05, -28)
     addClickable(base1, 'Wood Handling', 'Log Storage Pond A', 'Storage pond for freshly harvested logs awaiting debarking. Logs are kept wet to preserve fiber quality.', '#d97706')
-    for (let r = 0; r < 3; r++) for (let c = 0; c < 5; c++) box(2.5, 0.8, 1.4, MAT.logWood, -37 + c * 3, 0.5 + r * 0.05, -30 + r * 1.8)
+    for (let r = 0; r < 3; r++) {for (let c = 0; c < 5; c++) {box(2.5, 0.8, 1.4, MAT.logWood, -37 + c * 3, 0.5 + r * 0.05, -30 + r * 1.8)}}
     const base2 = box(16, 0.1, 6, MAT.sand, -30, 0.05, -18)
     addClickable(base2, 'Wood Handling', 'Log Storage Pond B', 'Second log storage bay — capacity buffer ensuring continuous supply to the wood preparation plant.', '#d97706')
-    for (let r = 0; r < 3; r++) for (let c = 0; c < 5; c++) box(2.5, 0.8, 1.4, MAT.logWood, -37 + c * 3, 0.5 + r * 0.05, -20 + r * 1.8)
+    for (let r = 0; r < 3; r++) {for (let c = 0; c < 5; c++) {box(2.5, 0.8, 1.4, MAT.logWood, -37 + c * 3, 0.5 + r * 0.05, -20 + r * 1.8)}}
     box(12, 0.3, 0.7, MAT.steel, -18, 0.8, -22, -0.25)
     box(12, 0.3, 0.7, MAT.steel, -18, 0.8, -27, -0.25)
   }
@@ -343,7 +344,7 @@ function buildScene() {
     const blch = box(10, 3, 5, M(0x2a6a7a), 14, 1.5, -2)
     addClickable(blch, 'Fiber Line', 'Bleaching Plant (ECF)', 'Elemental Chlorine Free (ECF) bleaching sequence D\u2080/EOP/D\u2081/D\u2082 using ClO\u2082 and H\u2082O\u2082. Target brightness: 89+ % ISO.', '#0284c7')
     const bleachCols = [M(0xcfa218, 0x4a3a08, 0.5, 0.3), M(0xcfa218, 0x4a3a08, 0.5, 0.3), MAT.cream, MAT.cream]
-    for (let i = 0; i < 4; i++) cyl(0.8, 0.85, 5, 12, bleachCols[i], 10 + i * 1.8, 3.5, -2)
+    for (let i = 0; i < 4; i++) {cyl(0.8, 0.85, 5, 12, bleachCols[i], 10 + i * 1.8, 3.5, -2)}
     const hdt = cyl(2.0, 2.2, 7, 16, MAT.cream, 14, 3.5, 5)
     addClickable(hdt, 'Fiber Line', 'HD Tower (High Density)', 'High-density storage tower — provides buffer between bleaching and pulp machine, ensures continuous operation.', '#0284c7')
     cyl(1.2, 1.5, 1.0, 16, MAT.cream, 14, 7.5, 5)
@@ -357,12 +358,12 @@ function buildScene() {
     box(2.2, 0.5, 2.2, M(0xb8467a, 0x300012, 0.5), -12.5, 2.35, 5)
     const pmBase = box(28, 2.5, 6, M(0x35608c, 0x0a1828, 0.55, 0.3), -4, 1.25, 4)
     addClickable(pmBase, 'Fiber Line', 'Pulp Machine (PM1)', 'Fourdrinier forming machine — diluted pulp slurry formed into sheet on wire, pressed and steam-dried into market pulp bales. Design capacity: 450,000 ADt/year.', '#0284c7')
-    for (let i = -12.5; i <= 12.5; i += 2.5) box(2, 0.5, 0.4, MAT.cream, i, 2.6, 4)
-    for (let i = -12; i <= 12; i += 2.5) cyl(0.5, 0.5, 5.8, 8, MAT.steel, i, 1.5, 4)
+    for (let i = -12.5; i <= 12.5; i += 2.5) {box(2, 0.5, 0.4, MAT.cream, i, 2.6, 4)}
+    for (let i = -12; i <= 12; i += 2.5) {cyl(0.5, 0.5, 5.8, 8, MAT.steel, i, 1.5, 4)}
     box(8, 3.2, 5.8, M(0x4a72a0, 0x0a1828, 0.5, 0.3), -12, 1.6, 4)
     const wh = box(14, 3, 7, M(0xc0c8d8), 18, 1.5, 4)
     addClickable(wh, 'Fiber Line', 'Finished Pulp Warehouse', 'Air-conditioned warehouse storing market pulp bales (250 kg each) before loading to conveyor belt to ship jetty for export.', '#0284c7')
-    for (let r = 0; r < 3; r++) for (let c = 0; c < 5; c++) box(1.8, 0.9, 1.2, M(0xf0f4ff), 12 + c * 2.0, 1.55 + r * 0.95, 2 + r * 0.05)
+    for (let r = 0; r < 3; r++) {for (let c = 0; c < 5; c++) {box(1.8, 0.9, 1.2, M(0xf0f4ff), 12 + c * 2.0, 1.55 + r * 0.95, 2 + r * 0.05)}}
     cyl(0.35, 0.4, 12, 8, MAT.steel, 8, -0.5, -12)
     cyl(0.35, 0.4, 10, 8, MAT.steel, 10, -0.5, -10)
     sphere(0.7, M(0xbbbbbb, 0, 0.95), 8, 11.5, -12)
@@ -382,7 +383,7 @@ function buildScene() {
     sphere(0.8, M(0x999999, 0, 0.95), 15, 16, -18)
     for (let i = 0; i < 5; i++) {
       const ev = cyl(0.65, 0.7, 5 + i * 0.3, 12, MAT.silver, 18 + i * 1.4, 2.5 + i * 0.15, -14)
-      if (i === 2) addClickable(ev, 'Chemical Recovery', 'Evaporator Plant (7-effect)', 'Multiple-effect evaporator concentrates weak black liquor from 15% to 72% dissolved solids for firing in Recovery Boiler.', '#dc2626')
+      if (i === 2) {addClickable(ev, 'Chemical Recovery', 'Evaporator Plant (7-effect)', 'Multiple-effect evaporator concentrates weak black liquor from 15% to 72% dissolved solids for firing in Recovery Boiler.', '#dc2626')}
     }
     box(6, 0.4, 0.4, MAT.steel, 21, 5.5, -14)
     const lkDrum = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 9, 16), M(0x8a3a2a))
@@ -408,7 +409,7 @@ function buildScene() {
     const yardPad = box(32, 0.05, 26, MAT.sand, -30, 0.02, 22)
     addClickable(yardPad, 'Wood Handling', 'Wood Chip & Bark Yard', 'Large outdoor storage yard — holds wood chips, bark, and log reserve. Capacity ~30 days mill consumption.', '#d97706')
     const pileColors = [MAT.chip, MAT.bark, M(0x7a5030)]
-    for (let col = 0; col < 3; col++) for (let row = 0; row < 4; row++) {
+    for (let col = 0; col < 3; col++) {for (let row = 0; row < 4; row++) {
       const px = -40 + col * 10, pz = 12 + row * 7
       const pmat = pileColors[(col + row) % 3]
       const pile = new THREE.Mesh(new THREE.SphereGeometry(3.5, 12, 8), pmat)
@@ -417,9 +418,9 @@ function buildScene() {
       pile.castShadow = true
       scene.add(pile)
       box(0.3, 1.5, 6, MAT.concrete, px + 4.5, 0.75, pz)
-    }
-    for (let i = 0; i < 5; i++) box(30, 0.1, 0.4, MAT.road, -30, 0.05, 9 + i * 7)
-    for (let i = 0; i < 4; i++) box(0.4, 0.1, 26, MAT.road, -44 + i * 10, 0.05, 22)
+    }}
+    for (let i = 0; i < 5; i++) {box(30, 0.1, 0.4, MAT.road, -30, 0.05, 9 + i * 7)}
+    for (let i = 0; i < 4; i++) {box(0.4, 0.1, 26, MAT.road, -44 + i * 10, 0.05, 22)}
     box(1, 3, 0.5, MAT.yellow, -24, 1.5, 22)
     box(8, 0.4, 0.4, MAT.yellow, -26, 3.2, 22, -0.3)
   }
@@ -470,7 +471,7 @@ function buildScene() {
     box(16, 0.05, 12, M(0x2a5a1a), 36, 0.02, -24)
     const pool = box(10, 0.3, 5, MAT.pool, 36, 0.15, -25)
     addClickable(pool, 'Amenities', 'Recreation Pool', 'Staff recreational swimming pool and sports facility — part of mill housing complex for permanent employees.', '#7c3aed')
-    for (let i = 0; i < 3; i++) box(0.3, 0.4, 5, M(0xf0f0e0), 31.2 + i * 5, 0.4, -25)
+    for (let i = 0; i < 3; i++) {box(0.3, 0.4, 5, M(0xf0f0e0), 31.2 + i * 5, 0.4, -25)}
     const club = box(5, 2.5, 4, M(0xd0c8b0), 40, -0.25, -20)
     addClickable(club, 'Amenities', 'Staff Clubhouse & Canteen', 'Recreation center, canteen and meeting facilities for mill employees.', '#7c3aed')
     box(5, 0.5, 4, MAT.roofRed, 40, 1.75, -20)
@@ -484,22 +485,22 @@ function buildScene() {
     box(5, 0.5, 5, M(0x3a3a3a), 10, 2.6, 14)
     box(5.1, 0.6, 0.3, M(0x1a5a9a), 10, 1.0, 11.6)
     box(8, 0.05, 5, M(0x2a2820), 10, 0.02, 20)
-    for (let i = 0; i < 4; i++) box(0.1, 0.05, 4.5, MAT.white, 7 + i * 2.2, 0.04, 20)
+    for (let i = 0; i < 4; i++) {box(0.1, 0.05, 4.5, MAT.white, 7 + i * 2.2, 0.04, 20)}
   }
 
   // ZONE 10: COVERED CHIP STORAGE
   {
     const padE = box(14, 0.05, 8, MAT.sand, 27, 0.02, 11)
     addClickable(padE, 'Wood Handling', 'Covered Chip Storage', 'Secondary chip and bark storage area beside the pulp warehouse, sheltered under an open-sided canopy roof.', '#d97706')
-    for (let col = 0; col < 3; col++) for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 3; col++) {for (let row = 0; row < 2; row++) {
       const px = 21 + col * 6, pz = 8 + row * 6
       const pile = new THREE.Mesh(new THREE.SphereGeometry(2.6, 12, 8), (col + row) % 2 ? MAT.chip : MAT.bark)
       pile.scale.set(1.2, 0.4, 1.0)
       pile.position.set(px, 1.0, pz)
       pile.castShadow = true
       scene.add(pile)
-    }
-    for (let i = 0; i < 5; i++) cyl(0.12, 0.12, 3.2, 6, MAT.steel, 19 + i * 4, 3.2, 11)
+    }}
+    for (let i = 0; i < 5; i++) {cyl(0.12, 0.12, 3.2, 6, MAT.steel, 19 + i * 4, 3.2, 11)}
     box(20, 0.3, 8, M(0x2a4a2a, 0x0a1a0a, 0.7), 27, 4.8, 11)
   }
 
@@ -507,7 +508,7 @@ function buildScene() {
   {
     for (let i = 0; i < 4; i++) {
       const t = cyl(1.3, 1.3, 5, 20, MAT.cream, -30 + i * 3.2, 2.5, -3)
-      if (i === 1) addClickable(t, 'Utilities', 'Process & Chemical Storage Tanks', 'Bulk storage tanks for process chemicals and treated water supplying the mill.', '#7c3aed')
+      if (i === 1) {addClickable(t, 'Utilities', 'Process & Chemical Storage Tanks', 'Bulk storage tanks for process chemicals and treated water supplying the mill.', '#7c3aed')}
     }
     for (let i = 0; i < 3; i++) {
       cyl(0.85, 0.85, 3, 16, MAT.silver, -29 + i * 3.2, 1.5, -8)
@@ -533,7 +534,6 @@ function buildScene() {
     const greenPipeMat = new THREE.MeshStandardMaterial({ color: 0x16a34a, emissive: 0x15803d, emissiveIntensity: 0.4, transparent: true, opacity: 0.5 })
     const orangePipeMat = new THREE.MeshStandardMaterial({ color: 0xea580c, emissive: 0xc2410c, emissiveIntensity: 0.3, transparent: true, opacity: 0.45 })
 
-    function sp(p) { return [p[0] * S, p[1], p[2] * S] }
 
     function makeFlowTube(points, mat, radius = 0.25) {
       const scaled = points.map(p => new THREE.Vector3(p[0] * S, p[1], p[2] * S))
@@ -656,7 +656,7 @@ function updateCam() {
     orRadius * Math.cos(orPhi),
     orRadius * Math.sin(orPhi) * Math.cos(orTheta)
   )
-  if (!currentLookAt) currentLookAt = targetLookAt.clone()
+  if (!currentLookAt) {currentLookAt = targetLookAt.clone()}
   currentLookAt.lerp(targetLookAt, 0.06)
   camera.lookAt(currentLookAt)
 }
@@ -705,7 +705,7 @@ function onPointerDown(e) {
 }
 
 function onPointerMove(e) {
-  if (!isDrag) return
+  if (!isDrag) {return}
   const cx = e.clientX ?? e.touches?.[0]?.clientX ?? 0
   const cy = e.clientY ?? e.touches?.[0]?.clientY ?? 0
   tTheta -= (cx - prevX) * 0.006
@@ -722,10 +722,10 @@ function onWheel(e) {
 }
 
 function onClick(e) {
-  if (!renderer) return
+  if (!renderer) {return}
   const dx = e.clientX - dragStartX
   const dy = e.clientY - dragStartY
-  if (Math.abs(dx) > 5 || Math.abs(dy) > 5) return
+  if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {return}
 
   const rect = renderer.domElement.getBoundingClientRect()
   mouse2.x = ((e.clientX - rect.left) / rect.width) * 2 - 1
@@ -747,7 +747,7 @@ function onClick(e) {
 }
 
 function onResize() {
-  if (!container.value || !renderer || !camera) return
+  if (!container.value || !renderer || !camera) {return}
   const w = container.value.clientWidth
   const h = container.value.clientHeight
   camera.aspect = w / h
@@ -758,7 +758,7 @@ function onResize() {
 function animate(time) {
   animationId = requestAnimationFrame(animate)
   const dt = 0.016
-  if (autoRotate.value) tTheta += 0.002
+  if (autoRotate.value) {tTheta += 0.002}
   orTheta += (tTheta - orTheta) * 0.06
   orPhi += (tPhi - orPhi) * 0.06
   orRadius += (tRadius - orRadius) * 0.06
@@ -767,7 +767,7 @@ function animate(time) {
   // Animate flow particles
   for (const p of flowParticles) {
     p.t += p.speed * dt
-    if (p.t > 1) p.t -= 1
+    if (p.t > 1) {p.t -= 1}
     const pos = p.curve.getPoint(p.t)
     p.mesh.position.copy(pos)
     p.mesh.material.opacity = 0.6 + Math.sin(time * 0.005 + p.t * 20) * 0.3
@@ -791,7 +791,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', onResize)
-  if (animationId) cancelAnimationFrame(animationId)
+  if (animationId) {cancelAnimationFrame(animationId)}
   if (renderer) {
     renderer.domElement.removeEventListener('pointerdown', onPointerDown)
     renderer.domElement.removeEventListener('pointermove', onPointerMove)

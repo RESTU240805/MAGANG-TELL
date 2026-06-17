@@ -152,78 +152,11 @@
       </div>
     </div>
 
-    <!-- ─── FOOTER ────────────────────────────────────────────── -->
-    <footer class="bg-[#14532d] text-white anim-item">
-      <div class="max-w-[1200px] mx-auto px-8 py-12">
-        <div class="grid grid-cols-[2fr_1fr_1fr_1.5fr] gap-10">
-
-          <!-- Brand -->
-          <div>
-            <img src="/images/logo-telpp.png" alt="TeL" class="h-12 mb-4" />
-            <p class="text-sm leading-relaxed text-white/80">
-              PT Tanjungenim Lestari Pulp and Paper berkomitmen pada standar industri kelas dunia
-              dan pelestarian keanekaragaman hayati di Sumatera Selatan.
-            </p>
-          </div>
-
-          <!-- Our Company -->
-          <div>
-            <h4 class="text-white text-xs font-bold tracking-widest uppercase mb-4 pb-2 border-b border-white/30">Our Company</h4>
-            <ul class="list-none p-0 m-0 space-y-2">
-              <li><RouterLink to="/our-company" class="text-white/80 text-sm no-underline hover:text-white">Profile Perusahaan</RouterLink></li>
-              <li><RouterLink to="/our-company" class="text-white/80 text-sm no-underline hover:text-white">Visi &amp; Misi</RouterLink></li>
-              <li><RouterLink to="/our-company" class="text-white/80 text-sm no-underline hover:text-white">Manajemen</RouterLink></li>
-              <li><a href="https://erecruitment.telpp.com/er_tlpp/" target="_blank" class="text-white/80 text-sm no-underline hover:text-white">Karir</a></li>
-            </ul>
-          </div>
-
-          <!-- Quick Links -->
-          <div>
-            <h4 class="text-white text-xs font-bold tracking-widest uppercase mb-4 pb-2 border-b border-white/30">Quick Links</h4>
-            <ul class="list-none p-0 m-0 space-y-2">
-              <li><RouterLink to="/news" class="text-white/80 text-sm no-underline hover:text-white">News</RouterLink></li>
-              <li><RouterLink to="/sustainability/forest-management" class="text-white/80 text-sm no-underline hover:text-white">Sustainability</RouterLink></li>
-              <li><a href="https://kehati.telpp.com/" target="_blank" class="text-white/80 text-sm no-underline hover:text-white">Biodiversity</a></li>
-              <li><RouterLink to="/contact" class="text-white/80 text-sm no-underline hover:text-white">Contact</RouterLink></li>
-            </ul>
-          </div>
-
-          <!-- Head Office -->
-          <div>
-            <h4 class="text-white text-xs font-bold tracking-widest uppercase mb-4 pb-2 border-b border-white/30">Head Office</h4>
-            <div class="space-y-3 text-sm text-white/80">
-              <p class="flex items-start gap-2">
-                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
-                </svg>
-                Jl. Lintas Prabumulih - Baturaja KM 75<br>Tanjung Enim, Muara Enim<br>Sumatera Selatan 31716, Indonesia
-              </p>
-              <p class="flex items-center gap-2">
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-                </svg>
-                +62 734 451 000
-              </p>
-              <p class="flex items-center gap-2">
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-                </svg>
-                info@tel.co.id
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Bottom bar -->
-      <div class="bg-[#0c3b1e]">
-        <div class="max-w-[1200px] mx-auto px-8 py-4 flex items-center justify-between text-xs text-white/80">
-          <p>© 2026 PT Tanjungenim Lestari Pulp and Paper. All rights reserved.</p>
-          <div class="flex gap-6">
-            <span class="hover:text-white cursor-pointer">Privacy Policy</span>
-            <span class="hover:text-white cursor-pointer">Terms of Use</span>
-          </div>
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-left-content"></div>
+        <div class="footer-copyright">
+          <p>Copyright 2026 PT TELPP. All right reserved.</p>
         </div>
       </div>
     </footer>
@@ -247,14 +180,14 @@ const totalPages = ref(1)
 const searchQuery = ref('')
 
 const formatDate = (dateStr) => {
-  if (!dateStr) return ''
+  if (!dateStr) {return ''}
   const date = new Date(dateStr)
   return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
 const getImageUrl = (path) => {
-  if (!path) return fallbackImg
-  if (path.startsWith('http')) return path
+  if (!path) {return fallbackImg}
+  if (path.startsWith('http')) {return path}
   return `${BASE_URL}/${path.replace(/^\//, '')}`
 }
 
@@ -278,7 +211,7 @@ const fetchNews = async () => {
         image: item.Images?.[0]?.image_url || item.thumbnail_path || '',
       }))
 
-    if (data.total_pages) totalPages.value = data.total_pages
+    if (data.total_pages) {totalPages.value = data.total_pages}
   } catch (e) {
     console.error(e)
     error.value = true
@@ -293,11 +226,11 @@ const goToPage = (page) => {
 }
 
 const prevPage = () => {
-  if (currentPage.value > 1) goToPage(currentPage.value - 1)
+  if (currentPage.value > 1) {goToPage(currentPage.value - 1)}
 }
 
 const nextPage = () => {
-  if (currentPage.value < totalPages.value) goToPage(currentPage.value + 1)
+  if (currentPage.value < totalPages.value) {goToPage(currentPage.value + 1)}
 }
 
 let observer = null
@@ -309,7 +242,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  if (observer) observer.disconnect()
+  if (observer) {observer.disconnect()}
 })
 
 const initObserver = () => {
@@ -372,5 +305,42 @@ const initObserver = () => {
 .anim-slide-right.anim-visible {
   opacity: 1;
   transform: translateX(0);
+}
+/* ============ FOOTER ============ */
+.site-footer {
+  width: 100%;
+  /* Warna hijau tua disesuaikan dengan identitas PT TEL pada gambar */
+  background-color: #5F9E42; 
+  padding: 25px 0; /* Memberikan ruang tinggi baris yang pas */
+  margin-top: 40px; /* Jarak pemisah dari konten di atasnya */
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* DIUBAH: Membuat konten berkumpul di tengah */
+  max-width: 1140px; /* Menyelaraskan lebar dengan konten atas website */
+  margin: 0 auto;
+  padding: 0 40px; /* Jarak aman agar teks tidak terlalu menempel ke pinggir layar */
+}
+
+/* Kolom Kiri Footer */
+.footer-left-content {
+  display: none; /* DIUBAH: Disembunyikan karena kosong, agar tidak memakan space */
+}
+
+/* Kolom Kanan Footer (Teks Copyright) */
+.footer-copyright {
+  text-align: center; /* DIUBAH: Memastikan teks rata tengah */
+  width: 100%; /* Memastikan block mengambil ruang penuh untuk fungsi centering */
+}
+
+.footer-copyright p {
+  font-family: Arial, sans-serif;
+  font-size: 13px; /* Ukuran teks kecil, tipis, dan normal untuk footer */
+  color: #ffffff;  /* Warna teks putih bersih agar kontras dengan background hijau */
+  margin: 0;
+  font-weight: normal;
+  letter-spacing: 0.3px;
 }
 </style>

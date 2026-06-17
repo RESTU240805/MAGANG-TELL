@@ -187,6 +187,14 @@
     </section>
 
   </div>
+  <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-left-content"></div>
+        <div class="footer-copyright">
+          <p>Copyright 2026 PT TELPP. All right reserved.</p>
+        </div>
+      </div>
+    </footer>
 </template>
 
 <script setup>
@@ -215,22 +223,22 @@ onMounted(async () => {
 onUnmounted(() => stopTimer())
 
 const getImageUrl = (path) => {
-  if (!path) return fallbackImg
-  if (path.startsWith('http')) return path
+  if (!path) {return fallbackImg}
+  if (path.startsWith('http')) {return path}
   return `${BASE_URL}/${path.replace(/^\//, '')}`
 }
 
 const parseTags = (tags) => {
-  if (!tags) return []
-  if (Array.isArray(tags)) return tags
+  if (!tags) {return []}
+  if (Array.isArray(tags)) {return tags}
   try { return JSON.parse(tags) } catch { return tags.split(',').map(t => t.trim()) }
 }
 
 const categoryIcon = (cat) => {
   const c = (cat || '').toLowerCase()
-  if (c.includes('pulp'))    return 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
-  if (c.includes('tissue'))  return 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-  if (c.includes('paper'))   return 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'
+  if (c.includes('pulp'))    {return 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'}
+  if (c.includes('tissue'))  {return 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'}
+  if (c.includes('paper'))   {return 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'}
   return 'M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z'
 }
 
@@ -279,4 +287,42 @@ const manualNav  = (fn) => { stopTimer(); fn(); startTimer() }
 .animate-subtle-zoom { animation: subtle-zoom 20s infinite alternate ease-in-out; }
 @keyframes bounce { 0%,100%{transform:translateY(-5%);} 50%{transform:none;} }
 .animate-bounce-slow { animation: bounce 2s infinite; }
+
+/* ============ FOOTER ============ */
+.site-footer {
+  width: 100%;
+  /* Warna hijau tua disesuaikan dengan identitas PT TEL pada gambar */
+  background-color: #5F9E42; 
+  padding: 25px 0; /* Memberikan ruang tinggi baris yang pas */
+  margin-top: 40px; /* Jarak pemisah dari konten di atasnya */
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* DIUBAH: Membuat konten berkumpul di tengah */
+  max-width: 1140px; /* Menyelaraskan lebar dengan konten atas website */
+  margin: 0 auto;
+  padding: 0 40px; /* Jarak aman agar teks tidak terlalu menempel ke pinggir layar */
+}
+
+/* Kolom Kiri Footer */
+.footer-left-content {
+  display: none; /* DIUBAH: Disembunyikan karena kosong, agar tidak memakan space */
+}
+
+/* Kolom Kanan Footer (Teks Copyright) */
+.footer-copyright {
+  text-align: center; /* DIUBAH: Memastikan teks rata tengah */
+  width: 100%; /* Memastikan block mengambil ruang penuh untuk fungsi centering */
+}
+
+.footer-copyright p {
+  font-family: Arial, sans-serif;
+  font-size: 13px; /* Ukuran teks kecil, tipis, dan normal untuk footer */
+  color: #ffffff;  /* Warna teks putih bersih agar kontras dengan background hijau */
+  margin: 0;
+  font-weight: normal;
+  letter-spacing: 0.3px;
+}
 </style>

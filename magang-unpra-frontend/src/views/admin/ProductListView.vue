@@ -311,8 +311,8 @@ const form = ref({
 })
 
 const getImageUrl = (path) => {
-  if (!path) return ''
-  if (path.startsWith('http')) return path
+  if (!path) {return ''}
+  if (path.startsWith('http')) {return path}
   return `${BASE_URL}/${path.replace(/^\//, '')}`
 }
 
@@ -353,7 +353,7 @@ const openEdit = (p) => {
 const closeModal = () => { showModal.value = false; formError.value = '' }
 
 const handleThumbChange = (e) => {
-  const file = e.target.files[0]; if (!file) return
+  const file = e.target.files[0]; if (!file) {return}
   if (file.size > 5 * 1024 * 1024) { formError.value = 'Gambar maks 5MB'; return }
   thumbFile.value = file
   thumbPreview.value = URL.createObjectURL(file)
@@ -365,7 +365,7 @@ const handleDrop = (e) => {
 }
 
 const uploadThumb = async () => {
-  if (!thumbFile.value) return form.value.thumbnail_path
+  if (!thumbFile.value) {return form.value.thumbnail_path}
   const fd = new FormData()
   fd.append('image', thumbFile.value)
   const res = await api.post('/upload', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -378,7 +378,7 @@ const submitForm = async () => {
   }
   submitting.value = true; formError.value = ''
   try {
-    if (thumbFile.value) form.value.thumbnail_path = await uploadThumb()
+    if (thumbFile.value) {form.value.thumbnail_path = await uploadThumb()}
     const tagsArr = form.value.tags
       ? form.value.tags.split(',').map(t => t.trim()).filter(Boolean)
       : []

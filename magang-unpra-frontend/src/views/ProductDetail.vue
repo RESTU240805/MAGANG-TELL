@@ -187,14 +187,14 @@ onMounted(async () => {
 })
 
 const getImageUrl = (path) => {
-  if (!path) return fallbackImg
-  if (path.startsWith('http')) return path
+  if (!path) {return fallbackImg}
+  if (path.startsWith('http')) {return path}
   return `${BASE_URL}/${path.replace(/^\//, '')}`
 }
 
 const parseTags = (tags) => {
-  if (!tags) return []
-  if (Array.isArray(tags)) return tags
+  if (!tags) {return []}
+  if (Array.isArray(tags)) {return tags}
   try { return JSON.parse(tags) } catch { return String(tags).split(',').map(t => t.trim()) }
 }
 </script>

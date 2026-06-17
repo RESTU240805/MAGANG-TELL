@@ -1,6 +1,6 @@
 <template>
   <section class="relative h-[420px] flex items-end bg-cover bg-center overflow-hidden"
-    style="background-image: url('/images/factory-1.jpg')">
+    style="background-image: url('/images/lokasi pabrik.jpeg')">
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
     <div class="absolute top-10 left-10 flex items-center gap-2 opacity-0 anim-fade-right" style="animation-delay: 0.1s">
       <span class="w-1 h-5 bg-green-400 rounded-full inline-block"></span>
@@ -158,6 +158,15 @@
       </div>
     </div>
   </section>
+
+  <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-left-content"></div>
+        <div class="footer-copyright">
+          <p>Copyright 2026 PT TELPP. All right reserved.</p>
+        </div>
+      </div>
+    </footer>
 </template>
 
 <script setup>
@@ -286,7 +295,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-  if (observer) observer.disconnect()
+  if (observer) {observer.disconnect()}
 })
 </script>
 
@@ -313,5 +322,43 @@ onUnmounted(() => {
 .anim-item.anim-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ============ FOOTER ============ */
+.site-footer {
+  width: 100%;
+  /* Warna hijau tua disesuaikan dengan identitas PT TEL pada gambar */
+  background-color: #5F9E42; 
+  padding: 25px 0; /* Memberikan ruang tinggi baris yang pas */
+  margin-top: 40px; /* Jarak pemisah dari konten di atasnya */
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* DIUBAH: Membuat konten berkumpul di tengah */
+  max-width: 1140px; /* Menyelaraskan lebar dengan konten atas website */
+  margin: 0 auto;
+  padding: 0 40px; /* Jarak aman agar teks tidak terlalu menempel ke pinggir layar */
+}
+
+/* Kolom Kiri Footer */
+.footer-left-content {
+  display: none; /* DIUBAH: Disembunyikan karena kosong, agar tidak memakan space */
+}
+
+/* Kolom Kanan Footer (Teks Copyright) */
+.footer-copyright {
+  text-align: center; /* DIUBAH: Memastikan teks rata tengah */
+  width: 100%; /* Memastikan block mengambil ruang penuh untuk fungsi centering */
+}
+
+.footer-copyright p {
+  font-family: Arial, sans-serif;
+  font-size: 13px; /* Ukuran teks kecil, tipis, dan normal untuk footer */
+  color: #ffffff;  /* Warna teks putih bersih agar kontras dengan background hijau */
+  margin: 0;
+  font-weight: normal;
+  letter-spacing: 0.3px;
 }
 </style>

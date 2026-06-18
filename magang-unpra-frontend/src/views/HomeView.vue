@@ -1091,48 +1091,81 @@ function initScrollReveal() {
 }
 
 .news-card {
-  display: grid;
-  grid-template-columns: 130px 1fr;
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
   background: #ffffff;
-  border-radius: 4px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.news-card .block {
+  display: block;
   overflow: hidden;
 }
 
 .news-thumb {
   width: 100%;
-  height: 100%;
+  height: 200px;
   object-fit: cover;
   display: block;
+  transition: transform 0.3s ease;
+}
+
+.news-card:hover .news-thumb {
+  transform: scale(1.05);
 }
 
 .news-body {
-  padding: 14px 14px 14px 0;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .news-meta {
   display: flex;
   gap: 12px;
-  font-size: 10px;
+  font-size: 11px;
   color: #999999;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.news-meta .news-author {
+  color: #5F9E42;
 }
 
 .news-body h3 {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1.4;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   color: #1f1f1f;
 }
 
+.news-body h3:hover {
+  color: #5F9E42;
+}
+
 .news-body p {
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.6;
-  color: #888888;
+  color: #666666;
   margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ============ SPEAK UP ============ */
@@ -1690,6 +1723,14 @@ function initScrollReveal() {
   .offices-grid,
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .news-thumb {
+    height: 160px;
+  }
+
+  .news-body h3 {
+    font-size: 14px;
   }
 
   .about,

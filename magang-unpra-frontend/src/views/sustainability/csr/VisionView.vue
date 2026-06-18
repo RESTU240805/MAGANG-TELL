@@ -1,6 +1,8 @@
 <template>
   <!-- ═══ HERO ═══ -->
   <section class="vision-hero">
+    <div class="vision-hero__bg-image"></div>
+    <div class="vision-hero__bg-overlay"></div>
     <div class="vision-hero__bg-pattern"></div>
     <div class="vision-hero__content max-w-7xl mx-auto px-10">
       <div class="vision-hero__breadcrumb">
@@ -171,6 +173,16 @@ const strategyItems = [
   background: #0d1f17;
   padding: 4rem 0;
   overflow: hidden;
+}
+.vision-hero__bg-image {
+  position: absolute;
+  inset: 0;
+  background: url('/images/backgroundour.jpeg') center/cover no-repeat;
+}
+.vision-hero__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(13,31,23,0.92), rgba(13,31,23,0.7));
 }
 .vision-hero__bg-pattern {
   position: absolute;

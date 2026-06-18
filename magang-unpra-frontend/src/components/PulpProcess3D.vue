@@ -553,75 +553,105 @@ function buildScene() {
       }
     }
 
+    function addFlowArrows(curve, color, count = 5, size = 0.7) {
+      const arrMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 })
+      for (let i = 0; i < count; i++) {
+        const t = (i + 0.5) / count
+        const pos = curve.getPoint(t)
+        const tangent = curve.getTangent(t).normalize()
+        const arrow = new THREE.Mesh(new THREE.ConeGeometry(size * 0.4, size, 6), arrMat)
+        arrow.position.copy(pos)
+        const up = new THREE.Vector3(0, 1, 0)
+        const quat = new THREE.Quaternion().setFromUnitVectors(up, tangent)
+        arrow.quaternion.copy(quat)
+        scene.add(arrow)
+      }
+    }
+
+    function addFlowEndpoint(curve, color, label) {
+      const end = curve.getPoint(0.97)
+      const m = new THREE.Mesh(new THREE.SphereGeometry(0.7, 10, 10),
+        new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.6 }))
+      m.position.copy(end)
+      scene.add(m)
+      if (label) {
+        const hex = '#' + color.toString(16).padStart(6, '0')
+        const s = makeLabel(label, hex, 0.6)
+        s.position.set(end.x, end.y + 2.2, end.z)
+        scene.add(s)
+      }
+    }
+
     // ── BLUE: Main Pulp Process Flow ──
     const c1 = makeFlowTube([[-30,1.2,-23],[-20,1.5,-22],[-10,1.5,-20],[-5,2,-22],[2,3.5,-14]], bluePipeMat)
-    addFlowParticles(c1, 0x60a5fa, 6, 0.12)
+    addFlowParticles(c1, 0x60a5fa, 8, 0.18, 0.7)
+    addFlowArrows(c1, 0x60a5fa, 8, 0.7)
+    addFlowEndpoint(c1, 0x60a5fa, 'Chip Bin')
 
     const c2 = makeFlowTube([[-2,3.5,-14],[2,5.5,-10],[2,3,-5],[8,2,-8]], bluePipeMat)
-    addFlowParticles(c2, 0x60a5fa, 5, 0.14)
+    addFlowParticles(c2, 0x60a5fa, 6, 0.2, 0.7)
+    addFlowArrows(c2, 0x60a5fa, 6, 0.7)
+    addFlowEndpoint(c2, 0x60a5fa, 'Washing')
 
     const c3 = makeFlowTube([[8,2,-8],[14,4,-8],[14,2.5,-2],[14,4.5,5]], bluePipeMat)
-    addFlowParticles(c3, 0x60a5fa, 5, 0.13)
+    addFlowParticles(c3, 0x60a5fa, 6, 0.18, 0.7)
+    addFlowArrows(c3, 0x60a5fa, 6, 0.7)
+    addFlowEndpoint(c3, 0x60a5fa, 'HD Tower')
 
     const c4 = makeFlowTube([[14,4.5,5],[0,3.5,4],[-4,2.5,4],[-12,2.5,4]], bluePipeMat)
-    addFlowParticles(c4, 0x60a5fa, 6, 0.11)
+    addFlowParticles(c4, 0x60a5fa, 8, 0.15, 0.7)
+    addFlowArrows(c4, 0x60a5fa, 7, 0.7)
+    addFlowEndpoint(c4, 0x60a5fa, 'Pulp Machine')
 
     const c5 = makeFlowTube([[-4,2.5,4],[8,2.5,4],[18,2.5,4]], bluePipeMat)
-    addFlowParticles(c5, 0x60a5fa, 4, 0.16)
+    addFlowParticles(c5, 0x60a5fa, 5, 0.2, 0.7)
+    addFlowArrows(c5, 0x60a5fa, 5, 0.7)
+    addFlowEndpoint(c5, 0x60a5fa, 'Warehouse')
 
     const c6 = makeFlowTube([[18,2.5,4],[32,3.5,4],[46,2.5,4]], bluePipeMat)
-    addFlowParticles(c6, 0x60a5fa, 3, 0.1)
+    addFlowParticles(c6, 0x60a5fa, 4, 0.15, 0.7)
+    addFlowArrows(c6, 0x60a5fa, 4, 0.7)
+    addFlowEndpoint(c6, 0x60a5fa, 'Jetty')
 
     // ── GREEN: White Liquor (Recausticizing → Digester) ──
     const c7 = makeFlowTube([[8,1,-22],[8,3,-18],[5,4,-14],[2,5.5,-10]], greenPipeMat, 0.2)
-    addFlowParticles(c7, 0x4ade80, 5, 0.1, 0.5)
+    addFlowParticles(c7, 0x4ade80, 6, 0.15, 0.5)
+    addFlowArrows(c7, 0x4ade80, 5, 0.55)
+    addFlowEndpoint(c7, 0x4ade80, 'Digester')
 
     // ── ORANGE: Black Liquor (Washing → Evaporator → Recovery Boiler) ──
     const c8 = makeFlowTube([[8,2,-8],[12,2.5,-10],[18,3.5,-14],[21,3.5,-14]], orangePipeMat, 0.2)
-    addFlowParticles(c8, 0xfb923c, 5, 0.12, 0.5)
+    addFlowParticles(c8, 0xfb923c, 6, 0.16, 0.5)
+    addFlowArrows(c8, 0xfb923c, 5, 0.55)
+    addFlowEndpoint(c8, 0xfb923c, 'Evaporator')
 
     const c9 = makeFlowTube([[21,3.5,-14],[15,4.5,-16],[8,5.5,-18]], orangePipeMat, 0.2)
-    addFlowParticles(c9, 0xfb923c, 4, 0.11, 0.5)
+    addFlowParticles(c9, 0xfb923c, 5, 0.15, 0.5)
+    addFlowArrows(c9, 0xfb923c, 4, 0.55)
+    addFlowEndpoint(c9, 0xfb923c, 'Recovery Boiler')
 
     // ── GREEN: Smelt (Recovery Boiler → Recausticizing) ──
     const c10 = makeFlowTube([[8,0.5,-18],[8,0.5,-22]], greenPipeMat, 0.15)
-    addFlowParticles(c10, 0x4ade80, 3, 0.2, 0.4)
+    addFlowParticles(c10, 0x4ade80, 4, 0.3, 0.45)
+    addFlowArrows(c10, 0x4ade80, 3, 0.5)
+    addFlowEndpoint(c10, 0x4ade80, 'Recausticizing')
 
     // ── ORANGE: Lime (Lime Kiln → Recausticizing) ──
     const c11 = makeFlowTube([[17,1.5,-22],[13,1.5,-22],[8,1,-22]], orangePipeMat, 0.15)
-    addFlowParticles(c11, 0xfb923c, 3, 0.18, 0.4)
+    addFlowParticles(c11, 0xfb923c, 4, 0.25, 0.45)
+    addFlowArrows(c11, 0xfb923c, 4, 0.5)
+    addFlowEndpoint(c11, 0xfb923c)
 
-    // ── GREEN: Steam (Recovery Boiler → Power Boiler → Turbine) ──
+    // ── GREEN: Steam (Power Boiler → Turbine) ──
     const c12 = makeFlowTube([[8,5.5,-18],[12,5.5,-18],[15,5.5,-18]], greenPipeMat, 0.15)
-    addFlowParticles(c12, 0x4ade80, 3, 0.2, 0.4)
+    addFlowParticles(c12, 0x4ade80, 4, 0.25, 0.45)
+    addFlowArrows(c12, 0x4ade80, 3, 0.5)
+    addFlowEndpoint(c12, 0x4ade80, 'Turbine')
 
     const c13 = makeFlowTube([[15,4.5,-18],[15,2.5,-12]], greenPipeMat, 0.12)
-    addFlowParticles(c13, 0x4ade80, 2, 0.25, 0.35)
-
-    // ── Static Arrow Cones ──
-    const arrowMat = new THREE.MeshBasicMaterial({ color: 0x60a5fa, transparent: true, opacity: 0.6 })
-    ;[
-      [-15*S,1.8,-21*S,-0.4],[-3*S,2.5,-16*S,0.3],[5*S,3.5,-9*S,0.5],
-      [11*S,2.5,-6*S,0.2],[14*S,3,1*S,-0.1],[5*S,2.5,4*S,-0.3],
-      [12*S,2.5,4*S,-0.2],[28*S,3.2,4*S,-0.1],
-    ].forEach(([x,y,z,ry]) => {
-      const cone = new THREE.Mesh(new THREE.ConeGeometry(0.4, 1, 6), arrowMat)
-      cone.position.set(x, y, z)
-      cone.rotation.y = ry
-      cone.rotation.z = Math.PI / 2
-      scene.add(cone)
-    })
-
-    const greenArrowMat = new THREE.MeshBasicMaterial({ color: 0x4ade80, transparent: true, opacity: 0.6 })
-    ;[
-      [8*S,1.5,-20*S,Math.PI/2+0.3],[5*S,3,-12*S,Math.PI/2+0.5],
-    ].forEach(([x,y,z,ry]) => {
-      const cone = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.9, 6), greenArrowMat)
-      cone.position.set(x, y, z)
-      cone.rotation.y = ry
-      cone.rotation.z = Math.PI / 2
-      scene.add(cone)
-    })
+    addFlowParticles(c13, 0x4ade80, 3, 0.3, 0.4)
+    addFlowArrows(c13, 0x4ade80, 2, 0.45)
+    addFlowEndpoint(c13, 0x4ade80)
   }
 
   // LABELS

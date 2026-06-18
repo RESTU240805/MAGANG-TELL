@@ -26,17 +26,20 @@
 
         <Transition name="reveal-up" appear>
           <h1 class="text-6xl md:text-8xl font-serif font-bold text-white mb-6 leading-[1.1]">
-            Katalog Produk<br>
+            PRODUCT<br>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">
-              Unggulan
+              PT TELPP
             </span>
           </h1>
         </Transition>
 
         <Transition name="reveal-up" appear>
           <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed mb-10">
-            Delivering premium quality cellulose fiber to global standards through
-            continuous innovation and high environmental responsibility.
+           Our main product is TeL Pellita Bleached Kraft Pulp based on 100% planted Pellita trees.
+
+TeL focuses on product quality in totality through tight quality control systems and also covered under QMS ISO 9001. The continual improvement for quality and process is important drive at TeL and for this we follow proactive approach to interact with our customers.
+
+Based on end products, TeL pulp mostly used as raw material of Tissue, Coating base papers, Wood Free paper & paperboard, and others specialty grades.
           </p>
         </Transition>
 

@@ -5,6 +5,7 @@ import (
 	"magang-unpra-backend/models"
 	"net/http"
 	"strings"
+	"time"
 	"unicode"
 
 	"github.com/gin-gonic/gin"
@@ -50,13 +51,15 @@ func GetNewsById(c *gin.Context) {
 // POST /api/admin/news
 func CreateNews(c *gin.Context) {
 	var input struct {
-		Title         string `json:"title"          binding:"required"`
-		Slug          string `json:"slug"`
-		Summary       string `json:"summary"`
-		Content       string `json:"content"        binding:"required"`
-		Category      string `json:"category"`
-		ThumbnailPath string `json:"thumbnail_path"`
-		IsPublished   bool   `json:"is_published"`
+		Title         string             `json:"title"          binding:"required"`
+		Slug          string             `json:"slug"`
+		Summary       string             `json:"summary"`
+		Content       string             `json:"content"        binding:"required"`
+		Category      string             `json:"category"`
+		ThumbnailPath string             `json:"thumbnail_path"`
+		IsPublished   bool               `json:"is_published"`
+		PublishedAt   *string            `json:"published_at"`
+		Images        []models.NewsImage `json:"Images"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -79,9 +82,32 @@ func CreateNews(c *gin.Context) {
 		IsPublished:   input.IsPublished,
 	}
 
+	// Jika admin mengisi tanggal, gunakan tanggal tersebut
+	// Jika tidak diisi, otomatis pakai waktu sekarang
+	if input.PublishedAt != nil && *input.PublishedAt != "" {
+		parsed, err := time.Parse("2006-01-02", *input.PublishedAt)
+		if err != nil {
+			// coba format lengkap
+			parsed, err = time.Parse(time.RFC3339, *input.PublishedAt)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Format tanggal tidak valid. Gunakan YYYY-MM-DD"})
+				return
+			}
+		}
+		news.PublishedAt = &parsed
+	} else {
+		now := time.Now()
+		news.PublishedAt = &now
+	}
+
 	if err := config.DB.Omit("Images").Create(&news).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
+	}
+
+	for i := range input.Images {
+		input.Images[i].NewsID = news.ID
+		config.DB.Create(&input.Images[i])
 	}
 
 	config.DB.Preload("Images").First(&news, news.ID)
@@ -99,13 +125,15 @@ func UpdateNews(c *gin.Context) {
 	}
 
 	var input struct {
-		Title         string `json:"title"`
-		Slug          string `json:"slug"`
-		Summary       string `json:"summary"`
-		Content       string `json:"content"`
-		Category      string `json:"category"`
-		ThumbnailPath string `json:"thumbnail_path"`
-		IsPublished   bool   `json:"is_published"`
+		Title         string             `json:"title"`
+		Slug          string             `json:"slug"`
+		Summary       string             `json:"summary"`
+		Content       string             `json:"content"`
+		Category      string             `json:"category"`
+		ThumbnailPath string             `json:"thumbnail_path"`
+		IsPublished   bool               `json:"is_published"`
+		PublishedAt   *string            `json:"published_at"`
+		Images        []models.NewsImage `json:"Images"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -127,9 +155,28 @@ func UpdateNews(c *gin.Context) {
 		news.Slug = makeSlug(input.Title)
 	}
 
+	// Jika admin mengisi tanggal baru, update; jika tidak diisi, biarkan tanggal lama
+	if input.PublishedAt != nil && *input.PublishedAt != "" {
+		parsed, err := time.Parse("2006-01-02", *input.PublishedAt)
+		if err != nil {
+			parsed, err = time.Parse(time.RFC3339, *input.PublishedAt)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Format tanggal tidak valid. Gunakan YYYY-MM-DD"})
+				return
+			}
+		}
+		news.PublishedAt = &parsed
+	}
+
 	if err := config.DB.Save(&news).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
+	}
+
+	config.DB.Where("news_id = ?", news.ID).Delete(&models.NewsImage{})
+	for i := range input.Images {
+		input.Images[i].NewsID = news.ID
+		config.DB.Create(&input.Images[i])
 	}
 
 	config.DB.Preload("Images").First(&news, news.ID)

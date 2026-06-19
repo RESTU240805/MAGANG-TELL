@@ -27,6 +27,14 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📦 Products
         </RouterLink>
+        <RouterLink to="/admin/slider"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🖼️ Product Slider
+        </RouterLink>
+        <RouterLink to="/admin/product-page"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          📝 Product Page
+        </RouterLink>
       </nav>
       <div class="p-4 border-t border-gray-800">
         <button @click="logout" class="text-sm text-gray-400 hover:text-white transition px-2">→ Logout</button>
@@ -113,7 +121,7 @@
                 </span>
               </td>
               <td class="px-6 py-4 text-sm text-gray-500">
-                {{ formatDate(news.CreatedAt) }}
+                {{ formatDate(news.published_at || news.CreatedAt) }}
               </td>
               <td class="px-6 py-4">
                 <div class="flex gap-2">
@@ -214,34 +222,71 @@
             <!-- Konten -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-1.5">Konten <span class="text-red-500">*</span></label>
-              <textarea
-                v-model="form.content"
-                rows="5"
-                placeholder="Tulis isi berita di sini..."
-                required
-                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent resize-none"
-              ></textarea>
+
+              <!-- Toolbar -->
+              <div class="flex items-center gap-1 border border-b-0 border-gray-200 rounded-t-xl px-2 py-1.5 bg-gray-50">
+                <button type="button" @click="execCmd('bold')" title="Bold"
+                  class="p-1.5 rounded hover:bg-gray-200 transition text-gray-600 font-bold text-sm">B</button>
+                <button type="button" @click="execCmd('italic')" title="Italic"
+                  class="p-1.5 rounded hover:bg-gray-200 transition text-gray-600 italic text-sm">I</button>
+                <span class="w-px h-5 bg-gray-300 mx-1"></span>
+                <button type="button" @click="execCmd('insertUnorderedList')" title="Bullet List"
+                  class="p-1.5 rounded hover:bg-gray-200 transition text-gray-600 text-sm">•≡</button>
+                <button type="button" @click="execCmd('insertOrderedList')" title="Numbered List"
+                  class="p-1.5 rounded hover:bg-gray-200 transition text-gray-600 text-sm">1≡</button>
+                <span class="w-px h-5 bg-gray-300 mx-1"></span>
+                <button type="button" @click="execCmd('formatBlock', 'blockquote')" title="Quote"
+                  class="p-1.5 rounded hover:bg-gray-200 transition text-gray-600 text-sm">❝</button>
+                <span class="w-px h-5 bg-gray-300 mx-1"></span>
+                <button type="button" @click="triggerContentImage" title="Insert Image"
+                  class="p-1.5 rounded hover:bg-green-100 transition text-green-700 text-sm font-semibold">
+                  🖼️ Gambar
+                </button>
+                <input ref="contentImageInput" type="file" accept="image/*" class="hidden" @change="insertContentImage" />
+              </div>
+
+              <!-- Editor -->
+              <div
+                ref="contentEditor"
+                contenteditable="true"
+                @input="onContentInput"
+                class="w-full border border-gray-200 rounded-b-xl px-4 py-3 text-sm min-h-[160px] max-h-[400px] overflow-y-auto focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent prose prose-sm max-w-none [&_img]:max-w-full [&_img]:rounded-lg [&_img]:my-3 [&_img]:shadow-sm [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_blockquote]:border-l-4 [&_blockquote]:border-green-500 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-500"
+                :data-placeholder="'Tulis isi berita di sini...'"
+              ></div>
+              <p v-if="contentUploading" class="text-xs text-gray-400 mt-1">Mengupload gambar...</p>
+            </div>
+
+            <!-- Tanggal -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1.5">Tanggal Berita</label>
+              <input
+                v-model="form.published_at"
+                type="date"
+                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
+              />
             </div>
 
             <!-- Upload Gambar -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-1.5">Gambar</label>
+              <div v-if="imageList.length" class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                <div v-for="(img, i) in imageList" :key="i" class="relative rounded-xl overflow-hidden h-28 bg-gray-100 group">
+                  <img :src="getImageUrl(img.image_url)" class="w-full h-full object-cover" />
+                  <button type="button" @click="removeImage(i)"
+                    class="absolute inset-0 bg-black/50 text-white text-xs font-semibold opacity-0 group-hover:opacity-100 transition">
+                    Hapus
+                  </button>
+                </div>
+              </div>
               <div
                 class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-green-400 transition cursor-pointer"
                 @click="$refs.fileInput.click()"
                 @dragover.prevent
                 @drop.prevent="handleDrop">
-                <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="handleFileChange" />
-                <div v-if="imagePreview || form.thumbnail_path">
-                  <img :src="imagePreview || getImageUrl(form.thumbnail_path)"
-                    class="mx-auto h-32 object-cover rounded-lg mb-2" />
-                  <p class="text-xs text-gray-400">Klik untuk ganti gambar</p>
-                </div>
-                <div v-else>
-                  <p class="text-3xl mb-2">🖼️</p>
-                  <p class="text-sm text-gray-500">Klik atau drag & drop gambar di sini</p>
-                  <p class="text-xs text-gray-400 mt-1">PNG, JPG, JPEG (maks 5MB)</p>
-                </div>
+                <input ref="fileInput" type="file" accept="image/*" multiple class="hidden" @change="handleFileChange" />
+                <p class="text-3xl mb-2">🖼️</p>
+                <p class="text-sm text-gray-500">Klik atau drag & drop gambar di sini</p>
+                <p class="text-xs text-gray-400 mt-1">Bisa lebih dari satu gambar. PNG, JPG, JPEG (maks 5MB/file)</p>
               </div>
             </div>
 
@@ -314,7 +359,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import api from '../../services/api'
 
@@ -329,8 +374,10 @@ const showModal  = ref(false)
 const showDeleteModal = ref(false)
 const isEdit     = ref(false)
 const selectedNews = ref(null)
-const imagePreview = ref(null)
-const imageFile  = ref(null)
+const imageList  = ref([])
+const contentEditor = ref(null)
+const contentImageInput = ref(null)
+const contentUploading = ref(false)
 const formError  = ref('')
 const alert      = ref({ show: false, type: 'success', message: '' })
 
@@ -343,6 +390,7 @@ const form = ref({
   content: '',
   category: '',
   thumbnail_path: '',
+  published_at: '',
   is_published: false,
 })
 
@@ -358,6 +406,11 @@ const formatDate = (dateStr) => {
   return new Date(dateStr).toLocaleDateString('id-ID', {
     day: '2-digit', month: 'short', year: 'numeric'
   })
+}
+
+const formatDateInput = (dateStr) => {
+  if (!dateStr) {return ''}
+  return new Date(dateStr).toISOString().slice(0, 10)
 }
 
 const showAlert = (type, message) => {
@@ -379,17 +432,18 @@ const fetchNews = async () => {
 }
 
 // ─── Modal Create ─────────────────────────────────────────────
-const openCreate = () => {
+const openCreate = async () => {
   isEdit.value = false
-  form.value = { title: '', slug: '', summary: '', content: '', category: '', thumbnail_path: '', is_published: false }
-  imagePreview.value = null
-  imageFile.value = null
+  form.value = { title: '', slug: '', summary: '', content: '', category: '', thumbnail_path: '', published_at: '', is_published: false }
+  imageList.value = []
   formError.value = ''
   showModal.value = true
+  await nextTick()
+  syncEditorContent()
 }
 
 // ─── Modal Edit ───────────────────────────────────────────────
-const openEdit = (news) => {
+const openEdit = async (news) => {
   isEdit.value = true
   selectedNews.value = news
   form.value = {
@@ -399,12 +453,17 @@ const openEdit = (news) => {
     content: news.content || '',
     category: news.category || '',
     thumbnail_path: news.thumbnail_path || '',
+    published_at: formatDateInput(news.published_at || news.PublishedAt),
     is_published: news.is_published || false,
   }
-  imagePreview.value = null
-  imageFile.value = null
+  imageList.value = (news.Images || []).map(img => ({ image_url: img.image_url }))
+  if (!imageList.value.length && news.thumbnail_path) {
+    imageList.value = [{ image_url: news.thumbnail_path }]
+  }
   formError.value = ''
   showModal.value = true
+  await nextTick()
+  syncEditorContent()
 }
 
 const closeModal = () => {
@@ -413,36 +472,82 @@ const closeModal = () => {
 }
 
 // ─── Handle file upload ───────────────────────────────────────
-const handleFileChange = (e) => {
+const uploadSingleImage = async (file) => {
+  const fd = new FormData()
+  fd.append('image', file)
+  const res = await api.post('/upload', fd, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
+  return res.data?.url || ''
+}
+
+const uploadFiles = async (files) => {
+  formError.value = ''
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) {continue}
+    if (file.size > 5 * 1024 * 1024) {
+      formError.value = `File ${file.name} maksimal 5MB`
+      continue
+    }
+    const url = await uploadSingleImage(file)
+    imageList.value.push({ image_url: url })
+  }
+}
+
+const handleFileChange = async (e) => {
+  await uploadFiles(Array.from(e.target.files || []))
+  e.target.value = ''
+}
+
+const handleDrop = async (e) => {
+  await uploadFiles(Array.from(e.dataTransfer.files || []))
+}
+
+const removeImage = (index) => {
+  imageList.value.splice(index, 1)
+}
+
+// ─── Rich text editor ──────────────────────────────────────
+const execCmd = (cmd, val = null) => {
+  document.execCommand(cmd, false, val)
+  contentEditor.value?.focus()
+}
+
+const triggerContentImage = () => {
+  contentImageInput.value?.click()
+}
+
+const insertContentImage = async (e) => {
   const file = e.target.files[0]
   if (!file) {return}
   if (file.size > 5 * 1024 * 1024) {
     formError.value = 'Ukuran gambar maksimal 5MB'
     return
   }
-  imageFile.value = file
-  imagePreview.value = URL.createObjectURL(file)
-}
-
-const handleDrop = (e) => {
-  const file = e.dataTransfer.files[0]
-  if (file) {
-    imageFile.value = file
-    imagePreview.value = URL.createObjectURL(file)
+  contentUploading.value = true
+  try {
+    const url = await uploadSingleImage(file)
+    document.execCommand('insertHTML', false, `<img src="${url}" class="max-w-full rounded-lg my-2" /><br/>`)
+    onContentInput()
+  } catch {
+    formError.value = 'Gagal upload gambar'
   }
+  contentUploading.value = false
+  e.target.value = ''
 }
 
-// ─── Upload gambar ke /api/upload ────────────────────────────
-const uploadImage = async () => {
-  if (!imageFile.value) {return form.value.thumbnail_path}
-  const fd = new FormData()
-  fd.append('image', imageFile.value)
-  const res = await api.post('/upload', fd, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  })
-  // Sesuaikan field dengan response Go kamu
-  // Backend return { url: 'http://localhost:8080/uploads/xxx', filename: 'xxx' }
-  return res.data?.url || ''
+const onContentInput = () => {
+  form.value.content = contentEditor.value?.innerHTML || ''
+}
+
+const syncEditorContent = () => {
+  if (contentEditor.value && form.value.content) {
+    if (contentEditor.value.innerHTML !== form.value.content) {
+      contentEditor.value.innerHTML = form.value.content
+    }
+  } else if (contentEditor.value) {
+    contentEditor.value.innerHTML = form.value.content || ''
+  }
 }
 
 // ─── Submit form (Create / Edit) ─────────────────────────────
@@ -454,10 +559,7 @@ const submitForm = async () => {
   submitting.value = true
   formError.value = ''
   try {
-    // Upload gambar dulu kalau ada file baru
-    if (imageFile.value) {
-      form.value.thumbnail_path = await uploadImage()
-    }
+    form.value.thumbnail_path = imageList.value[0]?.image_url || ''
 
     // Auto-generate slug dari title jika kosong
     if (!form.value.slug) {
@@ -476,7 +578,9 @@ const submitForm = async () => {
       content:        form.value.content,
       category:       form.value.category,
       thumbnail_path: form.value.thumbnail_path,
+      published_at:   form.value.published_at,
       is_published:   form.value.is_published,
+      Images:         imageList.value,
     }
 
     if (isEdit.value) {
@@ -536,5 +640,10 @@ onMounted(() => {
 }
 .modal-enter-from, .modal-leave-to {
   opacity: 0;
+}
+[contenteditable]:empty:before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  pointer-events: none;
 }
 </style>

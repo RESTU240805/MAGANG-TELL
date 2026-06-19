@@ -47,17 +47,18 @@
       <div class="about-inner">
         <div class="about-text">
           <span class="eyebrow">About TELPP</span>
+          <h2 class="text-2xl font-black text-gray-900 mb-4" v-if="about.title && about.title !== 'ABOUT TELPP'">{{ about.title }}</h2>
           <p>
-            PT Tanjungenim Lestari Pulp and Paper ( TELPP) is world class manufacturer of high product quality and environmental friendly market pulp mill. This was established on June 18, 1990, commenced construction in mid-1997 and the commercial operation started on May, 2000 . The mill is located in 1,250 ha area in the Banuayu village, District Empat Petulai Dangku, Muara Enim Regency, South Sumatra province, Indonesia.
+            {{ about.description }}
           </p>
           
         </div>
 
         <div class="about-media reveal reveal-right" data-delay="200">
-          <img src="/images/gedung.jpeg" alt="TELPP Worker" class="about-img" />
+          <img :src="getImageUrl(about.image_path)" alt="TELPP" class="about-img" />
           <div class="about-badge">
-            <span class="badge-number">20+</span>
-            <span class="badge-label">Years of Excellence</span>
+            <span class="badge-number">{{ about.badge_number }}</span>
+            <span class="badge-label">{{ about.badge_label }}</span>
           </div>
         </div>
       </div>
@@ -332,6 +333,13 @@ import api from '../services/api'
 const BASE_URL = 'http://localhost:8080'
 const fallbackImg = 'https://placehold.co/600x400/e8e8e8/999?text=News'
 const latestNews = ref([])
+const about = ref({
+  title: 'ABOUT TELPP',
+  description: 'PT Tanjungenim Lestari Pulp and Paper ( TELPP) is world class manufacturer of high product quality and environmental friendly market pulp mill. This was established on June 18, 1990, commenced construction in mid-1997 and the commercial operation started on May, 2000 . The mill is located in 1,250 ha area in the Banuayu village, District Empat Petulai Dangku, Muara Enim Regency, South Sumatra province, Indonesia.',
+  image_path: '/images/gedung.jpeg',
+  badge_number: '20+',
+  badge_label: 'Years of Excellence'
+})
 
 const getImageUrl = (path) => {
   if (!path) {return fallbackImg}
@@ -343,6 +351,22 @@ const formatDate = (dateStr) => {
   if (!dateStr) {return ''}
   const d = new Date(dateStr)
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+const fetchAbout = async () => {
+  try {
+    const res = await api.get('/about-section')
+    const d = res.data?.data
+    if (d && d.title) {
+      about.value = {
+        title: d.title || 'ABOUT TELPP',
+        description: d.description || about.value.description,
+        image_path: d.image_path || '/images/gedung.jpeg',
+        badge_number: d.badge_number || '20+',
+        badge_label: d.badge_label || 'Years of Excellence'
+      }
+    }
+  } catch {}
 }
 
 const fetchLatestNews = async () => {
@@ -358,7 +382,7 @@ const fetchLatestNews = async () => {
         title: item.title,
         excerpt: item.summary || '',
         author: item.author || 'Admin',
-        date: item.CreatedAt || item.created_at || item.date,
+        date: item.published_at || item.CreatedAt || item.created_at || item.date,
         image: item.Images?.[0]?.image_url || item.thumbnail_path || '',
       }))
     await nextTick()
@@ -473,6 +497,7 @@ onMounted(() => {
   }, 5500)
   initScrollReveal()
   fetchLatestNews()
+  fetchAbout()
 })
 
 onUnmounted(() => {

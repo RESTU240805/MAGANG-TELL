@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"magang-unpra-backend/handlers"
+	"magang-unpra-backend/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -38,9 +39,15 @@ func SetupRoutes() *gin.Engine {
 		api.GET("/products", handlers.GetAllProducts)
 		api.GET("/products/:id", handlers.GetProductById)
 		api.GET("/company-profile", handlers.GetCompanyProfile)
+		api.GET("/about-section", handlers.GetAboutSection)
+		api.PUT("/about-section", handlers.UpdateAboutSection)
+		api.GET("/product-slides", handlers.GetAllSlides)
+		api.GET("/product-page", handlers.GetProductPage)
+		api.PUT("/product-page", handlers.UpdateProductPage)
 
 		// Admin
 		admin := api.Group("/admin")
+		admin.Use(middleware.AuthRequired())
 		{
 			admin.GET("/news", handlers.GetAllNewsAdmin)
 			admin.POST("/news", handlers.CreateNews)
@@ -52,7 +59,16 @@ func SetupRoutes() *gin.Engine {
 			admin.PUT("/products/:id", handlers.UpdateProduct)
 			admin.DELETE("/products/:id", handlers.DeleteProduct)
 
+			admin.GET("/product-slides", handlers.GetAllSlides)
+			admin.POST("/product-slides", handlers.CreateSlide)
+			admin.PUT("/product-slides/:id", handlers.UpdateSlide)
+			admin.DELETE("/product-slides/:id", handlers.DeleteSlide)
+
 			admin.PUT("/company-profile", handlers.UpdateCompanyProfile)
+			admin.GET("/about-section", handlers.GetAboutSection)
+			admin.PUT("/about-section", handlers.UpdateAboutSection)
+			admin.GET("/product-page", handlers.GetProductPage)
+			admin.PUT("/product-page", handlers.UpdateProductPage)
 		}
 	}
 

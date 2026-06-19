@@ -97,7 +97,73 @@
     </div>
   </Teleport>
 
-  
+  <section class="contact-section">
+      <div class="contact-container">
+        <div class="contact-header anim-item">
+          <span class="contact-label">GET IN TOUCH</span>
+          <h2 class="contact-title">Our Offices</h2>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card anim-item">
+            <div class="contact-image">
+              <img src="/images/jakarta.jpeg" alt="Jakarta Office" />
+            </div>
+            <div class="contact-body">
+              <h3 class="contact-city">Jakarta</h3>
+              <p class="contact-address">Menara Astra 22nd floor – Zona D, Jalan Jenderal Sudirman Kav. 5-6 Kel. Karet Tengsin, Kec. Tanah Abang</p>
+              <a class="contact-phone" href="tel:+622186656809">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                +62 21 8665 6809 / 8665 6810
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-card anim-item">
+            <div class="contact-image">
+              <img src="/images/lokasi pabrik.jpeg" alt="Mill Site" />
+            </div>
+            <div class="contact-body">
+              <h3 class="contact-city">Mill Site</h3>
+              <p class="contact-address">Desa Banuayu, Kec. Empat Petulai Dangku, Kab. Muara Enim, Sumatera Selatan</p>
+              <a class="contact-phone" href="tel:+62713324150">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (62) (713) 324150 – 324160
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-card anim-item">
+            <div class="contact-image">
+              <img src="/images/palembang.jpeg" alt="Palembang Office" />
+            </div>
+            <div class="contact-body">
+              <h3 class="contact-city">Palembang</h3>
+              <p class="contact-address">Ruko Blok I/29, Komplek PTC Mall. Jl. R. Soekamto Palembang 30114, Sumatera Selatan</p>
+              <a class="contact-phone" href="tel:+62711382409">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (62) (711) 382409
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-card anim-item">
+            <div class="contact-image">
+              <img src="/images/tarahan.jpeg" alt="Tarahan Port" />
+            </div>
+            <div class="contact-body">
+              <h3 class="contact-city">Tarahan</h3>
+              <p class="contact-address">Jl. Soekarno Hatta Km. 14, Batu Serampok Kel. Srengsem Kec. Panjang, Bandar Lampung</p>
+              <a class="contact-phone" href="tel:+62721342311">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (62) (721) 34231, 31318
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
   <footer class="site-footer">
       <div class="footer-container">
         <div class="footer-left-content"></div>
@@ -428,6 +494,345 @@ const openPdf = (filename) => {
 @media (max-width: 640px) {
   .csrr-quarters { grid-template-columns: 1fr; }
   .csrr-modal__box { height: 90vh; }
+}
+
+
+.contact-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.contact-label {
+  color: #5F9E42;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.contact-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #18301f;
+  letter-spacing: -0.02em;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-card {
+  background: #ffffff;
+  border: 1px solid #dcecd2;
+  border-radius: 20px;
+  padding: 28px 24px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-card:hover {
+  transform: translateY(-6px);
+  border-color: #a9d68c;
+  box-shadow: 0 16px 32px rgba(95, 158, 66, 0.12);
+}
+
+.contact-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #eaf6e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  color: #5F9E42;
+}
+
+.contact-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.contact-city {
+  font-size: 17px;
+  font-weight: 700;
+  color: #18301f;
+  margin-bottom: 10px;
+}
+
+.contact-address {
+  font-size: 13px;
+  color: #6b7b66;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.contact-phone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #3b6d11;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-phone:hover {
+  color: #27500a;
+}
+
+.contact-phone svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.contact-section {
+  background: linear-gradient(180deg, #ffffff 0%, #eef7e9 100%);
+  padding: 80px 0 70px;
+}
+
+.contact-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.contact-label {
+  color: #5F9E42;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.contact-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #18301f;
+  letter-spacing: -0.02em;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-card {
+  background: #ffffff;
+  border: 1px solid #dcecd2;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-card:hover {
+  transform: translateY(-6px);
+  border-color: #a9d68c;
+  box-shadow: 0 16px 32px rgba(95, 158, 66, 0.15);
+}
+
+.contact-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #eaf6e1;
+}
+
+.contact-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-card:hover .contact-image img {
+  transform: scale(1.06);
+}
+
+.contact-body {
+  padding: 20px 18px 22px;
+}
+
+.contact-city {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a4d8f;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.contact-address {
+  font-size: 13px;
+  color: #5a6b56;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.contact-phone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #2c3a2a;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-phone:hover {
+  color: #3b6d11;
+}
+
+.contact-phone svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: #5F9E42;
+}
+/* Responsif untuk Layar Handphone (Mobile) */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 20px;
+  }
+  
+  .footer-copyright {
+    text-align: center; /* Di HP otomatis pindah ke tengah bawah agar rapi */
+    width: 100%;
+  }
+  
+  .footer-copyright p {
+    font-size: 12px; /* Ukuran sedikit disesuaikan untuk layar kecil */
+  }
+}
+
+.footer-info-section {
+  background: #ffffff;
+  border-top: 1px solid #e4efdb;
+  padding: 56px 0;
+}
+
+.footer-info-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.footer-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.footer-info-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-about-text {
+  margin: 0;
+  font-size: 14px;
+  color: #7a8a76;
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+.footer-logos-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-logos-col {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-logo-combined {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.footer-contact-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 280px;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  color: #5a6b56;
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 0;
+}
+.footer-contact-icon {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  color: #5F9E42;
 }
 
 /* ============ FOOTER ============ */

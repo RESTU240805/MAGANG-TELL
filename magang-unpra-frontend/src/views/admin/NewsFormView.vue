@@ -26,6 +26,14 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📦 Products
         </RouterLink>
+        <RouterLink to="/admin/slider"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🖼️ Product Slider
+        </RouterLink>
+        <RouterLink to="/admin/product-page"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          📝 Product Page
+        </RouterLink>
       </nav>
       <div class="p-4 border-t border-gray-800">
         <button @click="logout" class="text-sm text-gray-400 hover:text-white transition px-2">→ Logout</button>
@@ -155,7 +163,6 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute, RouterLink } from 'vue-router'
 import api from '../../services/api'
-import axios from 'axios'
 
 const router = useRouter()
 const route = useRoute()
@@ -217,7 +224,7 @@ const uploadFiles = async (files) => {
     try {
       const formData = new FormData()
       formData.append('image', file)
-      const res = await axios.post('http://localhost:8080/api/upload', formData, {
+      const res = await api.post('/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       imageList.value.push({ url: res.data.url })

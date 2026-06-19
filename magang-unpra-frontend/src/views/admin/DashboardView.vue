@@ -29,6 +29,18 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📦 Products
         </RouterLink>
+        <RouterLink to="/admin/slider"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🖼️ Product Slider
+        </RouterLink>
+        <RouterLink to="/admin/product-page"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          📝 Product Page
+        </RouterLink>
+        <RouterLink to="/admin/about"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🏢 About Section
+        </RouterLink>
       </nav>
 
       <div class="p-4 border-t border-gray-800">
@@ -148,8 +160,8 @@ onMounted(async () => {
   if (!token) { router.push('/admin/login'); return }
 
   const [newsRes, productRes] = await Promise.all([
-    api.get('/news'),
-    api.get('/products')
+    api.get('/admin/news'),
+    api.get('/admin/products')
   ])
   newsCount.value = newsRes.data.data.length
   productCount.value = productRes.data.data.length

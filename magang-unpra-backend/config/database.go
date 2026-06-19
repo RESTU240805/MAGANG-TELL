@@ -34,12 +34,15 @@ func ConnectDB() {
 		&models.NewsImage{},
 		&models.Product{},
 		&models.ProductImage{},
+		&models.ProductSlider{},
 
 		&models.Creed{},
-   		&models.Menu{},
-    	&models.CompanyProfile{},
-    	&models.Sustainability{},
-    	&models.SustainabilityImage{},
+		&models.Menu{},
+		&models.CompanyProfile{},
+		&models.Sustainability{},
+		&models.SustainabilityImage{},
+		&models.ProductPage{},
+		&models.AboutSection{},
 	)
 
 	db.AutoMigrate(
@@ -48,6 +51,7 @@ func ConnectDB() {
 		&models.NewsImage{},
 		&models.Product{},
 		&models.ProductImage{},
+		&models.ProductSlider{},
 		&models.CompanyProfile{},
 	)
 

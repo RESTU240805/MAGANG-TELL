@@ -97,12 +97,12 @@ const activeStage = ref(null)
 const stagePanelVisible = ref(false)
 
 const stages = [
-  { name: 'Wood & Chip Handling', short: 'Wood', desc: 'Log storage ponds, debarking drum, disk chipper, and chip screening — uniform 25mm chips ready for cooking.', color: '#d97706', theta: -0.6, phi: 0.75, radius: 55, lookAt: [-20, 0, -18] },
-  { name: 'Fiber Line', short: 'Fiber', desc: 'Kamyr continuous digester (170\u00b0C), blow tank, multi-stage brownstock washers, and O\u2082 delignification.', color: '#f97316', theta: -0.15, phi: 0.82, radius: 50, lookAt: [5, 0, -8] },
-  { name: 'Bleaching Plant', short: 'Bleach', desc: 'ECF bleaching sequence D\u2080/EOP/D\u2081/D\u2082 using ClO\u2082 and H\u2082O\u2082. Target brightness: 89+ % ISO.', color: '#0d9488', theta: 0.15, phi: 0.85, radius: 48, lookAt: [14, 0, -2] },
-  { name: 'Pulp Machine', short: 'PM', desc: 'Fourdrinier forming machine — pulp slurry formed, pressed, and steam-dried. Capacity: 450,000 ADt/year.', color: '#0284c7', theta: 0.1, phi: 0.95, radius: 45, lookAt: [-4, 0, 4] },
-  { name: 'Warehouse', short: 'Warehouse', desc: 'Air-conditioned warehouse storing finished pulp bales (250 kg each) for export via conveyor to jetty.', color: '#8b5cf6', theta: 0.3, phi: 0.9, radius: 48, lookAt: [18, 0, 4] },
-  { name: 'Chemical Recovery', short: 'Recovery', desc: 'Recovery Boiler (2,400 TDS/day), evaporators, lime kiln, recausticizing, and power boiler for energy.', color: '#dc2626', theta: 0.45, phi: 0.78, radius: 55, lookAt: [12, 0, -16] }
+  { name: 'Wood & Chip Handling', short: 'Wood', desc: 'Log storage ponds, debarking drum, disk chipper, and chip screening — uniform 25mm chips ready for cooking.', color: '#d97706', theta: -0.6, phi: 0.75, radius: 70, lookAt: [-27, 0, -24] },
+  { name: 'Fiber Line', short: 'Fiber', desc: 'Kamyr continuous digester (170\u00b0C), blow tank, multi-stage brownstock washers, and O\u2082 delignification.', color: '#f97316', theta: -0.15, phi: 0.82, radius: 65, lookAt: [7, 0, -11] },
+  { name: 'Bleaching Plant', short: 'Bleach', desc: 'ECF bleaching sequence D\u2080/EOP/D\u2081/D\u2082 using ClO\u2082 and H\u2082O\u2082. Target brightness: 89+ % ISO.', color: '#0d9488', theta: 0.15, phi: 0.85, radius: 62, lookAt: [19, 0, -3] },
+  { name: 'Pulp Machine', short: 'PM', desc: 'Fourdrinier forming machine — pulp slurry formed, pressed, and steam-dried. Capacity: 450,000 ADt/year.', color: '#0284c7', theta: 0.1, phi: 0.95, radius: 58, lookAt: [-5, 0, 5] },
+  { name: 'Warehouse', short: 'Warehouse', desc: 'Air-conditioned warehouse storing finished pulp bales (250 kg each) for export via conveyor to jetty.', color: '#8b5cf6', theta: 0.3, phi: 0.9, radius: 62, lookAt: [24, 0, 5] },
+  { name: 'Chemical Recovery', short: 'Recovery', desc: 'Recovery Boiler (2,400 TDS/day), evaporators, lime kiln, recausticizing, and power boiler for energy.', color: '#dc2626', theta: 0.45, phi: 0.78, radius: 70, lookAt: [16, 0, -22] }
 ]
 
 const legendItems = [
@@ -116,7 +116,7 @@ const legendItems = [
 const tooltip = reactive({ visible: false, x: 0, y: 0, zone: '', name: '', desc: '', zoneColor: '' })
 
 let scene, camera, renderer, animationId
-let orTheta = -0.4, orPhi = 0.92, orRadius = 95
+let orTheta = -0.4, orPhi = 0.92, orRadius = 125
 let tTheta = orTheta, tPhi = orPhi, tRadius = orRadius
 let isDrag = false, prevX = 0, prevY = 0
 let dragStartX = 0, dragStartY = 0
@@ -164,7 +164,7 @@ function addClickable(mesh, zone, name, desc, zoneColor) {
 
 function box(w, h, d, mat, cx, cy, cz, ry = 0) {
   const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat)
-  m.position.set(cx, cy, cz)
+  m.position.set(cx * SPREAD, cy, cz * SPREAD)
   m.rotation.y = ry
   m.castShadow = true; m.receiveShadow = true
   scene.add(m); return m
@@ -172,19 +172,19 @@ function box(w, h, d, mat, cx, cy, cz, ry = 0) {
 
 function cyl(rt, rb, h, seg, mat, cx, cy, cz) {
   const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg), mat)
-  m.position.set(cx, cy, cz)
+  m.position.set(cx * SPREAD, cy, cz * SPREAD)
   m.castShadow = true; scene.add(m); return m
 }
 
 function cone(r, h, seg, mat, cx, cy, cz) {
   const m = new THREE.Mesh(new THREE.ConeGeometry(r, h, seg), mat)
-  m.position.set(cx, cy, cz)
+  m.position.set(cx * SPREAD, cy, cz * SPREAD)
   m.castShadow = true; scene.add(m); return m
 }
 
 function sphere(r, mat, cx, cy, cz) {
   const m = new THREE.Mesh(new THREE.SphereGeometry(r, 12, 8), mat)
-  m.position.set(cx, cy, cz)
+  m.position.set(cx * SPREAD, cy, cz * SPREAD)
   scene.add(m); return m
 }
 
@@ -226,10 +226,13 @@ function makeLabel(text, hexCol, scale = 1) {
   return s
 }
 
+const SPREAD = 1.35
+
 function buildScene() {
+
   scene = new THREE.Scene()
   scene.background = new THREE.Color(0x0a1610)
-  scene.fog = new THREE.FogExp2(0x0a1610, 0.003)
+  scene.fog = new THREE.FogExp2(0x0a1610, 0.0025)
 
   camera = new THREE.PerspectiveCamera(40, container.value.clientWidth / container.value.clientHeight, 0.1, 800)
 
@@ -247,8 +250,8 @@ function buildScene() {
   sun.position.set(50, 90, 40)
   sun.castShadow = true
   sun.shadow.mapSize.set(4096, 4096)
-  sun.shadow.camera.left = -150; sun.shadow.camera.right = 150
-  sun.shadow.camera.top = 150; sun.shadow.camera.bottom = -150
+  sun.shadow.camera.left = -200; sun.shadow.camera.right = 200
+  sun.shadow.camera.top = 200; sun.shadow.camera.bottom = -200
   sun.shadow.camera.far = 250
   sun.shadow.bias = -0.001
   scene.add(sun)
@@ -262,12 +265,12 @@ function buildScene() {
   rimLight.position.set(-20, 5, 40)
   scene.add(rimLight)
 
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(300, 280), M(0x1e3318, 0, 1.0))
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 380), M(0x1e3318, 0, 1.0))
   ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true
   scene.add(ground)
 
   // Factory floor pad
-  const factoryPad = new THREE.Mesh(new THREE.PlaneGeometry(140, 100), M(0x3a3e36, 0, 0.95))
+  const factoryPad = new THREE.Mesh(new THREE.PlaneGeometry(190, 140), M(0x3a3e36, 0, 0.95))
   factoryPad.rotation.x = -Math.PI / 2
   factoryPad.position.set(0, 0.01, -2)
   factoryPad.receiveShadow = true
@@ -309,7 +312,7 @@ function buildScene() {
   // ZONE 2: WOOD HANDLING / CHIP PREPARATION
   {
     const drum = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 5, 16), MAT.mill)
-    drum.rotation.z = Math.PI / 2; drum.position.set(-10, 1.3, -20)
+    drum.rotation.z = Math.PI / 2; drum.position.set(-10 * SPREAD, 1.3, -20 * SPREAD)
     drum.castShadow = true; scene.add(drum)
     addClickable(drum, 'Wood Handling', 'Debarking Drum', 'Rotary drum debarker strips bark from logs. Bark is collected as biomass fuel for the Power Boiler.', '#d97706')
     const chipper = box(4, 3, 4, MAT.concrete, -5, 1.5, -22)
@@ -387,7 +390,7 @@ function buildScene() {
     }
     box(6, 0.4, 0.4, MAT.steel, 21, 5.5, -14)
     const lkDrum = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 9, 16), M(0x8a3a2a))
-    lkDrum.rotation.z = Math.PI / 2; lkDrum.position.set(17, 1.1, -22)
+    lkDrum.rotation.z = Math.PI / 2; lkDrum.position.set(17 * SPREAD, 1.1, -22 * SPREAD)
     lkDrum.castShadow = true; scene.add(lkDrum)
     addClickable(lkDrum, 'Chemical Recovery', 'Lime Kiln', 'Rotary kiln (~150m) reburns CaCO\u2083 lime mud at 1000\u00b0C to regenerate CaO quick lime for recausticizing cycle.', '#dc2626')
     box(2, 3, 2, M(0x5a2a1a), 13, 1.5, -22)
@@ -414,7 +417,7 @@ function buildScene() {
       const pmat = pileColors[(col + row) % 3]
       const pile = new THREE.Mesh(new THREE.SphereGeometry(3.5, 12, 8), pmat)
       pile.scale.set(1.2, 0.38, 0.9)
-      pile.position.set(px, 1.3, pz)
+      pile.position.set(px * SPREAD, 1.3, pz * SPREAD)
       pile.castShadow = true
       scene.add(pile)
       box(0.3, 1.5, 6, MAT.concrete, px + 4.5, 0.75, pz)
@@ -496,7 +499,7 @@ function buildScene() {
       const px = 21 + col * 6, pz = 8 + row * 6
       const pile = new THREE.Mesh(new THREE.SphereGeometry(2.6, 12, 8), (col + row) % 2 ? MAT.chip : MAT.bark)
       pile.scale.set(1.2, 0.4, 1.0)
-      pile.position.set(px, 1.0, pz)
+      pile.position.set(px * SPREAD, 1.0, pz * SPREAD)
       pile.castShadow = true
       scene.add(pile)
     }}
@@ -529,7 +532,7 @@ function buildScene() {
 
   // ── PROCESS FLOW ARROWS + ANIMATED PARTICLES ──
   {
-    const S = 1.5 // spread factor
+    const S = SPREAD
     const bluePipeMat = new THREE.MeshStandardMaterial({ color: 0x2563eb, emissive: 0x1d4ed8, emissiveIntensity: 0.4, transparent: true, opacity: 0.5 })
     const greenPipeMat = new THREE.MeshStandardMaterial({ color: 0x16a34a, emissive: 0x15803d, emissiveIntensity: 0.4, transparent: true, opacity: 0.5 })
     const orangePipeMat = new THREE.MeshStandardMaterial({ color: 0xea580c, emissive: 0xc2410c, emissiveIntensity: 0.3, transparent: true, opacity: 0.45 })
@@ -673,7 +676,7 @@ function buildScene() {
   ]
   labelsData.forEach(l => {
     const s = makeLabel(l.text, l.col)
-    s.position.set(l.x, l.y, l.z)
+    s.position.set(l.x * SPREAD, l.y, l.z * SPREAD)
     scene.add(s)
   })
 
@@ -696,11 +699,11 @@ function toggleAutoRotate() {
 }
 
 function topView() {
-  tPhi = 0.18; tRadius = 110; autoRotate.value = false
+  tPhi = 0.18; tRadius = 145; autoRotate.value = false
 }
 
 function resetView() {
-  tTheta = -0.4; tPhi = 0.92; tRadius = 95; autoRotate.value = true
+  tTheta = -0.4; tPhi = 0.92; tRadius = 125; autoRotate.value = true
   activeStage.value = null
   stagePanelVisible.value = false
 }

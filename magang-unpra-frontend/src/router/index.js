@@ -17,6 +17,7 @@ import NewsListView from '../views/admin/NewsListView.vue'
 import NewsFormView from '../views/admin/NewsFormView.vue'
 import ProductListView from '../views/admin/ProductListView.vue'
 import ProductFormView from '../views/admin/ProductFormView.vue'
+import ProductPageEditorView from '../views/admin/ProductPageEditorView.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import HomeView from '../views/HomeView.vue'
 
@@ -52,6 +53,9 @@ const router = createRouter({
     { path: '/admin/products',                    component: ProductListView },
     { path: '/admin/products/create',             component: ProductFormView },
     { path: '/admin/products/edit/:id',           component: ProductFormView },
+    { path: '/admin/slider',                      component: () => import('../views/admin/SliderListView.vue') },
+    { path: '/admin/product-page',                component: ProductPageEditorView },
+    { path: '/admin/about',                       component: () => import('../views/admin/AboutEditorView.vue') },
     { path: '/product/:id', component: ProductDetail },
 
       { path: '/',            component: HomeView },

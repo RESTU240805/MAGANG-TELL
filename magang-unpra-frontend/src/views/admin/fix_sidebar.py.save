@@ -1,0 +1,47 @@
+import re
+
+files = [
+    "DashboardView.vue",
+    "NewsListView.vue",
+    "NewsFormView.vue",
+    "ProductListView.vue",
+    "ProductFormView.vue",
+    "ProductPageEditorView.vue",
+    "SliderListView.vue",
+    "AboutEditorView.vue",
+    "TeamMemberListView.vue",
+]
+
+new_link = """        <RouterLink to="/admin/our-company"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 
+transition">
+          Our Company
+        </RouterLink>
+"""
+
+for fname in files:
+    f = open(fname, "r", encoding="utf-8")
+    content = f.read()
+    f.close()
+
+    if "admin/our-company" in content:
+        print(fname + ": sudah ada, dilewati")
+        continue
+
+    pattern = re.compile(r"(Our Team\s*\n\s*</RouterLink>\s*\n)")
+    new_content, count = pattern.subn(r"\1" + new_link, content)
+
+    if count == 0:
+        print(fname + ": PATTERN TIDAK DITEMUKAN")
+    else:
+        out = open(fname, "w", encoding="utf-8")
+        out.write(new_content)
+        out.close()
+        print(fname + ": berhasil diupdate")
+
+
+
+
+
+
+

@@ -34,6 +34,10 @@ const router = createRouter({
     { path: '/news/:id',    component: NewsDetail, name: 'NewsDetail' },
     { path: '/contact',     component: () => import('../views/ContactView.vue'), name: 'contact' },
 
+    {path: '/admin/our-company',
+  name: 'AdminOurCompany',
+  component: () => import('@/views/admin/OurCompanyView.vue'),
+},
     // ── Sustainability ──
     { path: '/sustainability/forest-management',  component: ForestManagementView },
     { path: '/sustainability/people-development', component: PeopleDevView },

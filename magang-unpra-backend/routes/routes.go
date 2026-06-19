@@ -45,6 +45,8 @@ func SetupRoutes() *gin.Engine {
 		api.GET("/product-page", handlers.GetProductPage)
 		api.PUT("/product-page", handlers.UpdateProductPage)
 		api.GET("/team-members", handlers.GetAllTeamMembers)
+		api.GET("/creeds", handlers.GetAllCreeds)
+		api.GET("/company-documents", handlers.GetAllCompanyDocuments)
 
 		// Admin
 		admin := api.Group("/admin")
@@ -65,6 +67,7 @@ func SetupRoutes() *gin.Engine {
 			admin.PUT("/product-slides/:id", handlers.UpdateSlide)
 			admin.DELETE("/product-slides/:id", handlers.DeleteSlide)
 
+			admin.GET("/company-profile", handlers.GetCompanyProfile)
 			admin.PUT("/company-profile", handlers.UpdateCompanyProfile)
 			admin.GET("/about-section", handlers.GetAboutSection)
 			admin.PUT("/about-section", handlers.UpdateAboutSection)
@@ -75,6 +78,18 @@ func SetupRoutes() *gin.Engine {
 			admin.POST("/team-members", handlers.CreateTeamMember)
 			admin.PUT("/team-members/:id", handlers.UpdateTeamMember)
 			admin.DELETE("/team-members/:id", handlers.DeleteTeamMember)
+
+			// Tambahan baru - Creed
+			admin.GET("/creeds", handlers.GetAllCreeds)
+			admin.POST("/creeds", handlers.CreateCreed)
+			admin.PUT("/creeds/:id", handlers.UpdateCreed)
+			admin.DELETE("/creeds/:id", handlers.DeleteCreed)
+
+			// Tambahan baru - Company Document
+			admin.GET("/company-documents", handlers.GetAllCompanyDocuments)
+			admin.POST("/company-documents", handlers.CreateCompanyDocument)
+			admin.PUT("/company-documents/:id", handlers.UpdateCompanyDocument)
+			admin.DELETE("/company-documents/:id", handlers.DeleteCompanyDocument)
 		}
 	}
 

@@ -4,7 +4,7 @@
     <!-- HERO -->
     <section class="hero" ref="heroEl">
       <div class="hero-bg">
-        <img src="/images/lokasi pabrik.jpeg" alt="Pabrik TeL" class="hero-img" ref="heroImg" />
+        <img :src="profile.hero_image ? getImageUrl(profile.hero_image) : '/images/lokasi pabrik.jpeg'" alt="Pabrik TeL" class="hero-img" ref="heroImg" />
         <div class="hero-overlay"></div>
         <div class="hero-particles" ref="particlesEl"></div>
       </div>
@@ -14,11 +14,8 @@
           <span class="line" v-for="(l,i) in ['OUR COMPANY']" :key="i" :style="{transitionDelay: (0.18+i*0.14)+'s'}">{{l}}</span>
         </h1>
         <div class="accent-line" :class="{in: h1}" style="transition-delay:.52s"></div>
-        <p class="hero-p" :class="{in: h1}" style="transition-delay:.62s">
-          PT Tanjungenim Lestari Pulp and Paper ( TeL) is world class manufacturer of high product quality and environmental friendly market pulp mill. This was established on June 18, 1990, commenced construction in mid-1997 and the commercial operation started on May, 2000 . The mill is located in 1,250 ha area in the Banuayu village, District Empat Petulai Dangku, Muara Enim Regency, South Sumatra province, Indonesia.
-
-TeL is a Foreign Investment Company (PMA)- Marubeni Corporation , Japan , as the National Vital Objects Industrial sector (OVNI) declared by the Minister of Industry in 2014 . The mill has market pulp production capacity of 490,000 Adt / year. Presently mill has 1600 employees and support workforce together where ~ 80% of them are residents of South Sumatra
-        </p>
+        <p v-if="profile.title" class="hero-subtitle" :class="{in: h1}" style="transition-delay:.54s">{{ profile.title }}</p>
+        <p class="hero-p" :class="{in: h1}" style="transition-delay:.62s" v-html="profile.content || 'Memuat data...'"></p>
       </div>
       <div class="hero-scroll" :class="{in: h1}" style="transition-delay:.9s">
         <span></span>
@@ -28,7 +25,7 @@ TeL is a Foreign Investment Company (PMA)- Marubeni Corporation , Japan , as the
     <!-- CREED -->
     <section class="creed" ref="creedEl">
       <!-- TAMBAHAN: background image -->
-      <img src="/images/backgroundour.jpeg" alt="" class="creed-bg-img" aria-hidden="true" />
+      <img :src="profile.creed_bg_image ? getImageUrl(profile.creed_bg_image) : '/images/backgroundour.jpeg'" alt="" class="creed-bg-img" aria-hidden="true" />
       <div class="creed-bg-kanji" aria-hidden="true">和</div>
       <div class="section-inner">
         <div class="section-eyebrow" :class="{in: c1}">
@@ -37,17 +34,17 @@ TeL is a Foreign Investment Company (PMA)- Marubeni Corporation , Japan , as the
         <div class="kanji-row">
           <div
             class="kanji-item"
-            v-for="(k,i) in creeds"
+            v-for="(k,i) in creedData"
             :key="i"
             :class="{in: c1}"
             :style="{transitionDelay: (0.1+i*0.18)+'s'}"
             @mouseenter="hoverKanji=i"
             @mouseleave="hoverKanji=-1"
           >
-            <div class="kanji-char" :class="{hovered: hoverKanji===i}">{{k.kanji}}</div>
+            <div class="kanji-char" :class="{hovered: hoverKanji===i}">{{k.title_jp || '?'}}</div>
             <div class="kanji-divider"></div>
-            <p class="kanji-roma">{{k.roma}}</p>
-            <p class="kanji-name">{{k.name}}</p>
+            <p class="kanji-roma">{{k.roma || ''}}</p>
+            <p class="kanji-name">{{k.title_en}}</p>
           </div>
         </div>
         <p class="creed-tagline" :class="{in: c1}" style="transition-delay:.7s">
@@ -93,29 +90,25 @@ TeL is a Foreign Investment Company (PMA)- Marubeni Corporation , Japan , as the
           </div>
         </div>
         <div class="doc-right" :class="{in: d1}" style="transition-delay:.2s">
-          <span class="doc-badge">DOCUMENT PREVIEW</span>
-          <h2 class="doc-title">PEFC Chain of Custody<br/>Commitment Statement</h2>
+          <span class="doc-badge">{{ currentDoc.category || 'DOCUMENT PREVIEW' }}</span>
+          <h2 class="doc-title">{{ currentDoc.title || 'Company Document' }}</h2>
           <div class="doc-meta-row">
-            <span class="doc-meta-item">
+            <span v-if="currentDoc.doc_date" class="doc-meta-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              April 2023
+              {{ currentDoc.doc_date }}
             </span>
             <span class="doc-meta-item">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              PDF &nbsp;·&nbsp; 1.2 MB
+              {{ currentDoc.file_type || 'PDF' }} &nbsp;·&nbsp; {{ currentDoc.file_size || '-' }}
             </span>
           </div>
-          <p class="doc-desc">
-            PT. Tanjungenim Lestari Pulp and Paper is committed to sourcing wood-based
-            products in an environmentally and socially responsible manner, in full compliance
-            with EU Timber Regulation and sustainable forest management practices.
-          </p>
+          <p class="doc-desc">{{ currentDoc.description || 'Document description.' }}</p>
           <div class="doc-btns">
-            <a href="/files/PEFC_Statement.pdf" download class="btn-dl">
+            <a :href="docFileUrl(currentDoc)" download class="btn-dl">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Download PDF
+              Download {{ currentDoc.file_type || 'PDF' }}
             </a>
-            <button class="btn-view" @click="modal=true">
+            <button v-if="currentDoc.file_url" class="btn-view" @click="modal=true">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               Quick View
             </button>
@@ -131,7 +124,7 @@ TeL is a Foreign Investment Company (PMA)- Marubeni Corporation , Japan , as the
           <button class="modal-close" @click="modal=false">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
-          <iframe src="/files/PEFC_Statement.pdf" class="modal-frame"></iframe>
+          <iframe :src="docFileUrl(currentDoc)" class="modal-frame"></iframe>
         </div>
       </div>
     </transition>
@@ -150,7 +143,10 @@ TeL is a Foreign Investment Company (PMA)- Marubeni Corporation , Japan , as the
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import api from '@/services/api'
+
+const BASE_URL = 'http://localhost:8080'
 
 const heroEl = ref(null)
 const creedEl = ref(null)
@@ -166,35 +162,80 @@ const c1 = ref(false)
 const v1 = ref(false)
 const d1 = ref(false)
 
-const creeds = [
-  { kanji: '和', roma: 'WA', name: 'Harmony' },
-  { kanji: '新', roma: 'SHIN', name: 'Innovation' },
-  { kanji: '心', roma: 'SHIN', name: 'Heart' },
+// ── DATA DENGAN FALLBACK DEFAULT ──
+// Data ini akan ditimpa oleh API jika database sudah terisi
+
+const defaultProfileText = `PT Tanjungenim Lestari Pulp and Paper ( TeL) is world class manufacturer of high product quality and environmental friendly market pulp mill. This was established on June 18, 1990, commenced construction in mid-1997 and the commercial operation started on May, 2000 . The mill is located in 1,250 ha area in the Banuayu village, District Empat Petulai Dangku, Muara Enim Regency, South Sumatra province, Indonesia.
+
+TeL is a Foreign Investment Company (PMA)- Marubeni Corporation , Japan , as the National Vital Objects Industrial sector (OVNI) declared by the Minister of Industry in 2014 . The mill has market pulp production capacity of 490,000 Adt / year. Presently mill has 1600 employees and support workforce together where ~ 80% of them are residents of South Sumatra`
+
+const profile = ref({
+  title: 'PT Tanjungenim Lestari Pulp and Paper',
+  content: defaultProfileText,
+  address: '',
+  phone: '',
+  email: '',
+  hero_image: '',
+  creed_bg_image: '',
+})
+
+const defaultCreeds = [
+  { id: null, title_jp: '和', title_en: 'Harmony', roma: 'WA', tagline: 'To respect each other and cooperate.', description: 'We shall stay in touch with society and stakeholders by engaging in corporate activities which advance our credibility as preferred principals.', sort_order: 0, is_active: true },
+  { id: null, title_jp: '新', title_en: 'Innovation', roma: 'SHIN', tagline: 'To be active and innovative.', description: 'We shall constantly strive hard to improve our performance.', sort_order: 1, is_active: true },
+  { id: null, title_jp: '心', title_en: 'Heart', roma: 'SHIN', tagline: 'To be fair and decent.', description: 'We shall comply with the laws and follow fair corporate practices.', sort_order: 2, is_active: true },
 ]
 
-const values = ref([
-  {
-    title: 'Fairness',
-    tagline: 'To be fair and decent.',
-    desc: 'We shall comply with the laws and follow fair corporate practices.',
+const creedData = ref([...defaultCreeds])
+
+const defaultDoc = {
+  id: null,
+  title: 'PEFC Chain of Custody Commitment Statement',
+  category: 'DOCUMENT PREVIEW',
+  doc_date: 'April 2023',
+  file_type: 'PDF',
+  file_size: '1.2 MB',
+  description: 'PT. Tanjungenim Lestari Pulp and Paper is committed to sourcing wood-based products in an environmentally and socially responsible manner, in full compliance with EU Timber Regulation and sustainable forest management practices.',
+  file_url: '/files/PEFC_Statement.pdf',
+  _is_fallback: true,
+}
+
+const documents = ref([{ ...defaultDoc }])
+
+const currentDoc = computed(() =>
+  documents.value.length > 0 ? documents.value[0] : defaultDoc
+)
+
+function docFileUrl(doc) {
+  if (!doc || !doc.file_url) { return '/files/PEFC_Statement.pdf' }
+  if (doc._is_fallback) { return doc.file_url }
+  return BASE_URL + doc.file_url
+}
+
+function getImageUrl(path) {
+  if (!path) { return '' }
+  if (path.startsWith('http')) { return path }
+  if (path.startsWith('/uploads/')) { return BASE_URL + path }
+  if (path.startsWith('uploads/')) { return BASE_URL + '/' + path }
+  return path
+}
+
+const defaultSvgs = [
+  `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v18"/><path d="M3 9h18"/><path d="M5.5 9L3 16a4.5 4.5 0 009 0L9.5 9"/><path d="M14.5 9L12 16a4.5 4.5 0 009 0L18.5 9"/></svg>`,
+  `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="10" r="5"/><path d="M12 15v4"/><path d="M9 19h6"/><path d="M9.5 10a2.5 2.5 0 012.5-2.5"/></svg>`,
+  `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>`,
+  `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
+  `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="5"/><path d="M3 21v-2a7 7 0 0114 0v2"/></svg>`,
+]
+
+const values = computed(() =>
+  creedData.value.map((c, i) => ({
+    title: c.title_en,
+    tagline: c.tagline,
+    desc: c.description,
     hovered: false,
-    svg: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v18"/><path d="M3 9h18"/><path d="M5.5 9L3 16a4.5 4.5 0 009 0L9.5 9"/><path d="M14.5 9L12 16a4.5 4.5 0 009 0L18.5 9"/></svg>`
-  },
-  {
-    title: 'Innovation',
-    tagline: 'To be active and innovative.',
-    desc: 'We shall constantly strive hard to improve our performance.',
-    hovered: false,
-    svg: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="10" r="5"/><path d="M12 15v4"/><path d="M9 19h6"/><path d="M9.5 10a2.5 2.5 0 012.5-2.5"/></svg>`
-  },
-  {
-    title: 'Harmony',
-    tagline: 'To respect each other and cooperate.',
-    desc: 'We shall stay in touch with society and stakeholders by engaging in corporate activities which advance our credibility as preferred principals.',
-    hovered: false,
-    svg: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/><path d="M3 21v-1a6 6 0 016-6h6a6 6 0 016 6v1"/></svg>`
-  }
-])
+    svg: defaultSvgs[i % defaultSvgs.length],
+  }))
+)
 
 function makeParticles() {
   if (!particlesEl.value) {return}
@@ -223,12 +264,43 @@ function useObserver(el, flag, threshold = 0.2) {
 }
 
 const observers = []
-onMounted(() => {
+onMounted(async () => {
   makeParticles()
   setTimeout(() => { h1.value = true }, 120)
   observers.push(useObserver(creedEl.value, c1))
   observers.push(useObserver(valuesEl.value, v1))
   observers.push(useObserver(docEl.value, d1))
+
+  try {
+    const [profileRes, creedRes, docRes] = await Promise.all([
+      api.get('/company-profile'),
+      api.get('/creeds'),
+      api.get('/company-documents'),
+    ])
+    // Profile: timpa hanya jika API mengembalikan data dengan konten
+    const pData = profileRes.data?.data || profileRes.data
+    if (pData && (pData.content || pData.title)) {
+      profile.value = {
+        title: pData.title || profile.value.title,
+        content: pData.content || profile.value.content,
+        hero_image: pData.hero_image || '',
+        creed_bg_image: pData.creed_bg_image || '',
+      }
+    }
+    // Creed: timpa hanya jika ada data aktif dari API
+    const allCreeds = Array.isArray(creedRes.data) ? creedRes.data : (creedRes.data.data || [])
+    const activeCreeds = allCreeds.filter(c => c.is_active)
+    if (activeCreeds.length > 0) {
+      creedData.value = activeCreeds
+    }
+    // Dokumen: timpa hanya jika ada data dari API
+    const apiDocs = Array.isArray(docRes.data) ? docRes.data : (docRes.data.data || [])
+    if (apiDocs.length > 0) {
+      documents.value = apiDocs
+    }
+  } catch (e) {
+    console.error('Gagal memuat data Our Company, menggunakan data default:', e)
+  }
 })
 onUnmounted(() => observers.forEach(o => o.disconnect()))
 </script>
@@ -297,6 +369,12 @@ h1{margin:0 0 22px;color:#fff}
 }
 .accent-line.in{width:56px}
 
+.hero-subtitle{
+  font-size:.82rem;color:#5ecb7a;font-weight:600;margin-bottom:8px;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .7s,transform .7s;
+}
+.hero-subtitle.in{opacity:1;transform:none}
 .hero-p{
   font-size:.93rem;color:rgba(255,255,255,.8);line-height:1.8;
   opacity:0;transform:translateY(14px);

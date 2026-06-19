@@ -41,6 +41,10 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           👥 Our Team
         </RouterLink>
+        <RouterLink to="/admin/our-company"
+        class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+         🏛️ Our Company
+        </RouterLink>
       </nav>
 
       <div class="p-4 border-t border-gray-800">

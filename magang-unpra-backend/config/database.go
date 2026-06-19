@@ -56,6 +56,24 @@ func ConnectDB() {
 		&models.CompanyProfile{},
 	)
 
+	db.AutoMigrate(
+		&models.User{},
+		&models.News{},
+		&models.NewsImage{},
+		&models.Product{},
+		&models.ProductImage{},
+		&models.ProductSlider{},
+		&models.Creed{},
+		&models.Menu{},
+		&models.CompanyProfile{},
+		&models.CompanyDocument{}, // <-- tambahkan ini
+		&models.Sustainability{},
+		&models.SustainabilityImage{},
+		&models.ProductPage{},
+		&models.AboutSection{},
+		&models.TeamMember{},
+	)
+
 	log.Println("Database connected successfully!")
 	DB = db
 }

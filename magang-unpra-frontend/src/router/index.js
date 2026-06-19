@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import OurCompany from '../views/OurCompany.vue'
+import OurTeam from '../views/OurTeam.vue'
 import ProductView from '../views/ProductView.vue'
 import NewsView from '../views/NewsView.vue'
 import NewsDetail from '../views/NewsDetail.vue'
@@ -27,6 +28,7 @@ const router = createRouter({
   routes: [
     // ── General ──
     { path: '/our-company', component: OurCompany },
+    { path: '/our-team',    component: OurTeam },
     { path: '/product',     component: ProductView },
     { path: '/news',        component: NewsView },
     { path: '/news/:id',    component: NewsDetail, name: 'NewsDetail' },
@@ -56,6 +58,7 @@ const router = createRouter({
     { path: '/admin/slider',                      component: () => import('../views/admin/SliderListView.vue') },
     { path: '/admin/product-page',                component: ProductPageEditorView },
     { path: '/admin/about',                       component: () => import('../views/admin/AboutEditorView.vue') },
+    { path: '/admin/team-members',                component: () => import('../views/admin/TeamMemberListView.vue') },
     { path: '/product/:id', component: ProductDetail },
 
       { path: '/',            component: HomeView },

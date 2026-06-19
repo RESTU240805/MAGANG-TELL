@@ -44,6 +44,7 @@ func SetupRoutes() *gin.Engine {
 		api.GET("/product-slides", handlers.GetAllSlides)
 		api.GET("/product-page", handlers.GetProductPage)
 		api.PUT("/product-page", handlers.UpdateProductPage)
+		api.GET("/team-members", handlers.GetAllTeamMembers)
 
 		// Admin
 		admin := api.Group("/admin")
@@ -69,6 +70,11 @@ func SetupRoutes() *gin.Engine {
 			admin.PUT("/about-section", handlers.UpdateAboutSection)
 			admin.GET("/product-page", handlers.GetProductPage)
 			admin.PUT("/product-page", handlers.UpdateProductPage)
+
+			admin.GET("/team-members", handlers.GetAllTeamMembersAdmin)
+			admin.POST("/team-members", handlers.CreateTeamMember)
+			admin.PUT("/team-members/:id", handlers.UpdateTeamMember)
+			admin.DELETE("/team-members/:id", handlers.DeleteTeamMember)
 		}
 	}
 

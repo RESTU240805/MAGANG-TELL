@@ -21,10 +21,6 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📰 Corporate News
         </RouterLink>
-        <RouterLink to="/admin/products"
-          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
-          📦 Products
-        </RouterLink>
         <RouterLink to="/admin/slider"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           🖼️ Product Slider
@@ -32,6 +28,14 @@
         <RouterLink to="/admin/product-page"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-green-600 text-white text-sm font-medium">
           📝 Product Page
+        </RouterLink>
+        <RouterLink to="/admin/about"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🏢 About Section
+        </RouterLink>
+        <RouterLink to="/admin/team-members"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          👥 Our Team
         </RouterLink>
       </nav>
       <div class="p-4 border-t border-gray-800">
@@ -59,8 +63,7 @@
         <div v-else class="space-y-5">
           <div>
             <label class="text-sm font-semibold text-gray-700 block mb-2">Deskripsi Produk</label>
-            <textarea v-model="description" rows="16" placeholder="Tulis deskripsi detail produk pulp di sini..."
-              class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"></textarea>
+            <RichTextEditor v-model="description" placeholder="Tulis deskripsi detail produk pulp di sini..." />
             <p class="text-xs text-gray-400 mt-2">Deskripsi ini akan tampil di halaman /product, menggantikan katalog produk.</p>
           </div>
 
@@ -78,7 +81,7 @@
       <div v-if="description" class="mt-8 max-w-3xl">
         <h3 class="text-sm font-semibold text-gray-500 tracking-widest mb-3">PRATINJAU</h3>
         <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 prose prose-sm max-w-none">
-          <div class="whitespace-pre-wrap text-gray-700 leading-relaxed">{{ description }}</div>
+          <div class="text-gray-700 leading-relaxed" v-html="description"></div>
         </div>
       </div>
     </main>
@@ -89,6 +92,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import api from '../../services/api'
+import RichTextEditor from '../../components/RichTextEditor.vue'
 
 const router = useRouter()
 const description = ref('')

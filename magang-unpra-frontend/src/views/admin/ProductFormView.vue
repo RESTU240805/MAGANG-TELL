@@ -23,10 +23,6 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📰 Corporate News
         </RouterLink>
-        <RouterLink to="/admin/products"
-          class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-green-600 text-white text-sm font-medium">
-          📦 Products
-        </RouterLink>
         <RouterLink to="/admin/slider"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           🖼️ Product Slider
@@ -34,6 +30,14 @@
         <RouterLink to="/admin/product-page"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📝 Product Page
+        </RouterLink>
+        <RouterLink to="/admin/about"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🏢 About Section
+        </RouterLink>
+        <RouterLink to="/admin/team-members"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          👥 Our Team
         </RouterLink>
       </nav>
       <div class="p-4 border-t border-gray-800">
@@ -65,9 +69,7 @@
               </div>
               <div>
                 <label class="text-sm font-semibold text-gray-700 block mb-2">Deskripsi</label>
-                <textarea v-model="form.description" rows="6"
-                  placeholder="Masukkan deskripsi produk..."
-                  class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"></textarea>
+                <RichTextEditor v-model="form.description" placeholder="Masukkan deskripsi produk..." />
               </div>
             </div>
           </div>
@@ -184,6 +186,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute, RouterLink } from 'vue-router'
 import api from '../../services/api'
+import RichTextEditor from '../../components/RichTextEditor.vue'
 
 const router = useRouter()
 const route = useRoute()

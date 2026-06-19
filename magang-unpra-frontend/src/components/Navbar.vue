@@ -33,13 +33,34 @@
           HOME
         </RouterLink>
 
-        <RouterLink
-          to="/our-company"
-          class="nav-link"
-          :class="{ 'nav-link--active': isActive('/our-company') }"
-        >
-          OUR COMPANY
-        </RouterLink>
+        <!-- Our Company (dropdown) -->
+        <div class="relative group/ourcompany">
+          <button
+            class="nav-link w-full border-none bg-transparent cursor-pointer"
+            :class="{ 'nav-link--active': isActive('/our-company') || isActive('/our-team') }"
+          >
+            OUR COMPANY
+            <span style="font-size:9px; margin-top:1px;">▾</span>
+          </button>
+
+          <div class="dropdown-menu">
+            <RouterLink
+              to="/our-company"
+              class="dropdown-item"
+              :class="{ 'dropdown-item--active': isActive('/our-company') }"
+            >
+              Our Company
+            </RouterLink>
+            <RouterLink
+              to="/our-team"
+              class="dropdown-item"
+              style="border-bottom: none;"
+              :class="{ 'dropdown-item--active': isActive('/our-team') }"
+            >
+              Our Team
+            </RouterLink>
+          </div>
+        </div>
 
         <RouterLink
           to="/product"
@@ -211,9 +232,23 @@
           <RouterLink to="/" class="mobile-link" :class="{ 'mobile-link--active': isActive('/') }" @click="mobileOpen = false">
             HOME
           </RouterLink>
-          <RouterLink to="/our-company" class="mobile-link" :class="{ 'mobile-link--active': isActive('/our-company') }" @click="mobileOpen = false">
+
+          <!-- Our Company toggle -->
+          <button
+            class="mobile-link mobile-link--toggle"
+            :class="{ 'mobile-link--active': isActive('/our-company') || isActive('/our-team') }"
+            @click="ourCompanyOpen = !ourCompanyOpen"
+          >
             OUR COMPANY
-          </RouterLink>
+            <span class="mobile-toggle-icon" :class="{ 'is-open': ourCompanyOpen }">▾</span>
+          </button>
+          <Transition name="expand">
+            <div v-if="ourCompanyOpen" class="mobile-submenu">
+              <RouterLink to="/our-company" class="mobile-sublink" @click="mobileOpen = false">Our Company</RouterLink>
+              <RouterLink to="/our-team" class="mobile-sublink" @click="mobileOpen = false">Our Team</RouterLink>
+            </div>
+          </Transition>
+
           <RouterLink to="/product" class="mobile-link" :class="{ 'mobile-link--active': isActive('/product') }" @click="mobileOpen = false">
             PRODUCT
           </RouterLink>
@@ -280,6 +315,7 @@ import { RouterLink, useRoute } from 'vue-router'
 
 const route = useRoute()
 const mobileOpen = ref(false)
+const ourCompanyOpen = ref(false)
 const sustainabilityOpen = ref(false)
 const csrOpen = ref(false)
 
@@ -294,6 +330,7 @@ const toggleMobile = () => {
 
 watch(() => route.path, () => {
   mobileOpen.value = false
+  ourCompanyOpen.value = false
   sustainabilityOpen.value = false
   csrOpen.value = false
 })
@@ -382,6 +419,10 @@ watch(() => route.path, () => {
 }
 
 .group:hover > .dropdown-menu {
+  display: block;
+}
+
+.group\/ourcompany:hover > .dropdown-menu {
   display: block;
 }
 

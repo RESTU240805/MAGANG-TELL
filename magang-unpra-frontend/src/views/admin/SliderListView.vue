@@ -21,10 +21,6 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📰 Corporate News
         </RouterLink>
-        <RouterLink to="/admin/products"
-          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
-          📦 Products
-        </RouterLink>
         <RouterLink to="/admin/slider"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-green-600 text-white text-sm font-medium">
           🖼️ Product Slider
@@ -32,6 +28,14 @@
         <RouterLink to="/admin/product-page"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📝 Product Page
+        </RouterLink>
+        <RouterLink to="/admin/about"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🏢 About Section
+        </RouterLink>
+        <RouterLink to="/admin/team-members"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          👥 Our Team
         </RouterLink>
       </nav>
       <div class="p-4 border-t border-gray-800">

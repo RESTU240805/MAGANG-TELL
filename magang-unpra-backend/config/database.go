@@ -43,6 +43,7 @@ func ConnectDB() {
 		&models.SustainabilityImage{},
 		&models.ProductPage{},
 		&models.AboutSection{},
+		&models.TeamMember{},
 	)
 
 	db.AutoMigrate(

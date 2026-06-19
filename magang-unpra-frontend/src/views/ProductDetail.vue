@@ -56,8 +56,7 @@
                 <span class="w-1.5 h-6 bg-emerald-500 rounded-full block"></span>
                 Product Overview
               </h2>
-              <p class="text-slate-600 leading-relaxed text-base">
-                {{ product.summary || product.description || 'No description available.' }}
+              <p class="text-slate-600 leading-relaxed text-base" v-html="product.summary || product.description || 'No description available.'">
               </p>
             </div>
 
@@ -67,8 +66,7 @@
                 <span class="w-1.5 h-6 bg-emerald-500 rounded-full block"></span>
                 Detailed Description
               </h2>
-              <div class="text-slate-600 leading-relaxed text-base whitespace-pre-line">
-                {{ product.content }}
+              <div class="text-slate-600 leading-relaxed text-base" v-html="product.content">
               </div>
             </div>
 

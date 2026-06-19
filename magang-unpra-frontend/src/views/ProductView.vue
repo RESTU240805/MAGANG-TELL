@@ -65,8 +65,7 @@ Based on end products, TeL pulp mostly used as raw material of Tissue, Coating b
       </div>
 
       <div v-else-if="pageDescription" class="max-w-5xl mx-auto">
-        <div class="product-description">
-          {{ pageDescription }}
+        <div class="product-description" v-html="pageDescription">
         </div>
       </div>
 
@@ -295,9 +294,40 @@ const manualNav  = (fn) => { stopTimer(); fn(); startTimer() }
   color: #475569;
   font-size: 18px;
   line-height: 1.9;
-  white-space: pre-wrap;
   text-align: justify;
   padding: 0 24px;
+}
+.product-description h1 { font-size: 1.5em; font-weight: 700; margin: 0.5em 0; }
+.product-description h2 { font-size: 1.25em; font-weight: 600; margin: 0.5em 0; }
+.product-description h3 { font-size: 1.1em; font-weight: 600; margin: 0.5em 0; }
+.product-description p { margin: 0.5em 0; }
+.product-description ul { list-style-type: disc; padding-left: 1.5em; margin: 0.5em 0; }
+.product-description ol { list-style-type: decimal; padding-left: 1.5em; margin: 0.5em 0; }
+.product-description li { margin: 0.25em 0; }
+.product-description pre {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 0.85em;
+  overflow-x: auto;
+  margin: 0.75em 0;
+}
+.product-description code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+.product-description pre code { background: transparent; padding: 0; }
+.product-description img { max-width: 100%; border-radius: 8px; margin: 1em 0; }
+.product-description blockquote {
+  border-left: 3px solid #10b981;
+  padding-left: 12px;
+  margin: 0.75em 0;
+  color: #6b7280;
 }
 
 .list-fade-enter-active { transition: all 0.6s cubic-bezier(0.34,1.56,0.64,1); }

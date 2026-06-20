@@ -74,11 +74,25 @@ func SetupRoutes() *gin.Engine {
 			admin.GET("/product-page", handlers.GetProductPage)
 			admin.PUT("/product-page", handlers.UpdateProductPage)
 
+			api.GET("/org-structure", handlers.GetOrgStructure)
+			api.GET("/org-chart", handlers.GetOrgChart)
+
 			admin.GET("/team-members", handlers.GetAllTeamMembersAdmin)
 			admin.POST("/team-members", handlers.CreateTeamMember)
 			admin.PUT("/team-members/:id", handlers.UpdateTeamMember)
 			admin.DELETE("/team-members/:id", handlers.DeleteTeamMember)
 
+			admin.GET("/org-groups", handlers.GetAllOrgGroups)
+			admin.POST("/org-groups", handlers.CreateOrgGroup)
+			admin.PUT("/org-groups/:id", handlers.UpdateOrgGroup)
+			admin.DELETE("/org-groups/:id", handlers.DeleteOrgGroup)
+
+			admin.GET("/org-nodes", handlers.GetAllOrgNodes)
+			admin.POST("/org-nodes", handlers.CreateOrgNode)
+			admin.PUT("/org-nodes/:id", handlers.UpdateOrgNode)
+			admin.DELETE("/org-nodes/:id", handlers.DeleteOrgNode)
+			admin.POST("/org-structure/reset", handlers.ResetOrgStructure)
+			admin.PUT("/org-chart", handlers.UpdateOrgChart)
 			// Tambahan baru - Creed
 			admin.GET("/creeds", handlers.GetAllCreeds)
 			admin.POST("/creeds", handlers.CreateCreed)
@@ -90,6 +104,13 @@ func SetupRoutes() *gin.Engine {
 			admin.POST("/company-documents", handlers.CreateCompanyDocument)
 			admin.PUT("/company-documents/:id", handlers.UpdateCompanyDocument)
 			admin.DELETE("/company-documents/:id", handlers.DeleteCompanyDocument)
+
+			api.GET("/menus", handlers.GetActiveMenus)
+
+			admin.GET("/menus", handlers.GetAllMenus)
+			admin.POST("/menus", handlers.CreateMenu)
+			admin.PUT("/menus/:id", handlers.UpdateMenu)
+			admin.DELETE("/menus/:id", handlers.DeleteMenu)
 		}
 	}
 

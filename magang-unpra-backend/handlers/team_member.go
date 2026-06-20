@@ -58,6 +58,7 @@ func UpdateTeamMember(c *gin.Context) {
 	member.PhotoPath = input.PhotoPath
 	member.SortOrder = input.SortOrder
 	member.IsActive = input.IsActive
+	member.IsFeatured = input.IsFeatured
 	config.DB.Save(&member)
 	c.JSON(http.StatusOK, gin.H{"data": member})
 }

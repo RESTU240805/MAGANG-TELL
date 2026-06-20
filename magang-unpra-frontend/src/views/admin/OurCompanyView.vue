@@ -19,10 +19,6 @@
           📊 Dashboard
         </RouterLink>
         <p class="text-xs text-gray-500 font-semibold tracking-widest mb-2 mt-4 px-2">CONTENT ENGINE</p>
-        <RouterLink to="/admin/our-company"
-          class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-green-600 text-white text-sm font-medium">
-          🏛️ Our Company
-        </RouterLink>
         <RouterLink to="/admin/news"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📰 Corporate News
@@ -42,6 +38,14 @@
         <RouterLink to="/admin/team-members"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           👥 Our Team
+        </RouterLink>
+        <RouterLink to="/admin/our-company"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-green-600 text-white text-sm font-medium">
+          🏛️ Our Company
+        </RouterLink>
+        <RouterLink to="/admin/menus"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          📋 Menu
         </RouterLink>
       </nav>
       <div class="p-4 border-t border-gray-800">

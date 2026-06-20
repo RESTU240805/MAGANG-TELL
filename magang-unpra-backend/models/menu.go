@@ -6,8 +6,9 @@ type Menu struct {
 	ID        uint      `gorm:"primaryKey" json:"id"`
 	Name      string    `json:"name"`
 	URL       string    `json:"url"`
-	IsActived int       `json:"is_actived"`
+	IsActive  bool      `gorm:"default:true" json:"is_active"`
 	ParentID  *uint     `json:"parent_id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	SortOrder int       `gorm:"default:0" json:"sort_order"`
+	CreatedAt time.Time `json:"-"`
+	UpdatedAt time.Time `json:"-"`
 }

@@ -37,6 +37,14 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           👥 Our Team
         </RouterLink>
+        <RouterLink to="/admin/our-company"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🏛️ Our Company
+        </RouterLink>
+        <RouterLink to="/admin/menus"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          📋 Menu
+        </RouterLink>
       </nav>
       <div class="p-4 border-t border-gray-800">
         <button @click="logout" class="text-sm text-gray-400 hover:text-white transition px-2">→ Logout</button>

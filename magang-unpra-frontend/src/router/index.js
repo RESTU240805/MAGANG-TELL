@@ -66,6 +66,8 @@ const router = createRouter({
     { path: '/product/:id', component: ProductDetail },
 
       { path: '/',            component: HomeView },
+
+      { path: '/admin/menus',                       component: () => import('../views/admin/MenuListView.vue') },
   ]
 })
 

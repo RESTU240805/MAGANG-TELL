@@ -366,7 +366,7 @@ const fetchAbout = async () => {
         badge_label: d.badge_label || 'Years of Excellence'
       }
     }
-  } catch {}
+  } catch { /* empty */ }
 }
 
 const fetchLatestNews = async () => {

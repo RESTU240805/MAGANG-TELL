@@ -106,7 +106,7 @@ const triggerImageUpload = () => {
 
 const handleImageUpload = async (e) => {
   const file = e.target.files?.[0]
-  if (!file) return
+  if (!file) {return}
 
   if (file.size > 5 * 1024 * 1024) {
     alert('Ukuran gambar maksimal 5MB')
@@ -127,7 +127,7 @@ const handleImageUpload = async (e) => {
     alert('Gagal upload gambar')
   }
 
-  if (imageInput.value) imageInput.value.value = ''
+  if (imageInput.value) {imageInput.value.value = ''}
 }
 
 onBeforeUnmount(() => {

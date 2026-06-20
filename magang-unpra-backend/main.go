@@ -19,6 +19,10 @@ func main() {
 
 	config.ConnectDB()
 	seeders.SeedAdmin()
+	seeders.SeedMenus()
+	seeders.SeedCompanyProfile()
+	seeders.SeedCreeds()
+	seeders.SeedCompanyDocuments()
 
 	r := routes.SetupRoutes()
 

@@ -10,4 +10,5 @@ type TeamMember struct {
 	PhotoPath   string `json:"photo_path"`
 	SortOrder   int    `json:"sort_order" gorm:"default:0"`
 	IsActive    bool   `json:"is_active" gorm:"default:true"`
+	IsFeatured  bool   `json:"is_featured" gorm:"default:false"`
 }

@@ -24,181 +24,79 @@
 
       <!-- Desktop Menu -->
       <div class="desktop-menu">
-
-        <RouterLink
-          to="/"
-          class="nav-link"
-          :class="{ 'nav-link--active': isActive('/') }"
-        >
-          HOME
-        </RouterLink>
-
-        <!-- Our Company (dropdown) -->
-        <div class="relative group/ourcompany">
-          <button
-            class="nav-link w-full border-none bg-transparent cursor-pointer"
-            :class="{ 'nav-link--active': isActive('/our-company') || isActive('/our-team') }"
-          >
-            OUR COMPANY
-            <span style="font-size:9px; margin-top:1px;">▾</span>
-          </button>
-
-          <div class="dropdown-menu">
-            <RouterLink
-              to="/our-company"
-              class="dropdown-item"
-              :class="{ 'dropdown-item--active': isActive('/our-company') }"
+        <template v-for="item in menus" :key="item.id">
+          <!-- Dropdown (has children) -->
+          <div v-if="item.children?.length" class="nav-dropdown-wrapper">
+            <button
+              class="nav-link nav-dropdown-trigger"
+              :class="{ 'nav-link--active': isChildActive(item) }"
             >
-              Our Company
-            </RouterLink>
-            <RouterLink
-              to="/our-team"
-              class="dropdown-item"
-              style="border-bottom: none;"
-              :class="{ 'dropdown-item--active': isActive('/our-team') }"
-            >
-              Our Team
-            </RouterLink>
-          </div>
-        </div>
-
-        <RouterLink
-          to="/product"
-          class="nav-link"
-          :class="{ 'nav-link--active': isActive('/product') }"
-        >
-          PRODUCT
-        </RouterLink>
-
-        <RouterLink
-          to="/news"
-          class="nav-link"
-          :class="{ 'nav-link--active': isActive('/news') }"
-        >
-          NEWS
-        </RouterLink>
-
-        <!-- Sustainability (dropdown) -->
-        <div class="relative group">
-          <button
-            class="nav-link w-full border-none bg-transparent cursor-pointer"
-            :class="{ 'nav-link--active': isActive('/sustainability') }"
-          >
-            SUSTAINABILITY
-            <span style="font-size:9px; margin-top:1px;">▾</span>
-          </button>
-
-          <div class="dropdown-menu">
-            <RouterLink
-              to="/sustainability/forest-management"
-              class="dropdown-item"
-              :class="{ 'dropdown-item--active': isActive('/sustainability/forest-management') }"
-            >
-              Forest Management
-            </RouterLink>
-            <RouterLink
-              to="/sustainability/people-development"
-              class="dropdown-item"
-              :class="{ 'dropdown-item--active': isActive('/sustainability/people-development') }"
-            >
-              People Development
-            </RouterLink>
-            <RouterLink
-              to="/sustainability/supply-chain"
-              class="dropdown-item"
-              :class="{ 'dropdown-item--active': isActive('/sustainability/supply-chain') }"
-            >
-              Supply Chain
-            </RouterLink>
-            <RouterLink
-              to="/sustainability/pulp-process"
-              class="dropdown-item"
-              :class="{ 'dropdown-item--active': isActive('/sustainability/pulp-process') }"
-            >
-              Pulp Process
-            </RouterLink>
-            <RouterLink
-              to="/sustainability/safety-health"
-              class="dropdown-item"
-              :class="{ 'dropdown-item--active': isActive('/sustainability/safety-health') }"
-            >
-              Safety &amp; Health
-            </RouterLink>
-
-            <div class="relative group/csr">
-              <button
-                class="dropdown-item w-full text-left border-none bg-transparent cursor-pointer flex justify-between items-center"
-                :class="{ 'dropdown-item--active': isActive('/sustainability/csr') }"
-              >
-                Corporate Social Responsibility
-                <span style="color:#aaa; margin-left:8px;">›</span>
-              </button>
-              <div class="subdropdown-menu">
-                <RouterLink
-                  to="/sustainability/csr/vision"
+              {{ item.name }}
+              <span style="font-size:9px; margin-top:1px;">▾</span>
+            </button>
+            <div class="nav-dropdown-menu">
+              <template v-for="child in item.children" :key="child.id">
+                <!-- Nested dropdown -->
+                <div v-if="child.children?.length" class="subdropdown-wrapper">
+                  <button class="dropdown-item subdropdown-trigger w-full text-left border-none bg-transparent cursor-pointer flex justify-between items-center">
+                    {{ child.name }}
+                    <span style="color:#aaa; margin-left:8px;">›</span>
+                  </button>
+                  <div class="subdropdown-menu">
+                    <RouterLink
+                      v-for="gc in child.children" :key="gc.id"
+                      :to="gc.url"
+                      class="dropdown-item"
+                      :class="{ 'dropdown-item--active': isActive(gc.url) }"
+                    >
+                      {{ gc.name }}
+                    </RouterLink>
+                  </div>
+                </div>
+                <!-- External child -->
+                <a
+                  v-else-if="isExternal(child.url)"
+                  :href="child.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   class="dropdown-item"
-                  :class="{ 'dropdown-item--active': isActive('/sustainability/csr/vision') }"
                 >
-                  Vision And Mission
-                </RouterLink>
+                  {{ child.name }}
+                </a>
+                <!-- Internal child -->
                 <RouterLink
-                  to="/sustainability/csr/community"
+                  v-else
+                  :to="child.url"
                   class="dropdown-item"
-                  :class="{ 'dropdown-item--active': isActive('/sustainability/csr/community') }"
+                  :class="{ 'dropdown-item--active': isActive(child.url) }"
                 >
-                  Local Community Development
+                  {{ child.name }}
                 </RouterLink>
-                <RouterLink
-                  to="/sustainability/csr/report"
-                  class="dropdown-item"
-                  style="border-bottom: none;"
-                  :class="{ 'dropdown-item--active': isActive('/sustainability/csr/report') }"
-                >
-                  CSR Report
-                </RouterLink>
-              </div>
+              </template>
             </div>
           </div>
-        </div>
 
-        <!-- Biodiversity -->
-        <a
-          href="https://kehati.telpp.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="nav-link"
-        >
-          BIODIVERSITY
-        </a>
+          <!-- External top link -->
+          <a
+            v-else-if="isExternal(item.url)"
+            :href="item.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="nav-link"
+          >
+            {{ item.name }}
+          </a>
 
-        <!-- E-Proc -->
-        <a
-          href="https://eproc.telpp.com/_gst_home.php"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="nav-link"
-        >
-          E-PROC
-        </a>
-
-        <!-- E-Recruitment -->
-        <a
-          href="https://erecruitment.telpp.com/er_tlpp/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="nav-link"
-        >
-          E-RECRUITMENT
-        </a>
-
-        <!-- Contact -->
-        <RouterLink
-          to="/contact"
-          class="nav-link"
-          :class="{ 'nav-link--active': isActive('/contact') }"
-        >
-          CONTACT
-        </RouterLink>
+          <!-- Internal top link -->
+          <RouterLink
+            v-else
+            :to="item.url"
+            class="nav-link"
+            :class="{ 'nav-link--active': isActive(item.url) }"
+          >
+            {{ item.name }}
+          </RouterLink>
+        </template>
       </div>
     </div>
 
@@ -229,80 +127,90 @@
         </div>
 
         <div class="mobile-nav-scroll">
-          <RouterLink to="/" class="mobile-link" :class="{ 'mobile-link--active': isActive('/') }" @click="mobileOpen = false">
-            HOME
-          </RouterLink>
-
-          <!-- Our Company toggle -->
-          <button
-            class="mobile-link mobile-link--toggle"
-            :class="{ 'mobile-link--active': isActive('/our-company') || isActive('/our-team') }"
-            @click="ourCompanyOpen = !ourCompanyOpen"
-          >
-            OUR COMPANY
-            <span class="mobile-toggle-icon" :class="{ 'is-open': ourCompanyOpen }">▾</span>
-          </button>
-          <Transition name="expand">
-            <div v-if="ourCompanyOpen" class="mobile-submenu">
-              <RouterLink to="/our-company" class="mobile-sublink" @click="mobileOpen = false">Our Company</RouterLink>
-              <RouterLink to="/our-team" class="mobile-sublink" @click="mobileOpen = false">Our Team</RouterLink>
-            </div>
-          </Transition>
-
-          <RouterLink to="/product" class="mobile-link" :class="{ 'mobile-link--active': isActive('/product') }" @click="mobileOpen = false">
-            PRODUCT
-          </RouterLink>
-          <RouterLink to="/news" class="mobile-link" :class="{ 'mobile-link--active': isActive('/news') }" @click="mobileOpen = false">
-            NEWS
-          </RouterLink>
-
-          <!-- Sustainability toggle -->
-          <button
-            class="mobile-link mobile-link--toggle"
-            :class="{ 'mobile-link--active': isActive('/sustainability') }"
-            @click="sustainabilityOpen = !sustainabilityOpen"
-          >
-            SUSTAINABILITY
-            <span class="mobile-toggle-icon" :class="{ 'is-open': sustainabilityOpen }">▾</span>
-          </button>
-          <Transition name="expand">
-            <div v-if="sustainabilityOpen" class="mobile-submenu">
-              <RouterLink to="/sustainability/forest-management" class="mobile-sublink" @click="mobileOpen = false">Forest Management</RouterLink>
-              <RouterLink to="/sustainability/people-development" class="mobile-sublink" @click="mobileOpen = false">People Development</RouterLink>
-              <RouterLink to="/sustainability/supply-chain" class="mobile-sublink" @click="mobileOpen = false">Supply Chain</RouterLink>
-              <RouterLink to="/sustainability/pulp-process" class="mobile-sublink" @click="mobileOpen = false">Pulp Process</RouterLink>
-              <RouterLink to="/sustainability/safety-health" class="mobile-sublink" @click="mobileOpen = false">Safety & Health</RouterLink>
-
-              <!-- CSR toggle -->
+          <template v-for="item in menus" :key="item.id">
+            <!-- Mobile dropdown -->
+            <template v-if="item.children?.length">
               <button
-                class="mobile-sublink mobile-link--toggle"
-                @click="csrOpen = !csrOpen"
+                class="mobile-link mobile-link--toggle"
+                :class="{ 'mobile-link--active': isChildActive(item) }"
+                @click="toggleMobileItem(item.id)"
               >
-                Corporate Social Responsibility
-                <span class="mobile-toggle-icon" :class="{ 'is-open': csrOpen }">›</span>
+                {{ item.name }}
+                <span class="mobile-toggle-icon" :class="{ 'is-open': mobileOpenItems.has(item.id) }">▾</span>
               </button>
               <Transition name="expand">
-                <div v-if="csrOpen" class="mobile-submenu mobile-submenu--inner">
-                  <RouterLink to="/sustainability/csr/vision" class="mobile-sublink" @click="mobileOpen = false">Vision And Mission</RouterLink>
-                  <RouterLink to="/sustainability/csr/community" class="mobile-sublink" @click="mobileOpen = false">Local Community Development</RouterLink>
-                  <RouterLink to="/sustainability/csr/report" class="mobile-sublink" @click="mobileOpen = false">CSR Report</RouterLink>
+                <div v-if="mobileOpenItems.has(item.id)" class="mobile-submenu">
+                  <template v-for="child in item.children" :key="child.id">
+                    <!-- Nested mobile dropdown -->
+                    <template v-if="child.children?.length">
+                      <button
+                        class="mobile-sublink mobile-link--toggle"
+                        @click="toggleMobileItem(child.id)"
+                      >
+                        {{ child.name }}
+                        <span class="mobile-toggle-icon" :class="{ 'is-open': mobileOpenItems.has(child.id) }">›</span>
+                      </button>
+                      <Transition name="expand">
+                        <div v-if="mobileOpenItems.has(child.id)" class="mobile-submenu mobile-submenu--inner">
+                          <RouterLink
+                            v-for="gc in child.children" :key="gc.id"
+                            :to="gc.url"
+                            class="mobile-sublink"
+                            @click="mobileOpen = false"
+                          >
+                            {{ gc.name }}
+                          </RouterLink>
+                        </div>
+                      </Transition>
+                    </template>
+                    <!-- External mobile child -->
+                    <a
+                      v-else-if="isExternal(child.url)"
+                      :href="child.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="mobile-sublink"
+                      @click="mobileOpen = false"
+                    >
+                      {{ child.name }}
+                    </a>
+                    <!-- Internal mobile child -->
+                    <RouterLink
+                      v-else
+                      :to="child.url"
+                      class="mobile-sublink"
+                      @click="mobileOpen = false"
+                    >
+                      {{ child.name }}
+                    </RouterLink>
+                  </template>
                 </div>
               </Transition>
-            </div>
-          </Transition>
+            </template>
 
-          <a href="https://kehati.telpp.com/" target="_blank" rel="noopener noreferrer" class="mobile-link" @click="mobileOpen = false">
-            BIODIVERSITY
-          </a>
-          <a href="https://eproc.telpp.com/_gst_home.php" target="_blank" rel="noopener noreferrer" class="mobile-link" @click="mobileOpen = false">
-            E-PROC
-          </a>
-          <a href="https://erecruitment.telpp.com/er_tlpp/" target="_blank" rel="noopener noreferrer" class="mobile-link" @click="mobileOpen = false">
-            E-RECRUITMENT
-          </a>
-          <RouterLink to="/contact" class="mobile-link" :class="{ 'mobile-link--active': isActive('/contact') }" @click="mobileOpen = false">
-            CONTACT
-          </RouterLink>
+            <!-- External mobile top link -->
+            <a
+              v-else-if="isExternal(item.url)"
+              :href="item.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mobile-link"
+              @click="mobileOpen = false"
+            >
+              {{ item.name }}
+            </a>
+
+            <!-- Internal mobile top link -->
+            <RouterLink
+              v-else
+              :to="item.url"
+              class="mobile-link"
+              :class="{ 'mobile-link--active': isActive(item.url) }"
+              @click="mobileOpen = false"
+            >
+              {{ item.name }}
+            </RouterLink>
+          </template>
         </div>
       </div>
     </Transition>
@@ -310,30 +218,64 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import api from '../services/api'
 
 const route = useRoute()
 const mobileOpen = ref(false)
-const ourCompanyOpen = ref(false)
-const sustainabilityOpen = ref(false)
-const csrOpen = ref(false)
+const menus = ref([])
+const mobileOpenItems = ref(new Set())
+
+const isExternal = (url) => url && url.startsWith('http')
 
 const isActive = (path) => {
-  if (path === '/') {return route.path === '/'}
+  if (!path) { return false }
+  if (path === '/') { return route.path === '/' }
   return route.path.startsWith(path)
+}
+
+const isChildActive = (item) => {
+  if (!item.children) { return isActive(item.url) }
+  const walk = (items) => {
+    for (const c of items) {
+      if (isActive(c.url)) { return true }
+      if (c.children && walk(c.children)) { return true }
+    }
+    return false
+  }
+  return walk(item.children)
 }
 
 const toggleMobile = () => {
   mobileOpen.value = !mobileOpen.value
 }
 
+const toggleMobileItem = (id) => {
+  const next = new Set(mobileOpenItems.value)
+  if (next.has(id)) {
+    next.delete(id)
+  } else {
+    next.add(id)
+  }
+  mobileOpenItems.value = next
+}
+
+const fetchMenus = async () => {
+  try {
+    const res = await api.get('/menus')
+    menus.value = res.data?.data || []
+  } catch {
+    menus.value = []
+  }
+}
+
 watch(() => route.path, () => {
   mobileOpen.value = false
-  ourCompanyOpen.value = false
-  sustainabilityOpen.value = false
-  csrOpen.value = false
+  mobileOpenItems.value = new Set()
 })
+
+onMounted(fetchMenus)
 </script>
 
 <style scoped>
@@ -405,8 +347,23 @@ watch(() => route.path, () => {
   border-bottom: 3px solid #5F9E42;
 }
 
-/* ── Dropdown utama ── */
-.dropdown-menu {
+/* ── Generic dropdown (replaces hardcoded group names) ── */
+.nav-dropdown-wrapper {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-dropdown-wrapper:hover > .nav-dropdown-menu {
+  display: block;
+}
+
+.nav-dropdown-menu {
   display: none;
   position: absolute;
   top: 100%;
@@ -418,15 +375,22 @@ watch(() => route.path, () => {
   border-top: 3px solid #5F9E42;
 }
 
-.group:hover > .dropdown-menu {
+/* ── Sub-dropdown ── */
+.subdropdown-wrapper {
+  position: relative;
+}
+
+.subdropdown-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.subdropdown-wrapper:hover > .subdropdown-menu {
   display: block;
 }
 
-.group\/ourcompany:hover > .dropdown-menu {
-  display: block;
-}
-
-/* ── Sub-dropdown CSR ── */
 .subdropdown-menu {
   display: none;
   position: absolute;
@@ -437,10 +401,6 @@ watch(() => route.path, () => {
   z-index: 999;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
   border-top: 3px solid #5F9E42;
-}
-
-.group\/csr:hover > .subdropdown-menu {
-  display: block;
 }
 
 /* ── Item dropdown ── */

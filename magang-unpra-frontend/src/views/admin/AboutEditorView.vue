@@ -37,6 +37,14 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           👥 Our Team
         </RouterLink>
+        <RouterLink to="/admin/our-company"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🏛️ Our Company
+        </RouterLink>
+        <RouterLink to="/admin/menus"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          📋 Menu
+        </RouterLink>
       </nav>
       <div class="p-4 border-t border-gray-800">
         <button @click="logout" class="text-sm text-gray-400 hover:text-white transition px-2">→ Logout</button>
@@ -69,8 +77,7 @@
 
           <div>
             <label class="text-sm font-semibold text-gray-700 block mb-2">Deskripsi</label>
-            <textarea v-model="form.description" rows="6" placeholder="Deskripsi tentang perusahaan..."
-              class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"></textarea>
+            <RichTextEditor v-model="form.description" placeholder="Deskripsi tentang perusahaan..." />
           </div>
 
           <div>
@@ -122,7 +129,7 @@
             <div class="flex-1">
               <p class="text-xs font-bold tracking-widest text-green-600 mb-2 uppercase">About TELPP</p>
               <h2 class="text-xl font-black text-gray-900 mb-3">{{ form.title || 'ABOUT TELPP' }}</h2>
-              <p class="text-sm text-gray-500 leading-relaxed">{{ form.description || 'Deskripsi akan muncul di sini...' }}</p>
+              <p class="text-sm text-gray-500 leading-relaxed" v-html="form.description || 'Deskripsi akan muncul di sini...'"></p>
             </div>
             <div class="w-64 h-44 rounded-xl overflow-hidden bg-gray-100 relative flex-shrink-0">
               <img v-if="form.image_path" :src="getImageUrl(form.image_path)" class="w-full h-full object-cover" />
@@ -142,6 +149,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import api from '../../services/api'
+import RichTextEditor from '../../components/RichTextEditor.vue'
 
 const BASE_URL = 'http://localhost:8080'
 const router = useRouter()
@@ -160,8 +168,8 @@ const form = ref({
 })
 
 const getImageUrl = (path) => {
-  if (!path) return ''
-  if (path.startsWith('http')) return path
+  if (!path) {return ''}
+  if (path.startsWith('http')) {return path}
   return `${BASE_URL}/${path.replace(/^\//, '')}`
 }
 
@@ -190,7 +198,7 @@ const fetchData = async () => {
 
 const onImageChange = async (e) => {
   const file = e.target.files[0]
-  if (!file) return
+  if (!file) {return}
   uploading.value = true
   try {
     const fd = new FormData()
@@ -200,7 +208,7 @@ const onImageChange = async (e) => {
     })
     form.value.image_path = `uploads/${res.data?.filename || ''}`
     showAlert('success', 'Gambar berhasil diupload!')
-  } catch (err) {
+  } catch (_err) {
     showAlert('error', 'Gagal upload gambar')
   } finally { uploading.value = false }
 }

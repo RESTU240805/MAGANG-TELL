@@ -43,6 +43,8 @@ func ConnectDB() {
 		&models.SustainabilityImage{},
 		&models.ProductPage{},
 		&models.AboutSection{},
+		&models.CommunityCard{},
+		&models.CommunityCardImage{},
 		&models.TeamMember{},
 		&models.OrgChart{},
 		&models.OrgGroup{},

@@ -23,6 +23,7 @@ func main() {
 	seeders.SeedCompanyProfile()
 	seeders.SeedCreeds()
 	seeders.SeedCompanyDocuments()
+	seeders.SeedCommunityCards()
 
 	r := routes.SetupRoutes()
 

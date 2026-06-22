@@ -45,6 +45,7 @@ func SetupRoutes() *gin.Engine {
 		api.GET("/product-page", handlers.GetProductPage)
 		api.PUT("/product-page", handlers.UpdateProductPage)
 		api.GET("/team-members", handlers.GetAllTeamMembers)
+		api.GET("/community-cards", handlers.GetAllCommunityCards)
 		api.GET("/creeds", handlers.GetAllCreeds)
 		api.GET("/company-documents", handlers.GetAllCompanyDocuments)
 
@@ -81,6 +82,11 @@ func SetupRoutes() *gin.Engine {
 			admin.POST("/team-members", handlers.CreateTeamMember)
 			admin.PUT("/team-members/:id", handlers.UpdateTeamMember)
 			admin.DELETE("/team-members/:id", handlers.DeleteTeamMember)
+
+			admin.GET("/community-cards", handlers.GetAllCommunityCardsAdmin)
+			admin.POST("/community-cards", handlers.CreateCommunityCard)
+			admin.PUT("/community-cards/:id", handlers.UpdateCommunityCard)
+			admin.DELETE("/community-cards/:id", handlers.DeleteCommunityCard)
 
 			admin.GET("/org-groups", handlers.GetAllOrgGroups)
 			admin.POST("/org-groups", handlers.CreateOrgGroup)

@@ -2,19 +2,46 @@
   <div class="rich-editor border border-gray-200 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-green-500 transition-shadow">
     <!-- Toolbar -->
     <div class="flex items-center gap-1 px-3 py-2 bg-gray-50 border-b border-gray-200 flex-wrap">
-      <button
-        type="button"
-        @click="editor?.chain().focus().toggleBold().run()"
+      <button type="button" @click="editor?.chain().focus().toggleBold().run()"
         :class="['p-1.5 rounded-lg text-sm font-bold transition cursor-pointer', editor?.isActive('bold') ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-200']"
-        title="Bold"
-      >B</button>
+        title="Bold">B</button>
 
-      <button
-        type="button"
-        @click="editor?.chain().focus().toggleItalic().run()"
+      <button type="button" @click="editor?.chain().focus().toggleItalic().run()"
         :class="['p-1.5 rounded-lg text-sm italic transition cursor-pointer', editor?.isActive('italic') ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-200']"
-        title="Italic"
-      >I</button>
+        title="Italic">I</button>
+
+      <div class="w-px h-5 bg-gray-300 mx-1"></div>
+
+      <button type="button" @click="editor?.chain().focus().toggleHeading({ level: 1 }).run()"
+        :class="['px-2 py-1 rounded-lg text-xs font-bold transition cursor-pointer', editor?.isActive('heading', { level: 1 }) ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-200']"
+        title="Heading 1">H1</button>
+
+      <button type="button" @click="editor?.chain().focus().toggleHeading({ level: 2 }).run()"
+        :class="['px-2 py-1 rounded-lg text-xs font-bold transition cursor-pointer', editor?.isActive('heading', { level: 2 }) ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-200']"
+        title="Heading 2">H2</button>
+
+      <button type="button" @click="editor?.chain().focus().toggleHeading({ level: 3 }).run()"
+        :class="['px-2 py-1 rounded-lg text-xs font-bold transition cursor-pointer', editor?.isActive('heading', { level: 3 }) ? 'bg-green-100 text-green-700' : 'text-gray-600 hover:bg-gray-200']"
+        title="Heading 3">H3</button>
+
+      <select
+        v-model="fontSize"
+        @change="applyFontSize"
+        class="px-1.5 py-1 rounded-lg text-xs border border-gray-300 bg-white text-gray-700 cursor-pointer focus:outline-none focus:ring-1 focus:ring-green-500"
+        title="Font Size"
+      >
+        <option value="">Ukuran</option>
+        <option value="12">12px</option>
+        <option value="14">14px</option>
+        <option value="16">16px</option>
+        <option value="18">18px</option>
+        <option value="20">20px</option>
+        <option value="24">24px</option>
+        <option value="28">28px</option>
+        <option value="32">32px</option>
+        <option value="36">36px</option>
+        <option value="48">48px</option>
+      </select>
 
       <div class="w-px h-5 bg-gray-300 mx-1"></div>
 
@@ -72,6 +99,7 @@ import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
+import { TextStyle, FontSize } from '@tiptap/extension-text-style'
 import api from '../services/api'
 
 const props = defineProps({
@@ -81,18 +109,29 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 const imageInput = ref(null)
+const fontSize = ref('')
 
 const editor = useEditor({
   content: props.modelValue,
   extensions: [
     StarterKit,
     Image.configure({ inline: false, allowBase64: true }),
-    Placeholder.configure({ placeholder: props.placeholder })
+    Placeholder.configure({ placeholder: props.placeholder }),
+    TextStyle,
+    FontSize,
   ],
   onUpdate: ({ editor }) => {
     emit('update:modelValue', editor.getHTML())
   }
 })
+
+const applyFontSize = () => {
+  if (!fontSize.value) {
+    editor.value?.chain().focus().unsetFontSize().run()
+    return
+  }
+  editor.value?.chain().focus().setFontSize(fontSize.value + 'px').run()
+}
 
 watch(() => props.modelValue, (val) => {
   if (editor.value && val !== editor.value.getHTML()) {

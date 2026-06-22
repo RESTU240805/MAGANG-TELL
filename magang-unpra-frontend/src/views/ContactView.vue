@@ -1,23 +1,15 @@
 <template>
-  <section class="relative h-120 flex items-center justify-center bg-cover bg-center"
-    style="background-image: url('/images/gedung.jpeg')">
-    <div class="absolute inset-0 bg-black/50"></div>
-    <div class="relative z-10 px-20 text-center text-white">
-      <h1 class="text-4xl md:text-5xl font-black uppercase tracking-wider opacity-0 anim-hero-title">
-        Contact Us
-      </h1>
-      <div class="w-12 h-1 bg-green-500 mx-auto my-4 opacity-0 anim-hero-divider"></div>
-      <p class="text-sm md:text-base font-light text-white/80 max-w-md mx-auto opacity-0 anim-hero-subtitle">
-        We are ready to help answer your needs.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    title="Contact Us"
+    subtitle="We are ready to help answer your needs."
+    :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Contact' }]"
+  />
 
   <section class="py-16 bg-white">
     <div class="max-w-5xl mx-auto px-10">
       <h2 class="text-xl font-black text-gray-900 mb-8 anim-item">Contact Information</h2>
 
-      <div class="grid grid-cols-2 gap-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-10">
 
         <div class="anim-item anim-from-left" style="animation-delay: 0.05s">
           <div class="grid grid-cols-1 mb-4 overflow-hidden rounded-lg shadow-sm">
@@ -114,6 +106,7 @@
 
 <script setup>
 import { onMounted, onUnmounted, nextTick } from 'vue'
+import PageHero from '../components/PageHero.vue'
 
 let observer = null
 

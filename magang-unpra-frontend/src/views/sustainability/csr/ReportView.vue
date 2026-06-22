@@ -1,20 +1,10 @@
 <template>
   <!-- ═══ HERO ═══ -->
-  <section class="csrr-hero">
-    <div class="csrr-hero__bg"></div>
-    <div class="csrr-hero__content max-w-7xl mx-auto px-10">
-      <div class="csrr-hero__breadcrumb">
-        <span>Sustainability</span>
-        <span class="csrr-sep">›</span>
-        <span>CSR</span>
-        <span class="csrr-sep">›</span>
-        <span class="csrr-active">CSR Report</span>
-      </div>
-      <h1 class="csrr-hero__title">CSR <span class="csrr-hero__accent">Report</span></h1>
-      <p class="csrr-hero__sub">Annual quarterly sustainability reports by PT. Tanjungenim Lestari Pulp and Paper.</p>
-      <div class="csrr-hero__divider"></div>
-    </div>
-  </section>
+  <PageHero
+    title="CSR Report"
+    subtitle="Annual quarterly sustainability reports by PT. Tanjungenim Lestari Pulp and Paper."
+    :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Sustainability' }, { label: 'CSR' }, { label: 'CSR Report' }]"
+  />
 
   <!-- ═══ REPORT LIST ═══ -->
   <section class="csrr-body">
@@ -175,6 +165,7 @@
 </template>
 
 <script setup>
+import PageHero from '../../../components/PageHero.vue'
 import { ref } from 'vue'
 
 const activePdf = ref(null)
@@ -871,5 +862,24 @@ const openPdf = (filename) => {
   margin: 0;
   font-weight: normal;
   letter-spacing: 0.3px;
+}
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
 }
 </style>

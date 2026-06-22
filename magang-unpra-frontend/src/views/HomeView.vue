@@ -48,18 +48,33 @@
         <div class="about-text">
           <span class="eyebrow">About TELPP</span>
           <h2 class="text-2xl font-black text-gray-900 mb-4" v-if="about.title && about.title !== 'ABOUT TELPP'">{{ about.title }}</h2>
-          <p>
-            {{ about.description }}
-          </p>
+          <div v-html="about.description"></div>
           
         </div>
 
         <div class="about-media reveal reveal-right" data-delay="200">
-          <img :src="getImageUrl(about.image_path)" alt="TELPP" class="about-img" />
+          <img :src="getImageUrl(about.image_path)" alt="TELPP" class="about-img" @error="(e) => e.target.src='/images/gedung.jpeg'" />
           <div class="about-badge">
             <span class="badge-number">{{ about.badge_number }}</span>
             <span class="badge-label">{{ about.badge_label }}</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY LEADER SECTION -->
+    <section v-if="topLeader" class="leader-section">
+      <div class="leader-inner">
+        <div class="leader-photo">
+          <span v-if="!topLeader.photo_path" class="leader-placeholder">👤</span>
+          <img v-if="topLeader.photo_path" :src="getImageUrl(topLeader.photo_path)" :alt="topLeader.name" @error="(e) => e.target.src = '/images/gedung.jpeg'" />
+        </div>
+        <div class="leader-content">
+          <span class="leader-tag">Key Leadership</span>
+          <h3 class="leader-name">{{ topLeader.name }}</h3>
+          <p class="leader-title">{{ topLeader.position }}</p>
+          <p class="leader-desc">{{ topLeader.description }}</p>
+          <router-link to="/our-team" class="leader-btn">Meet Our Team →</router-link>
         </div>
       </div>
     </section>
@@ -333,6 +348,7 @@ import api from '../services/api'
 const BASE_URL = 'http://localhost:8080'
 const fallbackImg = 'https://placehold.co/600x400/e8e8e8/999?text=News'
 const latestNews = ref([])
+const topLeader = ref(null)
 const about = ref({
   title: 'ABOUT TELPP',
   description: 'PT Tanjungenim Lestari Pulp and Paper ( TELPP) is world class manufacturer of high product quality and environmental friendly market pulp mill. This was established on June 18, 1990, commenced construction in mid-1997 and the commercial operation started on May, 2000 . The mill is located in 1,250 ha area in the Banuayu village, District Empat Petulai Dangku, Muara Enim Regency, South Sumatra province, Indonesia.',
@@ -357,7 +373,7 @@ const fetchAbout = async () => {
   try {
     const res = await api.get('/about-section')
     const d = res.data?.data
-    if (d && d.title) {
+    if (d) {
       about.value = {
         title: d.title || 'ABOUT TELPP',
         description: d.description || about.value.description,
@@ -367,6 +383,21 @@ const fetchAbout = async () => {
       }
     }
   } catch { /* empty */ }
+}
+
+const fetchTopLeader = async () => {
+  try {
+    const res = await api.get('/team-members')
+    const list = res.data?.data || []
+    const leaders = list
+      .filter(m => m.is_featured && m.is_active !== false)
+      .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+    if (leaders.length > 0) {
+      topLeader.value = leaders[0]
+    }
+  } catch (e) {
+    console.error('Failed to fetch top leader:', e)
+  }
 }
 
 const fetchLatestNews = async () => {
@@ -498,6 +529,7 @@ onMounted(() => {
   initScrollReveal()
   fetchLatestNews()
   fetchAbout()
+  fetchTopLeader()
 })
 
 onUnmounted(() => {
@@ -717,7 +749,7 @@ function initScrollReveal() {
 
 /* ============ ABOUT ============ */
 .about {
-  padding: 64px 60px 40px;
+  padding: 64px 24px 40px;
   background: #ffffff;
 }
 
@@ -832,7 +864,7 @@ function initScrollReveal() {
 
 /* ============ COMMUNITY ============ */
 .community {
-  padding: 80px 60px;
+  padding: 80px 24px;
   background: #f6f7f5;
 }
 
@@ -1445,8 +1477,7 @@ function initScrollReveal() {
 
 /* Kolom Teks Kiri - Dikunci Lebarnya */
 .brief-left-content {
-  width: 520px;              /* Mengunci lebar teks agar pas sesuai bentuk paragraf */
-  flex-shrink: 0;
+  flex:1;min-width:0;
 }
 
 .brief-left-content p {
@@ -1767,6 +1798,129 @@ function initScrollReveal() {
   .footer {
     padding-left: 24px;
     padding-right: 24px;
+  }
+}
+
+/* ============ KEY LEADER ============ */
+.leader-section {
+  padding: 88px 0;
+  background: #fcfcfb;
+  border-top: 1px solid #f0f0ed;
+  border-bottom: 1px solid #f0f0ed;
+}
+.leader-inner {
+  width: 100%;
+  margin: 0;
+  padding: 0 80px 0 40px;
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  gap: 64px;
+  align-items: center;
+}
+.leader-photo {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 22px;
+  overflow: hidden;
+  position: relative;
+  background: #f3f4f6;
+  box-shadow: 0 12px 36px rgba(0,0,0,.08);
+}
+.leader-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top center;
+  background: #f3f4f6;
+}
+.leader-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  color: #e5e7eb;
+  z-index: 1;
+}
+.leader-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 980px;
+  min-width: 0;
+}
+.leader-tag {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  color: #2d7a3d;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.leader-name {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.15;
+  margin: 0 0 6px;
+  letter-spacing: -.025em;
+}
+.leader-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 22px;
+}
+.leader-desc {
+  font-size: .95rem;
+  color: #4b5563;
+  line-height: 1.85;
+  margin-bottom: 32px;
+  text-align: justify;
+  overflow-wrap: anywhere;
+}
+.leader-btn {
+  align-self: flex-start;
+  padding: 12px 36px;
+  background: #1e3a5f;
+  color: #fff !important;
+  font-weight: 600;
+  font-size: .85rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background .2s, transform .2s;
+  box-shadow: 0 4px 12px rgba(30,58,95,.15);
+}
+.leader-btn:hover {
+  background: #0f2744;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(30,58,95,.25);
+}
+
+@media (max-width: 900px) {
+  .leader-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 40px;
+  }
+  .leader-photo {
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  .leader-content {
+    text-align: center;
+    align-items: center;
+  }
+  .leader-btn {
+    align-self: center;
+  }
+}
+@media (max-width: 500px) {
+  .leader-inner {
+    padding: 0 24px;
+  }
+  .leader-name {
+    font-size: 1.9rem;
   }
 }
 </style>

@@ -1,25 +1,10 @@
 <template>
   <!-- ═══ HERO ═══ -->
-  <section class="vision-hero">
-    <div class="vision-hero__bg-image"></div>
-    <div class="vision-hero__bg-overlay"></div>
-    <div class="vision-hero__bg-pattern"></div>
-    <div class="vision-hero__content max-w-7xl mx-auto px-10">
-      <div class="vision-hero__breadcrumb">
-        <span>Sustainability</span>
-        <span class="vision-hero__breadcrumb-sep">›</span>
-        <span>CSR</span>
-        <span class="vision-hero__breadcrumb-sep">›</span>
-        <span class="vision-hero__breadcrumb-active">Vision & Mission</span>
-      </div>
-      <h1 class="vision-hero__title">Vision <span class="vision-hero__title-accent">And</span> Mission</h1>
-      <p class="vision-hero__subtitle">
-        Our commitment to sustainable development, ethical business practices,
-        and community empowerment.
-      </p>
-      <div class="vision-hero__divider"></div>
-    </div>
-  </section>
+  <PageHero
+    title="Vision And Mission"
+    subtitle="Our commitment to sustainable development, ethical business practices, and community empowerment."
+    :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Sustainability' }, { label: 'CSR' }, { label: 'Vision & Mission' }]"
+  />
 
   <!-- ═══ INTRO CARD ═══ -->
   <section class="vision-intro">
@@ -259,6 +244,7 @@
 </template>
 
 <script setup>
+import PageHero from '../../../components/PageHero.vue'
 const strategyItems = [
   'To implement sound industrial relations Corporate Social Responsibility (CSR) and Good Corporate Governance',
   'To ensure a harmony industrial relations with stakeholders both internal and external',
@@ -953,5 +939,24 @@ const strategyItems = [
   margin: 0;
   font-weight: normal;
   letter-spacing: 0.3px;
+}
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
 }
 </style>

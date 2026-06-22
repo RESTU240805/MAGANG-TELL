@@ -1,27 +1,9 @@
 <template>
-  <section class="relative h-[420px] flex items-end bg-cover bg-center overflow-hidden"
-    style="background-image: url('/images/lokasi pabrik.jpeg')">
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-    <div class="absolute top-10 left-10 flex items-center gap-2 opacity-0 anim-fade-right" style="animation-delay: 0.1s">
-      <span class="w-1 h-5 bg-green-400 rounded-full inline-block"></span>
-      <span class="text-green-400 text-xs font-bold tracking-[3px] uppercase">Sustainability</span>
-    </div>
-    <div class="relative z-10 max-w-5xl mx-auto px-10 pb-14 w-full">
-      <h1 class="text-5xl font-black text-white leading-tight mb-4 opacity-0 anim-fade-up" style="animation-delay: 0.2s">
-        Pulp <span class="text-green-400">Process</span>
-      </h1>
-      <p class="text-gray-300 text-sm max-w-xl leading-relaxed opacity-0 anim-fade-up" style="animation-delay: 0.3s">
-        Explore the complete industrial pulp production process from raw logs to finished bales.
-      </p>
-      <div class="flex items-center gap-2 mt-5 text-xs text-gray-400 opacity-0 anim-fade-up" style="animation-delay: 0.4s">
-        <RouterLink to="/" class="hover:text-white cursor-pointer transition">Home</RouterLink>
-        <span class="text-gray-600">/</span>
-        <span class="hover:text-white cursor-pointer transition">Sustainability</span>
-        <span class="text-gray-600">/</span>
-        <span class="text-green-400 font-semibold">Pulp Process</span>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    title="Pulp Process"
+    subtitle="Explore the complete industrial pulp production process from raw logs to finished bales."
+    :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Sustainability' }, { label: 'Pulp Process' }]"
+  />
 
   <!-- 3D Interactive Map -->
   <section class="bg-[#0a1208] py-10">
@@ -271,8 +253,8 @@
 </template>
 
 <script setup>
+import PageHero from '../../components/PageHero.vue'
 import { ref, reactive, onMounted, onUnmounted, nextTick } from 'vue'
-import { RouterLink } from 'vue-router'
 import PulpProcess3D from '@/components/PulpProcess3D.vue'
 
 const pulpSections = reactive([
@@ -799,5 +781,24 @@ onUnmounted(() => {
   margin: 0;
   font-weight: normal;
   letter-spacing: 0.3px;
+}
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
 }
 </style>

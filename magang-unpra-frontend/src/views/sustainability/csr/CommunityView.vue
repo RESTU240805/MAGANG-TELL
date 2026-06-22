@@ -2,19 +2,11 @@
   <div class="community-page">
 
     <!-- ─── Hero ─────────────────────────────────────────────── -->
-    <section class="hero">
-      <div class="hero-bg"></div>
-      <div class="hero-content">
-        <span class="hero-eyebrow">SUSTAINABILITY & COMMUNITY</span>
-        <h1 class="hero-title">Local Community<br />Development</h1>
-        <p class="hero-desc">
-          We believe that business sustainability goes hand in hand with the welfare
-          of local communities. Through structured CSR initiatives, we build a
-          better future together.
-        </p>
-        
-      </div>
-    </section>
+    <PageHero
+      title="Local Community Development"
+      subtitle="We believe that business sustainability goes hand in hand with the welfare of local communities."
+      :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Sustainability' }, { label: 'CSR' }, { label: 'Community' }]"
+    />
 
     <!-- ─── Local Community Development ─────────────────────── -->
     <section class="section-lcd" ref="lcdRef" :class="{'reveal-in': lcdVisible}">
@@ -280,6 +272,7 @@
 </template>
 
 <script setup>
+import PageHero from '../../../components/PageHero.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 const activeTab = ref(0)
@@ -1218,4 +1211,23 @@ const tabs = [
   letter-spacing: 0.3px;
 }
 
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
+}
 </style>

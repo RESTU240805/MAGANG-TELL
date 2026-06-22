@@ -2,22 +2,11 @@
   <div class="page">
 
     <!-- HERO -->
-    <section class="hero">
-      <div class="hero-bg">
-        <img src="/images/lokasi pabrik.jpeg" alt="Our Team" class="hero-img" />
-        <div class="hero-overlay"></div>
-      </div>
-      <div class="hero-content">
-        <p class="eyebrow in">OUR COMPANY</p>
-        <h1 class="in">
-          <span class="line">OUR TEAM</span>
-        </h1>
-        <div class="accent-line in"></div>
-        <p class="hero-p in">
-          Meet the talented people who helped make PT TELPP what it is today.
-        </p>
-      </div>
-    </section>
+    <PageHero
+      title="Our Team"
+      subtitle="Meet the talented people who helped make PT TELPP what it is today."
+      :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Our Company', to: '/our-company' }, { label: 'Our Team' }]"
+    />
 
     <!-- TEAM LIST -->
     <section class="team-section">
@@ -35,7 +24,6 @@
               <img v-if="featured.photo_path" :src="getImageUrl(featured.photo_path)" :alt="featured.name" />
             </div>
             <div class="featured-info">
-              <span class="featured-badge">Petinggi Perusahaan</span>
               <h3 class="featured-name">{{ featured.name }}</h3>
               <p class="featured-pos">{{ featured.position }}</p>
               <p class="featured-desc">{{ featured.description }}</p>
@@ -50,6 +38,7 @@
             :key="m.ID"
             class="team-card"
             :style="{ animationDelay: (i * 0.12) + 's' }"
+            @click="openDetail(m)"
           >
             <div class="team-photo">
               <div class="photo-placeholder">👤</div>
@@ -58,8 +47,6 @@
             <div class="team-info">
               <h3 class="team-name">{{ m.name }}</h3>
               <p class="team-position">{{ m.position }}</p>
-              <p v-if="m.description" class="team-desc">{{ truncate(m.description, 120) }}</p>
-              <button @click="openDetail(m)" class="read-more-btn">Selengkapnya →</button>
             </div>
           </div>
         </div>
@@ -134,6 +121,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import api from '../services/api'
+import PageHero from '../components/PageHero.vue'
 
 const BASE_URL = 'http://localhost:8080'
 const members = ref([])
@@ -153,11 +141,6 @@ const getImageUrl = (path) => {
 const openDetail = (m) => {
   selectedMember.value = m
   showDetail.value = true
-}
-
-const truncate = (text, max = 120) => {
-  if (!text || text.length <= max) {return text}
-  return text.slice(0, max) + '...'
 }
 
 const orgChartImage = ref('')
@@ -255,195 +238,188 @@ h1 { margin: 0 0 22px; color: #fff; }
 .section-inner { max-width: 1200px; margin: 0 auto; }
 
 .section-title {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 40px;
+  color: #111827;
+  margin-bottom: 32px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e5e7eb;
 }
 
-/* ── FEATURED CARD (Horizontal Memanjang) ── */
+/* ── FEATURED CARD ── */
 .featured-list {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  margin-bottom: 48px;
+  gap: 28px;
+  margin-bottom: 64px;
 }
 .featured-card {
   display: flex;
-  gap: 40px;
-  background: linear-gradient(135deg, #fafcf8 0%, #f0f7ee 100%);
-  border: 2px solid #e2e8f0;
-  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
   padding: 0;
-  margin-bottom: 48px;
   transition: box-shadow .3s, border-color .3s;
   position: relative;
   overflow: hidden;
-  min-height: 300px;
 }
 .featured-card:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 12px 40px rgba(0,0,0,.08);
+  border-color: #d1d5db;
+  box-shadow: 0 8px 32px rgba(0,0,0,.08);
 }
-
 .featured-photo {
-  width: 280px;
-  min-height: 300px;
+  width: 340px;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+  background: #f3f4f6;
 }
 .featured-photo img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: top center;
+  background: #f3f4f6;
   transition: transform .5s;
 }
-.featured-card:hover .featured-photo img { transform: scale(1.04); }
+.featured-card:hover .featured-photo img { transform: none; }
 .featured-photo-placeholder {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 5rem;
-  color: #bbb;
-  background: #e8f0e4;
+  font-size: 4rem;
+  color: #d1d5db;
+  background: #f3f4f6;
 }
 .featured-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 40px 40px 40px 0;
+  padding: 36px 40px;
   min-width: 0;
 }
-.featured-badge {
-  display: inline-block;
-  width: fit-content;
-  padding: 6px 16px;
-  border-radius: 8px;
-  font-size: .72rem;
-  font-weight: 700;
-  background: #0f172a;
-  color: #fff;
-  margin-bottom: 14px;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-}
 .featured-name {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 4px;
-  letter-spacing: -.02em;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 6px;
+  line-height: 1.2;
 }
 .featured-pos {
-  font-size: 1.05rem;
+  font-size: .95rem;
   font-weight: 600;
   color: #2563eb;
   margin: 0 0 16px;
 }
 .featured-desc {
-  font-size: .92rem;
-  color: #475569;
-  line-height: 1.8;
+  font-size: .88rem;
+  color: #6b7280;
+  line-height: 1.75;
   margin: 0 0 20px;
-  max-width: 600px;
 }
 .featured-btn {
   align-self: flex-start;
-  padding: 10px 24px;
-  border-radius: 10px;
+  padding: 10px 28px;
+  border-radius: 8px;
   font-size: .85rem;
   font-weight: 600;
-  background: #0f172a;
+  background: #1e3a5f;
   color: #fff;
   border: none;
   cursor: pointer;
-  transition: background .2s, transform .2s;
+  transition: background .2s;
 }
-.featured-btn:hover { background: #1e293b; transform: translateY(-1px); }
+.featured-btn:hover { background: #0f2744; }
 
 /* ── GRID LAYOUT ── */
 .team-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 36px 32px;
+  gap: 28px;
 }
-
 .team-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: box-shadow .3s, border-color .3s, transform .3s;
   animation: fadeInUp .6s cubic-bezier(.22,1,.36,1) both;
+  cursor: pointer;
 }
-
+.team-card:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 8px 28px rgba(0,0,0,.1);
+  transform: translateY(-4px);
+}
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: none; }
 }
-
 .team-photo {
   width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 12px;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: #e8f0e4;
+  background: #f3f4f6;
   position: relative;
-  margin-bottom: 20px;
 }
 .team-photo .team-img {
   position: absolute;
   inset: 0;
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; height: 100%; object-fit: contain;
+  object-position: top center;
+  background: #f3f4f6;
   transition: transform .5s cubic-bezier(.22,1,.36,1);
 }
-.team-card:hover .team-photo .team-img { transform: scale(1.04); }
-
+.team-card:hover .team-photo .team-img { transform: none; }
 .photo-placeholder {
   position: absolute;
   inset: 0;
-  width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 4rem; color: #bbb;
+  font-size: 3rem; color: #d1d5db;
 }
-
 .team-info {
+  padding: 16px 18px 20px;
   text-align: left;
 }
 .team-name {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 4px;
-  letter-spacing: -.01em;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 3px;
+  line-height: 1.3;
 }
 .team-position {
-  font-size: .88rem;
+  font-size: .82rem;
   color: #2563eb;
   font-weight: 500;
   margin-bottom: 8px;
 }
 .team-desc {
-  font-size: .85rem;
+  font-size: .8rem;
   color: #6b7280;
-  line-height: 1.6;
-  margin-bottom: 6px;
+  line-height: 1.55;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .read-more-btn {
   background: none;
   border: none;
   color: #2563eb;
   font-weight: 600;
-  font-size: .82rem;
+  font-size: .78rem;
   cursor: pointer;
   padding: 0;
 }
-.read-more-btn:hover {
-  text-decoration: underline;
-}
+.read-more-btn:hover { text-decoration: underline; }
 
 /* ── MODAL ── */
 .modal-enter-active, .modal-leave-active { transition: opacity .25s ease; }
@@ -453,7 +429,7 @@ h1 { margin: 0 0 22px; color: #fff; }
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: rgba(0,0,0,.5);
+  background: rgba(0,0,0,.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -461,21 +437,21 @@ h1 { margin: 0 0 22px; color: #fff; }
 }
 .modal-card {
   background: #fff;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0,0,0,.18);
+  box-shadow: 0 24px 64px rgba(0,0,0,.2);
   max-height: 86vh;
 }
 .modal-x {
   position: absolute;
-  top: 12px; right: 12px;
-  width: 30px; height: 30px;
+  top: 10px; right: 10px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   border: none;
-  background: #dc2626;
+  background: #111827;
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   z-index: 2;
@@ -485,26 +461,28 @@ h1 { margin: 0 0 22px; color: #fff; }
   transition: background .2s;
   line-height: 1;
 }
-.modal-x:hover { background: #b91c1c; }
+.modal-x:hover { background: #dc2626; }
 
-/* ── FEATURED MODAL (horizontal besar) ── */
+/* ── FEATURED MODAL ── */
 .modal-featured {
-  max-width: 820px;
+  max-width: 800px;
   width: 100%;
   display: flex;
-  height: 420px;
+  height: 400px;
 }
 .mf-photo {
-  width: 380px;
+  width: 340px;
   flex-shrink: 0;
-  background: #e8f0e4;
+  background: #f3f4f6;
   position: relative;
   overflow: hidden;
 }
 .mf-photo img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: top center;
+  background: #f3f4f6;
 }
 .mf-photo-placeholder {
   position: absolute;
@@ -512,16 +490,16 @@ h1 { margin: 0 0 22px; color: #fff; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 5rem;
-  color: #bbb;
+  font-size: 4rem;
+  color: #d1d5db;
 }
 .mf-badge {
   position: absolute;
-  top: 16px; left: 16px;
-  padding: 5px 14px;
-  border-radius: 6px;
-  font-size: .72rem;
-  font-weight: 800;
+  top: 14px; left: 14px;
+  padding: 4px 12px;
+  border-radius: 5px;
+  font-size: .68rem;
+  font-weight: 700;
   background: #fef3c7;
   color: #92400e;
   text-transform: uppercase;
@@ -529,48 +507,47 @@ h1 { margin: 0 0 22px; color: #fff; }
 }
 .mf-info {
   flex: 1;
-  padding: 44px 40px;
+  padding: 36px 32px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 .mf-name {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #111827;
   margin: 0 0 4px;
 }
 .mf-pos {
-  font-size: 1rem;
+  font-size: .92rem;
   font-weight: 600;
   color: #2563eb;
-  margin: 0 0 16px;
+  margin: 0 0 14px;
 }
 .mf-divider {
-  width: 50px;
+  width: 40px;
   height: 3px;
   background: #d4a017;
   border-radius: 2px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 .mf-desc {
-  font-size: .92rem;
-  color: #475569;
-  line-height: 1.8;
+  font-size: .88rem;
+  color: #6b7280;
+  line-height: 1.7;
   margin: 0;
   white-space: pre-line;
 }
 
-/* ── REGULAR MODAL (vertikal) ── */
+/* ── REGULAR MODAL ── */
 .modal-regular {
-  max-width: 480px;
+  max-width: 440px;
   width: 100%;
 }
 .mr-photo {
   width: 100%;
-  height: 240px;
-  background: #e8f0e4;
+  height: 220px;
+  background: #f3f4f6;
   position: relative;
   overflow: hidden;
 }
@@ -578,7 +555,7 @@ h1 { margin: 0 0 22px; color: #fff; }
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background: #e8f0e4;
+  background: #f3f4f6;
 }
 .modal-photo-placeholder {
   position: absolute;
@@ -587,35 +564,35 @@ h1 { margin: 0 0 22px; color: #fff; }
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-  color: #bbb;
+  color: #d1d5db;
 }
 .mr-info {
-  padding: 28px 24px;
+  padding: 20px 22px;
 }
 .mr-name {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 800;
-  color: #0f172a;
+  color: #111827;
   margin: 0 0 4px;
 }
 .mr-pos {
-  font-size: .88rem;
+  font-size: .85rem;
   font-weight: 600;
   color: #2563eb;
-  margin: 0 0 14px;
+  margin: 0 0 12px;
 }
 .mr-desc {
-  font-size: .88rem;
-  color: #475569;
-  line-height: 1.7;
+  font-size: .85rem;
+  color: #6b7280;
+  line-height: 1.65;
   margin: 0;
   white-space: pre-line;
 }
 
 @media (max-width: 700px) {
   .modal-featured { flex-direction: column; height: auto; }
-  .mf-photo { width: 100%; height: 260px; }
-  .mf-info { padding: 28px 24px; }
+  .mf-photo { width: 100%; height: 240px; }
+  .mf-info { padding: 24px 20px; }
 }
 
 /* ── EMPTY ── */
@@ -630,19 +607,21 @@ h1 { margin: 0 0 22px; color: #fff; }
   .hero-content { padding: 48px 40px 60px; }
   .line { font-size: 2.1rem; }
   .team-section { padding: 56px 40px 72px; }
-  .featured-card { flex-direction: column; align-items: center; text-align: center; padding: 24px; gap: 20px; min-height: auto; }
-  .featured-photo { width: 100%; min-height: 220px; max-width: 280px; border-radius: 12px; }
-  .featured-photo img { position: relative; }
+  .featured-card { flex-direction: column; align-items: center; text-align: center; padding: 28px; gap: 16px; }
+  .featured-photo { width: 100%; max-width: 280px; border-radius: 12px; aspect-ratio: 4/5; }
+  .featured-photo img { position: relative; object-position: top center; }
   .featured-info { padding: 0; }
   .featured-btn { align-self: center; }
-  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .orgchart-img-wrap { max-height: 500px; }
 }
 @media (max-width: 600px) {
   .line { font-size: 1.6rem; }
   .hero-content { padding: 36px 24px 52px; }
   .team-section { padding: 40px 20px 56px; }
-  .section-title { font-size: 1.4rem; }
-  .team-grid { grid-template-columns: 1fr; gap: 28px; }
+  .section-title { font-size: 1.3rem; }
+  .team-grid { grid-template-columns: 1fr; gap: 20px; max-width: 360px; margin: 0 auto; }
+  .orgchart-img-wrap { max-height: 400px; }
 }
 
 /* ============ STRUKTUR ORGANISASI (gambar bagan) ============ */
@@ -650,17 +629,25 @@ h1 { margin: 0 0 22px; color: #fff; }
   padding: 0 40px 88px;
   background: #fff;
 }
+.orgchart-section .section-inner {
+  max-width: 1500px;
+}
 .orgchart-img-wrap {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  max-height: 800px;
+  overflow-y: hidden;
 }
 .orgchart-img {
   width: 100%;
   height: auto;
   display: block;
+  min-height: 500px;
+  object-fit: contain;
+  object-position: top center;
 }
 
 @media (max-width: 960px) {

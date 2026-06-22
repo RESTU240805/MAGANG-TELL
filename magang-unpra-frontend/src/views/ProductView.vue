@@ -2,60 +2,11 @@
   <div class="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased selection:bg-emerald-100">
 
     <!-- ─── HERO ──────────────────────────────────────────────── -->
-    <header class="relative h-[85vh] flex items-center justify-center bg-zinc-900 overflow-hidden">
-      <div class="absolute inset-0 z-0">
-        <img
-          src="/images/gedung.jpeg"
-          class="w-full h-full object-cover opacity-60 animate-subtle-zoom"
-          alt="Hero Background"
-          @error="(e) => e.target.src='https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=1600'"
-        />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-slate-50"></div>
-      </div>
-
-      <div class="container mx-auto px-6 lg:px-16 relative z-10 text-center">
-        <Transition name="reveal-down" appear>
-          <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/20 backdrop-blur-md border border-emerald-500/30 text-emerald-400 text-sm font-bold uppercase tracking-[0.2em] mb-8">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            PRODUCT CATALOG
-          </div>
-        </Transition>
-
-        <Transition name="reveal-up" appear>
-          <h1 class="text-6xl md:text-8xl font-serif font-bold text-white mb-6 leading-[1.1]">
-            PRODUCT<br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">
-              PT TELPP
-            </span>
-          </h1>
-        </Transition>
-
-        <Transition name="reveal-up" appear>
-          <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed mb-10">
-           Our main product is TeL Pellita Bleached Kraft Pulp based on 100% planted Pellita trees.
-
-TeL focuses on product quality in totality through tight quality control systems and also covered under QMS ISO 9001. The continual improvement for quality and process is important drive at TeL and for this we follow proactive approach to interact with our customers.
-
-Based on end products, TeL pulp mostly used as raw material of Tissue, Coating base papers, Wood Free paper & paperboard, and others specialty grades.
-          </p>
-        </Transition>
-
-        <Transition name="reveal-up" appear>
-          <button
-            @click="scrollToProducts"
-            class="px-10 py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full text-lg font-bold transition-all transform hover:scale-105 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] flex items-center gap-2 mx-auto cursor-pointer border-none"
-          >
-            Explore Products
-            <svg class="w-6 h-6 animate-bounce-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7-7v18"/>
-            </svg>
-          </button>
-        </Transition>
-      </div>
-    </header>
+    <PageHero
+      title="Product"
+      subtitle="Our main product is TeL Pellita Bleached Kraft Pulp based on 100% planted Pellita trees."
+      :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Product' }]"
+    />
 
     <!-- ─── PRODUCT DESCRIPTION ───────────────────────────────── -->
     <main id="product-target" class="container mx-auto px-6 lg:px-16 mt-4 relative z-20 pb-24 scroll-mt-10">
@@ -235,6 +186,7 @@ Based on end products, TeL pulp mostly used as raw material of Tissue, Coating b
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import api from '../services/api'
+import PageHero from '../components/PageHero.vue'
 
 const BASE_URL = 'http://localhost:8080'
 
@@ -257,10 +209,6 @@ onMounted(async () => {
   startTimer()
 })
 onUnmounted(() => stopTimer())
-
-const scrollToProducts = () => {
-  document.getElementById('product-target')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
 
 // ─── Slider ───────────────────────────────────────────────────
 const slides = ref([])
@@ -289,46 +237,6 @@ const manualNav  = (fn) => { stopTimer(); fn(); startTimer() }
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap');
 .font-serif { font-family: 'Playfair Display', serif; }
-
-.product-description {
-  color: #475569;
-  font-size: 18px;
-  line-height: 1.9;
-  text-align: justify;
-  padding: 0 24px;
-}
-.product-description h1 { font-size: 1.5em; font-weight: 700; margin: 0.5em 0; }
-.product-description h2 { font-size: 1.25em; font-weight: 600; margin: 0.5em 0; }
-.product-description h3 { font-size: 1.1em; font-weight: 600; margin: 0.5em 0; }
-.product-description p { margin: 0.5em 0; }
-.product-description ul { list-style-type: disc; padding-left: 1.5em; margin: 0.5em 0; }
-.product-description ol { list-style-type: decimal; padding-left: 1.5em; margin: 0.5em 0; }
-.product-description li { margin: 0.25em 0; }
-.product-description pre {
-  background: #1e293b;
-  color: #e2e8f0;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-family: monospace;
-  font-size: 0.85em;
-  overflow-x: auto;
-  margin: 0.75em 0;
-}
-.product-description code {
-  background: #f1f5f9;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.9em;
-}
-.product-description pre code { background: transparent; padding: 0; }
-.product-description img { max-width: 100%; border-radius: 8px; margin: 1em 0; }
-.product-description blockquote {
-  border-left: 3px solid #10b981;
-  padding-left: 12px;
-  margin: 0.75em 0;
-  color: #6b7280;
-}
 
 .list-fade-enter-active { transition: all 0.6s cubic-bezier(0.34,1.56,0.64,1); }
 .list-fade-enter-from   { opacity: 0; transform: scale(0.85) translateY(30px); }
@@ -719,4 +627,41 @@ const manualNav  = (fn) => { stopTimer(); fn(); startTimer() }
   font-weight: normal;
   letter-spacing: 0.3px;
 }
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
+}
+</style>
+
+<style>
+.product-description { color: #374151; font-size: 16px; line-height: 1.75; padding: 0; }
+.product-description p { margin-bottom: 1em; }
+.product-description h1 { font-size: 1.5em; font-weight: 700; margin: 0.8em 0 0.4em; color: #111827; }
+.product-description h2 { font-size: 1.25em; font-weight: 600; margin: 0.8em 0 0.4em; color: #111827; }
+.product-description h3 { font-size: 1.1em; font-weight: 600; margin: 0.8em 0 0.4em; color: #111827; }
+.product-description ul { list-style-type: disc; padding-left: 1.5em; margin: 0.5em 0; }
+.product-description ol { list-style-type: decimal; padding-left: 1.5em; margin: 0.5em 0; }
+.product-description li { margin: 0.25em 0; }
+.product-description strong { font-weight: 700; color: #111827; }
+.product-description em { font-style: italic; }
+.product-description pre { background: #1e293b; color: #e2e8f0; padding: 12px 16px; border-radius: 8px; font-family: monospace; font-size: 0.85em; overflow-x: auto; margin: 0.75em 0; }
+.product-description code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.9em; }
+.product-description pre code { background: transparent; padding: 0; }
+.product-description img { max-width: 100%; border-radius: 8px; margin: 1em 0; }
+.product-description blockquote { border-left: 3px solid #10b981; padding-left: 12px; margin: 0.75em 0; color: #6b7280; }
 </style>

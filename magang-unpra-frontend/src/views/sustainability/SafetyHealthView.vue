@@ -1,31 +1,11 @@
 <template>
 
   <!-- ── HERO ── -->
-  <section class="relative h-[400px] flex items-end bg-cover bg-center overflow-hidden"
-    style="background-image: url('/safety/1.png')">
-    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
-
-    <div class="absolute top-10 left-10 flex items-center gap-2 opacity-0 anim-fade-right" style="animation-delay: 0.1s">
-      <span class="w-1 h-5 bg-green-400 rounded-full"></span>
-      <span class="text-green-400 text-xs font-bold tracking-[3px] uppercase">Sustainability</span>
-    </div>
-
-    <div class="relative z-10 max-w-5xl mx-auto px-10 pb-14 w-full">
-      <h1 class="text-5xl font-black text-white leading-tight mb-4 opacity-0 anim-fade-up" style="animation-delay: 0.2s">
-        Safety & Health <span class="text-green-400">Office</span>
-      </h1>
-      <p class="text-gray-300 text-sm max-w-xl leading-relaxed opacity-0 anim-fade-up" style="animation-delay: 0.3s">
-        Committed to implementing Occupational Safety and Health across all factory areas for every employee, contractor and supplier.
-      </p>
-      <div class="flex items-center gap-2 mt-5 text-xs text-gray-400 opacity-0 anim-fade-up" style="animation-delay: 0.4s">
-        <RouterLink to="/" class="hover:text-white cursor-pointer transition">Home</RouterLink>
-        <span class="text-gray-600">/</span>
-        <span class="hover:text-white cursor-pointer transition">Sustainability</span>
-        <span class="text-gray-600">/</span>
-        <span class="text-green-400 font-semibold">Safety & Health Office</span>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    title="Safety & Health Office"
+    subtitle="Committed to implementing Occupational Safety and Health across all factory areas for every employee, contractor and supplier."
+    :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Sustainability' }, { label: 'Safety & Health' }]"
+  />
 
   <!-- ── K3 POLICY ── -->
   <section class="py-20 bg-white">
@@ -43,7 +23,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-5 gap-10">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-10">
 
         <div class="col-span-3 space-y-4 text-gray-500 text-sm leading-relaxed anim-slide-right">
           <p>Tanjungenim Lestari Pulp and Paper is fully committed to implementing Occupational Safety and Health in all factory areas by each of our employees, contractors and suppliers.</p>
@@ -86,7 +66,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
         <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/15 transition anim-item">
           <div class="w-9 h-9 rounded-xl bg-green-500/30 flex items-center justify-center text-base mb-4">🏢</div>
           <h3 class="font-bold text-white text-sm mb-2">Safety Office & P2K3</h3>
@@ -159,7 +139,7 @@
         In achieving continuous improvement and ensuring that the system is well implemented, PT. Tanjungenim Lestari Pulp and Paper organizes K3 efforts that are contained in the K3 program. K3 program activities become a program that is integrated with the company's operational processes so that there is a mutually beneficial synergy without reducing one part. Some of the K3 programs carried out in 2019 are:
       </p>
 
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div v-for="(program, i) in k3Programs" :key="i"
           class="flex gap-4 bg-white/10 backdrop-blur-sm border border-white/10 rounded-xl p-5 hover:bg-white/15 transition group anim-item"
           :style="{ animationDelay: (i * 0.05) + 's' }">
@@ -317,8 +297,8 @@
 </template>
 
 <script setup>
+import PageHero from '../../components/PageHero.vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { RouterLink } from 'vue-router'
 
 const policyCards = [
   { icon: '📋', title: 'SMK3 & OHSAS 18001', desc: 'Certified management system ensuring continuous improvement and full compliance with government safety regulations.' },
@@ -807,5 +787,24 @@ const initObserver = () => {
   margin: 0;
   font-weight: normal;
   letter-spacing: 0.3px;
+}
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
 }
 </style>

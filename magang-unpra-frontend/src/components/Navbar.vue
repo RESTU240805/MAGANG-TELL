@@ -1,11 +1,17 @@
 <template>
-  <nav class="fixed top-0 left-0 right-0 w-full z-50 shadow-sm bg-white">
+  <nav :class="[
+    'fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300',
+    scrolled ? 'bg-white shadow-md' : 'bg-transparent'
+  ]">
     <div class="w-full px-4 sm:px-10 py-3 flex items-center justify-between">
 
       <!-- Logo -->
       <RouterLink to="/" class="flex items-center gap-3 sm:gap-4">
         <img src="/images/logo-telpp.png" alt="TeL Logo" class="h-10 sm:h-12 w-auto" />
-        <span class="text-[10px] sm:text-[11px] font-bold text-gray-800 tracking-[1.5px] sm:tracking-[2px] uppercase leading-snug">
+        <span :class="[
+          'text-[10px] sm:text-[11px] font-bold tracking-[1.5px] sm:tracking-[2px] uppercase leading-snug transition-colors duration-300',
+          scrolled ? 'text-gray-800' : 'text-white'
+        ]">
           PT Tanjungenim Lestari<br />Pulp and Paper
         </span>
       </RouterLink>
@@ -13,7 +19,7 @@
       <!-- Hamburger button (mobile) -->
       <button
         class="hamburger-btn"
-        :class="{ 'is-open': mobileOpen }"
+        :class="{ 'is-open': mobileOpen, 'is-scrolled': scrolled }"
         @click="toggleMobile"
         aria-label="Toggle menu"
       >
@@ -29,7 +35,7 @@
           <div v-if="item.children?.length" class="nav-dropdown-wrapper">
             <button
               class="nav-link nav-dropdown-trigger"
-              :class="{ 'nav-link--active': isChildActive(item) }"
+              :class="{ 'nav-link--active': isChildActive(item), 'nav-link--scrolled': scrolled }"
             >
               {{ item.name }}
               <span style="font-size:9px; margin-top:1px;">▾</span>
@@ -83,6 +89,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="nav-link"
+            :class="{ 'nav-link--scrolled': scrolled }"
           >
             {{ item.name }}
           </a>
@@ -92,7 +99,7 @@
             v-else
             :to="item.url"
             class="nav-link"
-            :class="{ 'nav-link--active': isActive(item.url) }"
+            :class="{ 'nav-link--active': isActive(item.url), 'nav-link--scrolled': scrolled }"
           >
             {{ item.name }}
           </RouterLink>
@@ -120,7 +127,7 @@
             </span>
           </RouterLink>
           <button class="mobile-close-btn" @click="mobileOpen = false" aria-label="Close menu">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" :stroke="scrolled ? '#333' : '#fff'" stroke-width="2.5">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
@@ -218,7 +225,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import api from '../services/api'
 
@@ -226,6 +233,11 @@ const route = useRoute()
 const mobileOpen = ref(false)
 const menus = ref([])
 const mobileOpenItems = ref(new Set())
+const scrolled = ref(false)
+
+const handleScroll = () => {
+  scrolled.value = window.scrollY > 50
+}
 
 const isExternal = (url) => url && url.startsWith('http')
 
@@ -275,7 +287,15 @@ watch(() => route.path, () => {
   mobileOpenItems.value = new Set()
 })
 
-onMounted(fetchMenus)
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll()
+  fetchMenus()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style scoped>
@@ -304,9 +324,13 @@ onMounted(fetchMenus)
   display: block;
   width: 100%;
   height: 2.5px;
-  background: #333;
+  background: #fff;
   border-radius: 2px;
-  transition: transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s, opacity 0.3s, background 0.3s;
+}
+
+.hamburger-btn.is-scrolled span {
+  background: #333;
 }
 
 .hamburger-btn.is-open span:nth-child(1) {
@@ -323,7 +347,7 @@ onMounted(fetchMenus)
 
 /* ── Nav link ── */
 .nav-link {
-  color: #333333;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -335,14 +359,27 @@ onMounted(fetchMenus)
   gap: 4px;
   text-decoration: none;
   border-bottom: 3px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  transition: color 0.3s, border-color 0.3s;
 }
 
 .nav-link:hover {
-  color: #5F9E42;
+  color: #5ecb7a;
 }
 
 .nav-link--active {
+  color: #5ecb7a;
+  border-bottom: 3px solid #5ecb7a;
+}
+
+.nav-link--scrolled {
+  color: #333333;
+}
+
+.nav-link--scrolled:hover {
+  color: #5F9E42;
+}
+
+.nav-link--scrolled.nav-link--active {
   color: #5F9E42;
   border-bottom: 3px solid #5F9E42;
 }

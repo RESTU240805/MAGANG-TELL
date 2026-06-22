@@ -2,23 +2,17 @@
   <div class="page">
 
     <!-- HERO -->
-    <section class="hero" ref="heroEl">
-      <div class="hero-bg">
-        <img :src="profile.hero_image ? getImageUrl(profile.hero_image) : '/images/lokasi pabrik.jpeg'" alt="Pabrik TeL" class="hero-img" ref="heroImg" />
-        <div class="hero-overlay"></div>
-        <div class="hero-particles" ref="particlesEl"></div>
-      </div>
-      <div class="hero-content">
-        <p class="eyebrow" :class="{in: h1}">ABOUT US</p>
-        <h1 :class="{in: h1}">
-          <span class="line" v-for="(l,i) in ['OUR COMPANY']" :key="i" :style="{transitionDelay: (0.18+i*0.14)+'s'}">{{l}}</span>
-        </h1>
-        <div class="accent-line" :class="{in: h1}" style="transition-delay:.52s"></div>
-        <p v-if="profile.title" class="hero-subtitle" :class="{in: h1}" style="transition-delay:.54s">{{ profile.title }}</p>
-        <p class="hero-p" :class="{in: h1}" style="transition-delay:.62s" v-html="profile.content || 'Memuat data...'"></p>
-      </div>
-      <div class="hero-scroll" :class="{in: h1}" style="transition-delay:.9s">
-        <span></span>
+    <PageHero
+      title="Our Company"
+      :subtitle="profile.title || 'PT Tanjungenim Lestari Pulp and Paper'"
+      :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Our Company' }]"
+    />
+
+    <!-- ABOUT -->
+    <section v-if="profile.content" class="about-company">
+      <div class="section-inner">
+        <h2 class="about-company-title">{{ profile.title || 'About Us' }}</h2>
+        <div class="about-company-content" v-html="profile.content"></div>
       </div>
     </section>
 
@@ -145,19 +139,16 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import api from '@/services/api'
+import PageHero from '../components/PageHero.vue'
 
 const BASE_URL = 'http://localhost:8080'
 
-const heroEl = ref(null)
 const creedEl = ref(null)
 const valuesEl = ref(null)
 const docEl = ref(null)
-const heroImg = ref(null)
-const particlesEl = ref(null)
 const modal = ref(false)
 const hoverKanji = ref(-1)
 
-const h1 = ref(false)
 const c1 = ref(false)
 const v1 = ref(false)
 const d1 = ref(false)
@@ -237,24 +228,6 @@ const values = computed(() =>
   }))
 )
 
-function makeParticles() {
-  if (!particlesEl.value) {return}
-  const el = particlesEl.value
-  for (let i = 0; i < 18; i++) {
-    const p = document.createElement('span')
-    p.className = 'particle'
-    p.style.cssText = `
-      left:${Math.random()*100}%;
-      top:${Math.random()*100}%;
-      width:${2+Math.random()*3}px;
-      height:${2+Math.random()*3}px;
-      animation-delay:${Math.random()*6}s;
-      animation-duration:${4+Math.random()*6}s;
-    `
-    el.appendChild(p)
-  }
-}
-
 function useObserver(el, flag, threshold = 0.2) {
   const io = new IntersectionObserver(([e]) => {
     if (e.isIntersecting) { flag.value = true; io.disconnect() }
@@ -265,8 +238,7 @@ function useObserver(el, flag, threshold = 0.2) {
 
 const observers = []
 onMounted(async () => {
-  makeParticles()
-  setTimeout(() => { h1.value = true }, 120)
+  setTimeout(() => { c1.value = true }, 120)
   observers.push(useObserver(creedEl.value, c1))
   observers.push(useObserver(valuesEl.value, v1))
   observers.push(useObserver(docEl.value, d1))
@@ -289,7 +261,7 @@ onMounted(async () => {
     }
     // Creed: timpa hanya jika ada data aktif dari API
     const allCreeds = Array.isArray(creedRes.data) ? creedRes.data : (creedRes.data.data || [])
-    const activeCreeds = allCreeds.filter(c => c.is_active)
+    const activeCreeds = allCreeds.filter(c => c.is_active).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
     if (activeCreeds.length > 0) {
       creedData.value = activeCreeds
     }
@@ -403,6 +375,26 @@ h1{margin:0 0 22px;color:#fff}
 }
 @keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(.5)}20%{opacity:1}80%{opacity:.4}100%{opacity:0;transform:translateY(-120px) scale(1.2)}}
 
+/* ── ABOUT ── */
+.about-company{
+  padding:88px 72px;background:#fff;
+}
+.about-company-title{
+  font-size:1.8rem;font-weight:800;color:#1a1a1a;margin-bottom:24px;
+}
+.about-company-content{
+  font-size:.93rem;color:#555;line-height:1.85;
+  max-width:900px;
+}
+.about-company-content p{margin-bottom:1em}
+.about-company-content h1,.about-company-content h2,.about-company-content h3{color:#1a1a1a;margin:1em 0 0.5em}
+.about-company-content h1{font-size:1.5em;font-weight:700}
+.about-company-content h2{font-size:1.25em;font-weight:600}
+.about-company-content h3{font-size:1.1em;font-weight:600}
+.about-company-content ul{list-style-type:disc;padding-left:1.5em;margin:0.5em 0}
+.about-company-content ol{list-style-type:decimal;padding-left:1.5em;margin:0.5em 0}
+.about-company-content img{max-width:100%;border-radius:8px;margin:1em 0}
+
 /* ── CREED ── */
 .creed{
   position:relative;
@@ -447,10 +439,10 @@ h1{margin:0 0 22px;color:#fff}
 
 .kanji-row{
   display:flex;justify-content:center;
-  gap:0;margin-bottom:40px;
+  flex-wrap:wrap;gap:16px;margin-bottom:40px;
 }
 .kanji-item{
-  flex:1;max-width:220px;padding:0 24px 32px;
+  flex:1 1 140px;max-width:220px;padding:0 24px 32px;
   position:relative;cursor:default;
   opacity:0;transform:translateY(32px);
   transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);

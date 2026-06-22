@@ -93,20 +93,44 @@ func UpdateProduct(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
 		return
 	}
-	var input models.Product
-	c.ShouldBindJSON(&input)
-	product.Name = input.Name
-	product.Summary = input.Summary
-	product.Description = input.Description
-	product.ThumbnailPath = input.ThumbnailPath
-	product.Category = input.Category
-	product.Tags = input.Tags
-	product.IsActive = input.IsActive
+	var input map[string]interface{}
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if name, ok := input["name"].(string); ok {
+		product.Name = name
+	}
+	if summary, ok := input["summary"].(string); ok {
+		product.Summary = summary
+	}
+	if desc, ok := input["description"].(string); ok {
+		product.Description = desc
+	}
+	if thumb, ok := input["thumbnail_path"].(string); ok {
+		product.ThumbnailPath = thumb
+	}
+	if cat, ok := input["category"].(string); ok {
+		product.Category = cat
+	}
+	if tags, ok := input["tags"].(string); ok {
+		product.Tags = tags
+	}
+	if active, ok := input["is_active"].(bool); ok {
+		product.IsActive = active
+	}
 	config.DB.Save(&product)
 	config.DB.Where("product_id = ?", product.ID).Delete(&models.ProductImage{})
-	for i := range input.Images {
-		input.Images[i].ProductID = product.ID
-		config.DB.Create(&input.Images[i])
+	if imgs, ok := input["Images"].([]interface{}); ok {
+		for _, item := range imgs {
+			if imgMap, ok := item.(map[string]interface{}); ok {
+				img := models.ProductImage{ProductID: product.ID}
+				if url, ok := imgMap["image_url"].(string); ok {
+					img.ImageURL = url
+				}
+				config.DB.Create(&img)
+			}
+		}
 	}
 	config.DB.Preload("Images").First(&product, product.ID)
 	c.JSON(http.StatusOK, gin.H{"data": product})

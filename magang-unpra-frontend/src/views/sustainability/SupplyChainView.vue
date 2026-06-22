@@ -1,39 +1,10 @@
 <template>
 
-  <section class="relative h-[480px] flex items-center justify-center bg-cover bg-center overflow-hidden"
-    style="background-image: url('/images/pulp.jpeg')">
-
-    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80"></div>
-    <div class="absolute inset-0 hero-grid opacity-10"></div>
-
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-
-    <div class="relative z-10 text-center px-6 w-full max-w-4xl mx-auto">
-      <h1 class="text-5xl md:text-6xl font-black text-white leading-tight mb-2 min-h-[72px]">
-        <span class="typewriter-text">{{ displayedTitle }}</span><span
-          class="typewriter-cursor" :class="{ 'cursor-hidden': typingDone }">|</span>
-      </h1>
-
-      <div class="flex items-center justify-center mt-7 mb-5 opacity-0 anim-fade-up" style="animation-delay:2.6s">
-        <div class="divider-line"></div>
-      </div>
-
-      <div class="flex items-center justify-center gap-2 text-xs text-gray-400 opacity-0 anim-fade-up" style="animation-delay:2.8s">
-        <RouterLink to="/" class="hover:text-white transition">Home</RouterLink>
-        <span class="text-green-500">/</span>
-        <span class="hover:text-white transition cursor-pointer">Sustainability</span>
-        <span class="text-green-500">/</span>
-        <span class="text-green-400 font-semibold">Supply Chain Management</span>
-      </div>
-
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 anim-fade-up" style="animation-delay:3.1s">
-        
-       
-      </div>
-    </div>
-  </section>
+  <PageHero
+    title="Supply Chain Management"
+    subtitle="Efficient and transparent supply chain for sustainable growth."
+    :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Sustainability' }, { label: 'Supply Chain' }]"
+  />
 
   <section class="py-20 bg-gray-50">
     <div class="max-w-5xl mx-auto px-10">
@@ -302,6 +273,7 @@
 </template>
 
 <script setup>
+import PageHero from '../../components/PageHero.vue'
 import { ref, onMounted } from 'vue'
 
 // ── Accordion ──
@@ -915,5 +887,24 @@ const policies = [
   margin: 0;
   font-weight: normal;
   letter-spacing: 0.3px;
+}
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
 }
 </style>

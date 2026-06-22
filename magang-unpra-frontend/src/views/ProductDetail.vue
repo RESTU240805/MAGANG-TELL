@@ -16,32 +16,11 @@
     <!-- Content -->
     <div v-else>
       <!-- ─── Hero ── -->
-      <section class="relative h-[50vh] overflow-hidden bg-slate-900">
-        <img
-          :src="getImageUrl(product.thumbnail_path)"
-          :alt="product.name"
-          class="w-full h-full object-cover opacity-50 scale-105 animate-subtle-zoom"
-          @error="(e) => e.target.src = fallbackImg"
-        />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-slate-50"></div>
-        <div class="absolute inset-0 flex items-end">
-          <div class="container mx-auto px-6 lg:px-16 pb-12">
-            <RouterLink to="/product"
-              class="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-semibold mb-4 no-underline transition-colors">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-              </svg>
-              Back to Products
-            </RouterLink>
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-3">
-              {{ product.category || 'Product' }}
-            </div>
-            <h1 class="text-4xl md:text-5xl font-bold text-white leading-tight">
-              {{ product.name }}
-            </h1>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        :title="product.name"
+        subtitle="Product detail and specifications."
+        :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Product', to: '/product' }, { label: product.name }]"
+      />
 
       <!-- ─── Detail Content ── -->
       <main class="container mx-auto px-6 lg:px-16 py-16 -mt-4 relative z-10">
@@ -56,17 +35,17 @@
                 <span class="w-1.5 h-6 bg-emerald-500 rounded-full block"></span>
                 Product Overview
               </h2>
-              <p class="text-slate-600 leading-relaxed text-base" v-html="product.summary || product.description || 'No description available.'">
+              <p class="product-detail-content" v-html="product.summary || product.description || 'No description available.'">
               </p>
             </div>
 
             <!-- Full content -->
-            <div v-if="product.content" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
+            <div v-if="product.description && product.summary" class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
               <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <span class="w-1.5 h-6 bg-emerald-500 rounded-full block"></span>
                 Detailed Description
               </h2>
-              <div class="text-slate-600 leading-relaxed text-base" v-html="product.content">
+              <div class="product-detail-content" v-html="product.description">
               </div>
             </div>
 
@@ -160,6 +139,7 @@
 </template>
 
 <script setup>
+import PageHero from '../components/PageHero.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, RouterLink } from 'vue-router'
 import api from '../services/api'
@@ -202,4 +182,18 @@ const parseTags = (tags) => {
 .animate-subtle-zoom { animation: subtle-zoom 12s infinite alternate ease-in-out; }
 .modal-fade-enter-active,.modal-fade-leave-active{transition:opacity 0.3s ease;}
 .modal-fade-enter-from,.modal-fade-leave-to{opacity:0;}
+</style>
+
+<style>
+.product-detail-content { color: #475569; font-size: 15px; line-height: 1.75; }
+.product-detail-content p { margin-bottom: 1em; }
+.product-detail-content h1 { font-size: 1.5em; font-weight: 700; margin: 0.8em 0 0.4em; color: #111827; }
+.product-detail-content h2 { font-size: 1.25em; font-weight: 600; margin: 0.8em 0 0.4em; color: #111827; }
+.product-detail-content h3 { font-size: 1.1em; font-weight: 600; margin: 0.8em 0 0.4em; color: #111827; }
+.product-detail-content ul { list-style-type: disc; padding-left: 1.5em; margin: 0.5em 0; }
+.product-detail-content ol { list-style-type: decimal; padding-left: 1.5em; margin: 0.5em 0; }
+.product-detail-content li { margin: 0.25em 0; }
+.product-detail-content img { max-width: 100%; border-radius: 8px; margin: 1em 0; }
+.product-detail-content blockquote { border-left: 3px solid #10b981; padding-left: 12px; margin: 0.75em 0; color: #6b7280; }
+.product-detail-content strong { font-weight: 700; color: #111827; }
 </style>

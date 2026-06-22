@@ -1,39 +1,11 @@
 <template>
   <div class="bg-[#F8F9FA] text-zinc-900 font-sans antialiased overflow-x-hidden selection:bg-green-500 selection:text-white">
-    
-    <section class="relative min-h-[90vh] md:h-[95vh] flex flex-col justify-between bg-gradient-to-br from-[#041a0f] to-zinc-950 overflow-hidden pb-12">
-      
-      <div 
-        class="absolute inset-0 bg-cover bg-center scale-110"
-        style="background-image: url('/images/hutan hd.jpeg')"
-      ></div>
-      
-      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
 
-      <div></div>
-
-      <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-12 w-full mt-24 lg:mt-32">
-        <span class="text-green-500 text-xs font-bold tracking-[0.25em] uppercase block mb-4 opacity-0 anim-hero-reveal" style="animation-delay: 300ms">
-          SUSTAINABILITY 
-        </span>
-        <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-[1.05] mb-6 opacity-0 anim-hero-reveal" style="animation-delay: 550ms">
-          Forest<br />
-          <span class="text-green-500 font-black">Management</span>
-        </h1>
-        <p class="text-zinc-300 text-sm md:text-base max-w-md leading-relaxed mb-8 opacity-0 anim-hero-reveal" style="animation-delay: 800ms">
-          Sustainable and responsible forest management for a greener future in South Sumatra.
-        </p>
-      </div>
-
-      <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-12 w-full mt-20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 opacity-0 anim-hero-reveal" style="animation-delay: 1050ms">
-        <div class="flex items-center gap-3 group text-zinc-400 cursor-pointer">
-          <div class="w-5 h-8 border-2 border-zinc-600 rounded-full flex justify-center p-1 group-hover:border-green-500 transition-colors duration-500">
-            <div class="w-1 h-1.5 bg-green-400 rounded-full animate-[scrollDrop_2s_ease-in-out_infinite]"></div>
-          </div>
-          <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-500 group-hover:text-zinc-200 transition-colors duration-500">Scroll To Explore</span>
-        </div>
-      </div>
-    </section>
+    <PageHero
+      title="Forest Management"
+      subtitle="Sustainable and responsible forest management for a greener future in South Sumatra."
+      :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Sustainability' }, { label: 'Forest Management' }]"
+    />
 
     <section class="py-24 bg-gradient-to-b from-[#F8F9FA] to-white relative">
       <div class="max-w-6xl mx-auto px-6 md:px-12">
@@ -254,6 +226,7 @@
 </template>
 
 <script setup>
+import PageHero from '../../components/PageHero.vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 
 let observer = null
@@ -744,5 +717,24 @@ const initObserver = () => {
   margin: 0;
   font-weight: normal;
   letter-spacing: 0.3px;
+}
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
 }
 </style>

@@ -23,13 +23,9 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📰 Corporate News
         </RouterLink>
-        <RouterLink to="/admin/slider"
-          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
-          🖼️ Product Slider
-        </RouterLink>
         <RouterLink to="/admin/product-page"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
-          📝 Product Page
+          📦 Product
         </RouterLink>
         <RouterLink to="/admin/about"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
@@ -76,8 +72,32 @@
                   class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
               </div>
               <div>
+                <label class="text-sm font-semibold text-gray-700 block mb-2">Ringkasan</label>
+                <textarea v-model="form.summary" rows="3" placeholder="Ringkasan singkat produk (opsional, tampil di halaman utama)"
+                  class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+              </div>
+              <div>
                 <label class="text-sm font-semibold text-gray-700 block mb-2">Deskripsi</label>
                 <RichTextEditor v-model="form.description" placeholder="Masukkan deskripsi produk..." />
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="text-sm font-semibold text-gray-700 block mb-2">Kategori</label>
+                  <input v-model="form.category" type="text" placeholder="Contoh: Pulp"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                </div>
+                <div>
+                  <label class="text-sm font-semibold text-gray-700 block mb-2">Tags (koma)</label>
+                  <input v-model="form.tags" type="text" placeholder="Contoh: BFK, High Quality, Export"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+                </div>
+              </div>
+              <div>
+                <label class="flex items-center gap-2 text-sm text-gray-700">
+                  <input type="checkbox" v-model="form.is_active"
+                    class="rounded border-gray-300 text-green-600 focus:ring-green-500" />
+                  Aktif (tampil di halaman publik)
+                </label>
               </div>
             </div>
           </div>
@@ -204,7 +224,7 @@ const uploading = ref(false)
 const error = ref('')
 const fileInput = ref(null)
 
-const form = ref({ name: '', description: '' })
+const form = ref({ name: '', summary: '', description: '', category: '', tags: '', is_active: true })
 const imageList = ref([])
 
 onMounted(async () => {
@@ -216,7 +236,11 @@ onMounted(async () => {
     const data = res.data.data
     form.value = {
       name: data.name,
+      summary: data.summary || '',
       description: data.description,
+      category: data.category || '',
+      tags: data.tags || '',
+      is_active: data.is_active,
     }
     if (data.Images) {
       imageList.value = data.Images.map(img => ({
@@ -286,7 +310,11 @@ const handleSubmit = async () => {
   try {
     const payload = {
       name: form.value.name,
+      summary: form.value.summary,
       description: form.value.description,
+      category: form.value.category,
+      tags: form.value.tags,
+      is_active: form.value.is_active,
       Images: imageList.value.map(img => ({ image_url: img.url }))
     }
 

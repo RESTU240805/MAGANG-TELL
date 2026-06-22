@@ -1,36 +1,16 @@
 <template>
 
   <!-- ── HERO ── -->
-  <section class="relative h-[420px] flex items-end bg-cover bg-center overflow-hidden"
-    style="background-image: url('/images/people3.jpeg')">
-    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-
-    <div class="absolute top-10 left-10 flex items-center gap-2 opacity-0 anim-fade-right" style="animation-delay: 0.1s">
-      <span class="w-1 h-5 bg-green-400 rounded-full"></span>
-      <span class="text-green-400 text-xs font-bold tracking-[3px] uppercase">Sustainability</span>
-    </div>
-
-    <div class="relative z-10 max-w-5xl mx-auto px-10 pb-14 w-full">
-      <h1 class="text-5xl font-black text-white leading-tight mb-4 opacity-0 anim-fade-up" style="animation-delay: 0.2s">
-        People <span class="text-green-400">Development</span>
-      </h1>
-      <p class="text-gray-300 text-sm max-w-xl leading-relaxed opacity-0 anim-fade-up" style="animation-delay: 0.3s">
-        Preparing the best talent to achieve the highest performance and business sustainability.
-      </p>
-      <div class="flex items-center gap-2 mt-5 text-xs text-gray-400 opacity-0 anim-fade-up" style="animation-delay: 0.4s">
-        <RouterLink to="/" class="hover:text-white cursor-pointer transition">Home</RouterLink>
-        <span class="text-gray-600">/</span>
-        <span class="hover:text-white cursor-pointer transition">Sustainability</span>
-        <span class="text-gray-600">/</span>
-        <span class="text-green-400 font-semibold">People Development</span>
-      </div>
-    </div>
-  </section>
+  <PageHero
+    title="People Development"
+    subtitle="Preparing the best talent to achieve the highest performance and business sustainability."
+    :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'Sustainability' }, { label: 'People Development' }]"
+  />
 
   <!-- ── PHOTO GRID ── -->
   <section class="py-16 bg-white">
     <div class="max-w-5xl mx-auto px-10">
-      <div class="grid grid-cols-3 gap-3 h-64 rounded-2xl overflow-hidden">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 h-64 rounded-2xl overflow-hidden">
         <div class="col-span-1 overflow-hidden anim-item">
           <img src="/images/Training-First-Aid.jpg"
             alt="Training" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"/>
@@ -50,7 +30,7 @@
   <!-- ── INTRO TEXT ── -->
   <section class="pb-16 bg-white">
     <div class="max-w-5xl mx-auto px-10">
-      <div class="grid grid-cols-5 gap-12">
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-12">
 
         <div class="col-span-3 space-y-4 text-gray-500 text-sm leading-relaxed anim-slide-right">
           <p>
@@ -280,8 +260,8 @@
 </template>
 
 <script setup>
+import PageHero from '../../components/PageHero.vue'
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { RouterLink } from 'vue-router'
 
 const activeSlide = ref(0)
 let sliderTimer = null
@@ -781,5 +761,24 @@ const initObserver = () => {
   margin: 0;
   font-weight: normal;
   letter-spacing: 0.3px;
+}
+@media (max-width: 768px) {
+  .footer-info-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .footer-contact-col {
+    max-width: 100% !important;
+  }
+  .footer-info-container,
+  .contact-container {
+    padding: 0 20px !important;
+  }
+  .contact-section {
+    padding: 48px 0 40px;
+  }
+  .footer-info-section {
+    padding: 36px 0;
+  }
 }
 </style>

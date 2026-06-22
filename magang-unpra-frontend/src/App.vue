@@ -1,13 +1,11 @@
 <template>
   <div class="min-h-screen">
     <Navbar v-if="!isAdminRoute" />
-    <div :class="!isAdminRoute ? 'pt-[112px]' : ''">
-      <RouterView v-slot="{ Component }">
-        <Transition name="page">
-          <component :is="Component" />
-        </Transition>
-      </RouterView>
-    </div>
+    <RouterView v-slot="{ Component }">
+      <Transition name="page">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
   </div>
 </template>
 

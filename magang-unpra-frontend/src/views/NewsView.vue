@@ -2,29 +2,11 @@
   <div class="min-h-screen bg-white font-sans">
 
     <!-- ─── HERO ──────────────────────────────────────────────── -->
-    <section class="relative h-[250px] md:h-[400px] bg-[#1a3a2a] overflow-hidden">
-      <img
-        src="/images/gedung.jpeg"
-        alt="News Hero"
-        class="absolute inset-0 w-full h-full object-cover opacity-50 animate-hero-zoom"
-        @error="(e) => e.target.src='https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=1600'"
-      />
-      <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
-      <div class="absolute inset-0 flex items-end">
-        <div class="max-w-[1200px] mx-auto px-4 sm:px-8 pb-8 md:pb-12 w-full">
-          <p class="text-white/70 text-xs sm:text-sm mb-2 opacity-0 animate-fade-up" style="animation-delay: 0.1s">
-            <RouterLink to="/" class="hover:text-white no-underline text-white/70">Home</RouterLink>
-            <span class="mx-2">/</span>
-            <span class="text-white">News</span>
-          </p>
-          <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white mb-3 md:mb-4 opacity-0 animate-fade-up" style="animation-delay: 0.2s">News &amp; Update</h1>
-          <p class="text-white/80 text-sm md:text-base max-w-lg opacity-0 animate-fade-up" style="animation-delay: 0.3s">
-            Berita terbaru dan informasi resmi<br class="hidden sm:block">
-            PT Tanjungenim Lestari Pulp and Paper.
-          </p>
-        </div>
-      </div>
-    </section>
+    <PageHero
+      title="News & Update"
+      subtitle="Berita terbaru dan informasi resmi PT Tanjungenim Lestari Pulp and Paper."
+      :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'News' }]"
+    />
 
     <!-- ─── MAIN CONTENT ──────────────────────────────────────── -->
     <div class="max-w-[1200px] mx-auto px-4 sm:px-8 py-8 md:py-16">
@@ -46,8 +28,15 @@
         <p class="text-xl">Belum ada berita.</p>
       </div>
 
+      <!-- Empty search -->
+      <div v-else-if="!filteredNews.length && searchQuery" class="text-center py-16 text-gray-400">
+        <p class="text-4xl mb-4">🔍</p>
+        <p class="text-xl">Tidak ada berita yang cocok dengan "{{ searchQuery }}".</p>
+        <button @click="searchQuery = ''" class="mt-4 px-4 py-2 text-sm text-[#5F9E42] font-semibold hover:underline cursor-pointer">Hapus Pencarian</button>
+      </div>
+
       <!-- Content -->
-      <div v-else class="flex flex-col lg:flex-row gap-8 lg:gap-10">
+      <div v-else-if="filteredNews.length" class="flex flex-col lg:flex-row gap-8 lg:gap-10">
 
         <!-- Left: Articles -->
         <div class="flex-1 min-w-0">
@@ -55,7 +44,7 @@
           <div class="w-16 h-1 bg-[#5F9E42] rounded mb-8 anim-item"></div>
 
           <!-- News Items -->
-          <div v-for="(item, index) in newsList" :key="item.id"
+          <div v-for="(item, index) in filteredNews" :key="item.id"
             class="flex flex-col sm:flex-row gap-4 sm:gap-6 pb-8 mb-8 border-b border-gray-200 last:border-b-0 last:mb-0 last:pb-0 anim-item"
             :style="{ animationDelay: (index * 0.1) + 's' }">
 
@@ -124,6 +113,12 @@
           <div class="relative mb-8">
             <input v-model="searchQuery" type="text" placeholder="Cari berita..."
               class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#5F9E42]" />
+            <button @click="searchQuery = ''" v-if="searchQuery"
+              class="absolute right-12 top-0 h-full w-8 flex items-center justify-center text-gray-400 hover:text-gray-600 cursor-pointer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
             <button class="absolute right-0 top-0 h-full w-12 bg-[#5F9E42] text-white rounded-r-lg flex items-center justify-center cursor-pointer hover:bg-[#4d8536]">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -134,7 +129,7 @@
           <!-- Berita Terbaru -->
           <div>
             <h3 class="text-lg font-bold text-gray-900 mb-5">Berita Terbaru</h3>
-            <div v-for="item in newsList.slice(0, 5)" :key="'side-' + item.id"
+            <div v-for="item in filteredNews.slice(0, 5)" :key="'side-' + item.id"
               class="flex gap-3 pb-4 mb-4 border-b border-gray-100 last:border-b-0 last:mb-0 last:pb-0">
               <div class="w-[90px] h-[65px] flex-shrink-0 rounded overflow-hidden bg-gray-100">
                 <img :src="getImageUrl(item.image)" :alt="item.title"
@@ -267,9 +262,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { RouterLink } from 'vue-router'
 import api from '../services/api'
+import PageHero from '../components/PageHero.vue'
 
 const BASE_URL = 'http://localhost:8080'
 const fallbackImg = 'https://placehold.co/600x400/e8e8e8/999?text=News'
@@ -280,6 +276,16 @@ const error = ref(false)
 const currentPage = ref(1)
 const totalPages = ref(1)
 const searchQuery = ref('')
+
+const filteredNews = computed(() => {
+  if (!searchQuery.value.trim()) { return newsList.value }
+  const q = searchQuery.value.toLowerCase()
+  return newsList.value.filter(item =>
+    item.title.toLowerCase().includes(q) ||
+    item.excerpt.toLowerCase().includes(q) ||
+    (item.category || '').toLowerCase().includes(q)
+  )
+})
 
 const formatDate = (dateStr) => {
   if (!dateStr) {return ''}
@@ -336,6 +342,15 @@ const nextPage = () => {
 }
 
 let observer = null
+
+const reobserve = () => {
+  if (!observer) {return}
+  document.querySelectorAll('.anim-item:not(.anim-visible), .anim-slide-right:not(.anim-visible)').forEach(el => {
+    observer.observe(el)
+  })
+}
+
+watch(searchQuery, () => { nextTick(reobserve) })
 
 onMounted(async () => {
   await fetchNews()

@@ -1,17 +1,10 @@
 <template>
   <!-- Hero -->
-  <section class="relative h-44 md:h-64 flex items-center justify-center bg-cover bg-center"
-    style="background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920')">
-    <div class="absolute inset-0 bg-black/60"></div>
-    <div class="relative z-10 text-center text-white px-4">
-      <p class="text-xs sm:text-sm text-gray-300 mb-2">
-        You are here:
-        <span class="cursor-pointer hover:underline" @click="router.push('/news')">Home » News</span>
-        » <span class="text-white font-medium hidden sm:inline">{{ news?.title }}</span>
-      </p>
-      <h1 class="text-xl md:text-3xl font-black tracking-wide">Detail Berita</h1>
-    </div>
-  </section>
+  <PageHero
+    title="Detail Berita"
+    subtitle=""
+    :breadcrumbs="[{ label: 'Home', to: '/' }, { label: 'News', to: '/news' }, { label: news?.title || 'Berita' }]"
+  />
 
   <!-- Loading -->
   <div v-if="loading" class="text-center py-20">
@@ -84,6 +77,7 @@
 </template>
 
 <script setup>
+import PageHero from '../components/PageHero.vue'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '../services/api'

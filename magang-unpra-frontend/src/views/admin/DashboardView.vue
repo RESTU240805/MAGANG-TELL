@@ -24,13 +24,9 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           📰 Corporate News
         </RouterLink>
-        <RouterLink to="/admin/slider"
-          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
-          🖼️ Product Slider
-        </RouterLink>
         <RouterLink to="/admin/product-page"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
-          📝 Product Page
+          📦 Product
         </RouterLink>
         <RouterLink to="/admin/about"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">

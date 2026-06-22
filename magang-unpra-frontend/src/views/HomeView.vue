@@ -79,64 +79,29 @@
       </div>
     </section>
 
-    <section class="community reveal reveal-up">
+    <section v-if="communityCards.length" class="community reveal reveal-up">
       <div class="section-heading">
         <h2>Local Community Development</h2>
         <span class="heading-underline"></span>
       </div>
 
       <div class="community-grid">
-        <router-link to="/sustainability/csr/community" class="community-card reveal reveal-up" data-delay="0">
-          <div class="icon-box icon-pink">
-            <img src="/images/gedung.jpeg" alt="Education icon" />
+        <div v-for="(card, idx) in communityCards" :key="card.ID"
+          class="community-card reveal reveal-up"
+          :data-delay="idx * 150">
+          <router-link :to="card.link || '/sustainability/csr/community'" class="block">
+            <div class="icon-box" :class="iconColor(idx)">
+              <img v-if="card.icon_path" :src="getImageUrl(card.icon_path)" :alt="card.title" />
+              <span v-else class="text-lg">🏷️</span>
+            </div>
+            <h3>{{ card.title }}</h3>
+            <p>{{ card.description }}</p>
+          </router-link>
+          <div v-if="card.Images && card.Images.length" class="card-gallery">
+            <img v-for="img in card.Images" :key="img.ID" :src="getImageUrl(img.image_url)"
+              :alt="card.title" class="card-gallery-img" />
           </div>
-          <h3>Education</h3>
-          <p>
-            Prepare a generation of quality sources from internal employees as well as from the village community around the company of Telpp. We achieved this through scholarships, traineeships, Development of Community Education, School foundation program and school facilities & infrastructure improvement.
-          </p>
-        </router-link>
-
-        <router-link to="/sustainability/csr/community" class="community-card reveal reveal-up" data-delay="150">
-          <div class="icon-box icon-green">
-            <img src="/images/gedung.jpeg" alt="Infrastructure icon" />
-          </div>
-          <h3>Infrastructure</h3>
-          <p>
-            Actively participating to assist availability of public
-            facilities as the driving force of economic growth and
-            improving the quality of life and welfare of local communities
-            in the village around the company PT Tanjungenim Lestari Pulp
-            and Paper.
-          </p>
-        </router-link>
-
-        <router-link to="/sustainability/csr/community" class="community-card reveal reveal-up" data-delay="300">
-          <div class="icon-box icon-teal">
-            <img src="/images/gedung.jpeg" alt="Local economy icon" />
-          </div>
-          <h3>Local Economy Development</h3>
-          <p>
-            Our beneficiary community businesses of Small, Medium Enterprise
-            Development that have an impact on the direct, indirect and the
-            ability of people involved in order to become economically
-            independent and sustainable primarily around the company of PT
-            Tanjungenim Lestari Pulp and Paper.
-          </p>
-        </router-link>
-
-        <router-link to="/sustainability/csr/community" class="community-card reveal reveal-up" data-delay="450">
-          <div class="icon-box icon-blue">
-            <img src="/images/gedung.jpeg" alt="Health icon" />
-          </div>
-          <h3>Health &amp; Conservation</h3>
-          <p>
-            Increasing community awareness, changing the mindset of
-            not stakeholders and the community in health development by
-            increasing community empowerment efforts through quality
-            appropriate service facilities and community movements in
-            healthy living.
-          </p>
-        </router-link>
+        </div>
       </div>
     </section>
 
@@ -345,9 +310,10 @@ import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import api from '../services/api'
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:8080'
 const fallbackImg = 'https://placehold.co/600x400/e8e8e8/999?text=News'
 const latestNews = ref([])
+const communityCards = ref([])
 const topLeader = ref(null)
 const about = ref({
   title: 'ABOUT TELPP',
@@ -398,6 +364,18 @@ const fetchTopLeader = async () => {
   } catch (e) {
     console.error('Failed to fetch top leader:', e)
   }
+}
+
+const iconColor = (idx) => {
+  const colors = ['icon-pink', 'icon-green', 'icon-teal', 'icon-blue']
+  return colors[idx % colors.length]
+}
+
+const fetchCommunityCards = async () => {
+  try {
+    const res = await api.get('/community-cards')
+    communityCards.value = res.data?.data || []
+  } catch { /* empty */ }
 }
 
 const fetchLatestNews = async () => {
@@ -530,6 +508,7 @@ onMounted(() => {
   fetchLatestNews()
   fetchAbout()
   fetchTopLeader()
+  fetchCommunityCards()
 })
 
 onUnmounted(() => {
@@ -918,6 +897,22 @@ function initScrollReveal() {
   line-height: 1.8;
   color: #777777;
   margin: 0;
+}
+
+.card-gallery {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.card-gallery-img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  border: 1px solid #e6e6e6;
 }
 
 /* ============ SUSTAINABILITY ============ */

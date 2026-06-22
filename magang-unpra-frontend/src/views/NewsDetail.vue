@@ -82,7 +82,7 @@ import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import api from '../services/api'
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:8080'
 const route  = useRoute()
 const router = useRouter()
 const news   = ref(null)

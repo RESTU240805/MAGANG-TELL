@@ -38,6 +38,7 @@ const router = createRouter({
   name: 'AdminOurCompany',
   component: () => import('@/views/admin/OurCompanyView.vue'),
 },
+    { path: '/admin/community',                  component: () => import('../views/admin/CommunityEditorView.vue') },
     // ── Sustainability ──
     { path: '/sustainability/forest-management',  component: ForestManagementView },
     { path: '/sustainability/people-development', component: PeopleDevView },

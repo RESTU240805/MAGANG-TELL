@@ -267,7 +267,7 @@ import { RouterLink } from 'vue-router'
 import api from '../services/api'
 import PageHero from '../components/PageHero.vue'
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:8080'
 const fallbackImg = 'https://placehold.co/600x400/e8e8e8/999?text=News'
 
 const newsList = ref([])

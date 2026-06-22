@@ -31,6 +31,10 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           🏢 About Section
         </RouterLink>
+        <RouterLink to="/admin/community"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🌱 Community
+        </RouterLink>
         <RouterLink to="/admin/team-members"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           👥 Our Team

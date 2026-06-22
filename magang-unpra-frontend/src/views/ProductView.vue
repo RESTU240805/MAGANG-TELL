@@ -188,7 +188,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import api from '../services/api'
 import PageHero from '../components/PageHero.vue'
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:8080'
 
 const pageDescription = ref('')
 const loading  = ref(true)

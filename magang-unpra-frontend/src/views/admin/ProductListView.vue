@@ -31,6 +31,10 @@
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           🏢 About Section
         </RouterLink>
+        <RouterLink to="/admin/community"
+          class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
+          🌱 Community
+        </RouterLink>
         <RouterLink to="/admin/team-members"
           class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-gray-800 text-sm text-gray-300 transition">
           👥 Our Team
@@ -304,7 +308,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import api from '../../services/api'
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:8080'
 const router = useRouter()
 
 const products       = ref([])

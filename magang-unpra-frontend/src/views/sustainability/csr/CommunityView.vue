@@ -274,6 +274,7 @@
 <script setup>
 import PageHero from '../../../components/PageHero.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
+import api from '../../../services/api'
 
 const activeTab = ref(0)
 const activeImage = ref(0)
@@ -314,7 +315,7 @@ onMounted(() => {
 })
 onUnmounted(() => observer?.disconnect())
 
-const programs = [
+const programs = ref([
   {
     title: 'Community Development Program',
     desc: 'The Company\'s Corporate Social Responsibility strategy is based on sustainable empowerment, not mere philanthropy. We focus on two main pillars of development.',
@@ -323,7 +324,7 @@ const programs = [
     title: 'Relationship / Public Relations Development Program (Community Relations).',
     desc: 'The Company\'s Corporate Social Responsibility strategy is based on sustainable empowerment, not mere philanthropy. We focus on two main pillars of development.',
   },
-]
+])
 
 const csrTargets = [
   { main: 'Empowerment of local human resources', sub: '(students, youth and students included)' },
@@ -349,7 +350,7 @@ const tabIconSvg = (d) => `<svg width="16" height="16" viewBox="0 0 24 24" fill=
 // photos) instead of a single placeholder `image`. The first photo in
 // the array is shown by default; the gallery thumbnails below let the
 // visitor browse the rest.
-const tabs = [
+const tabs = ref([
   {
     label: 'Education',
     icon: tabIconSvg('M12 14l9-5-9-5-9 5 9 5zM12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z'),
@@ -399,7 +400,41 @@ const tabs = [
       '/images/csr-social-4.png',
     ],
   },
-]
+])
+
+const getImageUrl = (path) => {
+  if (!path) {return ''}
+  if (path.startsWith('http')) {return path}
+  return `${import.meta.env.VITE_BASE_URL || 'http://localhost:8080'}/${path.replace(/^\//, '')}`
+}
+
+const fetchCommunityCards = async () => {
+  try {
+    const res = await api.get('/community-cards')
+    const cards = res.data?.data || []
+    if (!cards.length) {return}
+
+    programs.value = cards.slice(0, 2).map(card => ({
+      title: card.title,
+      desc: card.description,
+    }))
+
+    const nextTabs = cards.map(card => ({
+      label: card.title,
+      icon: tabIconSvg('M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z'),
+      title: card.title,
+      desc: card.description,
+      quote: '',
+      images: (card.Images?.length ? card.Images.map(img => getImageUrl(img.image_url)) : [getImageUrl(card.icon_path)]).filter(Boolean),
+    })).filter(tab => tab.images.length)
+
+    if (nextTabs.length) {tabs.value = nextTabs}
+  } catch (_err) {
+    return
+  }
+}
+
+fetchCommunityCards()
 </script>
 
 <style scoped>

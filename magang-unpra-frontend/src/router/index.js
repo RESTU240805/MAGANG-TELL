@@ -18,7 +18,6 @@ import NewsListView from '../views/admin/NewsListView.vue'
 import NewsFormView from '../views/admin/NewsFormView.vue'
 import ProductListView from '../views/admin/ProductListView.vue'
 import ProductFormView from '../views/admin/ProductFormView.vue'
-import ProductPageEditorView from '../views/admin/ProductPageEditorView.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import HomeView from '../views/HomeView.vue'
 

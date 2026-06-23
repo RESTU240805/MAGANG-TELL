@@ -337,7 +337,7 @@ const save = async () => {
   try {
     const payload = {
       ...form.value,
-      Images: imageList.value.map(img => ({ image_url: img.url }))
+      images: imageList.value.map(img => ({ image_url: img.url }))
     }
     if (editing.value) {
       await api.put(`/admin/community-cards/${editingId.value}`, payload)

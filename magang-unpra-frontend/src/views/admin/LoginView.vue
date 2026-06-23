@@ -29,7 +29,7 @@
             </svg>
             <input v-model="form.password" :type="showPass ? 'text' : 'password'" placeholder="Enter your password" @keyup.enter="handleLogin" />
             <button type="button" class="login-eye" @click="showPass = !showPass">
-              <svg v-if="!showPass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-5 h-5">
+              <svg v-if="showPass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-5 h-5">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>
               </svg>
               <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="w-5 h-5">

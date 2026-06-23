@@ -22,13 +22,13 @@ func GetAllCommunityCardsAdmin(c *gin.Context) {
 
 func CreateCommunityCard(c *gin.Context) {
 	var input struct {
-		Title       string                   `json:"title"`
-		Description string                   `json:"description"`
-		IconPath    string                   `json:"icon_path"`
-		Link        string                   `json:"link"`
-		SortOrder   int                      `json:"sort_order"`
-		IsActive    bool                     `json:"is_active"`
-		Images      []models.CommunityCardImage `json:"Images"`
+		Title       string                      `json:"title"`
+		Description string                      `json:"description"`
+		IconPath    string                      `json:"icon_path"`
+		Link        string                      `json:"link"`
+		SortOrder   int                         `json:"sort_order"`
+		IsActive    bool                        `json:"is_active"`
+		Images      []models.CommunityCardImage `json:"images"`
 	}
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -66,13 +66,13 @@ func UpdateCommunityCard(c *gin.Context) {
 	}
 
 	var input struct {
-		Title       string                   `json:"title"`
-		Description string                   `json:"description"`
-		IconPath    string                   `json:"icon_path"`
-		Link        string                   `json:"link"`
-		SortOrder   int                      `json:"sort_order"`
-		IsActive    bool                     `json:"is_active"`
-		Images      []models.CommunityCardImage `json:"Images"`
+		Title       string                      `json:"title"`
+		Description string                      `json:"description"`
+		IconPath    string                      `json:"icon_path"`
+		Link        string                      `json:"link"`
+		SortOrder   int                         `json:"sort_order"`
+		IsActive    bool                        `json:"is_active"`
+		Images      []models.CommunityCardImage `json:"images"`
 	}
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
